@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import siyateagan.example.translatorapp.utils.setItemsListeners
 
-class MainActivity : AppCompatActivity() {
+class FirstEntryActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

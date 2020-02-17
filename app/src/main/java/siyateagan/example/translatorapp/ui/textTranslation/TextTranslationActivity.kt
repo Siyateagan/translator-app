@@ -1,4 +1,4 @@
-package siyateagan.example.translatorapp.ui.home
+package siyateagan.example.translatorapp.ui.textTranslation
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -8,13 +8,13 @@ import kotlinx.android.synthetic.main.activity_notifications.*
 import siyateagan.example.translatorapp.R
 import siyateagan.example.translatorapp.utils.setItemsListeners
 
-class HomeActivity : AppCompatActivity() {
-    private lateinit var homeViewModel: HomeViewModel
+class TextTranslationActivity : AppCompatActivity() {
+    private lateinit var textTranslationViewModel: TextTranslationViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
-        homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
+        textTranslationViewModel = ViewModelProvider(this).get(TextTranslationViewModel::class.java)
 
         val navView: BottomNavigationView = nav_view
         navView.menu.getItem(0).isChecked = true

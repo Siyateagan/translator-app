@@ -12,11 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.dashboard.DashboardActivity" />
-        <activity android:name=".ui.home.HomeActivity" />
-        <activity android:name=".ui.notifications.NotificationsActivity" />
+        <activity android:name=".ui.voiceTranslation.VoiceTranslationActivity" />
+        <activity android:name=".ui.textTranslation.TextTranslationActivity" />
+        <activity android:name=".ui.favorites.FavoritesActivity" />
         <activity
-            android:name=".MainActivity"
+            android:name=".FirstEntryActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
