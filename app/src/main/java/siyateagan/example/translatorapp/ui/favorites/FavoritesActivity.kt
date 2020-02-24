@@ -6,6 +6,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_favorites.*
+import kotlinx.android.synthetic.main.toolbar.*
 import siyateagan.example.translatorapp.R
 import siyateagan.example.translatorapp.di.DaggerAppComponent
 import siyateagan.example.translatorapp.utils.setItemsListeners
@@ -20,6 +21,7 @@ class FavoritesActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_favorites)
+        setSupportActionBar(toolbar)
 
         DaggerAppComponent.builder().build().inject(this)
         favoritesViewModel =

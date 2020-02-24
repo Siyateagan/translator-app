@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_favorites.nav_view
+import kotlinx.android.synthetic.main.toolbar.*
 import siyateagan.example.translatorapp.R
 import siyateagan.example.translatorapp.utils.setItemsListeners
 
@@ -15,6 +16,7 @@ class VoiceTranslationActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_voice_translation)
         voiceTranslationViewModel = ViewModelProvider(this).get(VoiceTranslationViewModel::class.java)
+        setSupportActionBar(toolbar)
 
         val navView: BottomNavigationView = nav_view
         navView.menu.getItem(1).isChecked = true
