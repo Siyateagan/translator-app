@@ -9,7 +9,7 @@ class FirstEntryActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_first_entry)
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
 
         setItemsListeners(navView, this, this::class.java.simpleName)
