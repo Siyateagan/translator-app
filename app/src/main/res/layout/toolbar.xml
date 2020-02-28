@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
     android:background="@color/colorPrimary"
-    android:elevation="4dp"
     app:contentInsetStart="0dp"
     app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
     tools:layout_height="50dp"
@@ -19,6 +18,6 @@
         android:gravity="center"
         android:text="@string/yandex_translator_client"
         android:textColor="@color/white"
-        android:textSize="22sp" />
+        android:textSize="18sp" />
 
 </androidx.appcompat.widget.Toolbar>
