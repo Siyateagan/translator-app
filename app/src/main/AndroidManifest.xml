@@ -13,10 +13,9 @@
         android:theme="@style/AppTheme.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".ui.voiceTranslation.VoiceTranslationActivity" />
-        <activity android:name=".ui.textTranslation.TextTranslationActivity" />
         <activity android:name=".ui.favorites.FavoritesActivity" />
         <activity
-            android:name=".FirstEntryActivity"
+            android:name=".ui.textTranslation.TextTranslationActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
