@@ -9,13 +9,13 @@ import kotlinx.android.synthetic.main.toolbar.*
 import siyateagan.example.translatorapp.R
 import siyateagan.example.translatorapp.utils.setItemsListeners
 
-class VoiceTranslationActivity : AppCompatActivity() {
-    private lateinit var voiceTranslationViewModel: VoiceTranslationViewModel
+class HistoryActivity : AppCompatActivity() {
+    private lateinit var historyViewModel: HistoryViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_voice_translation)
-        voiceTranslationViewModel = ViewModelProvider(this).get(VoiceTranslationViewModel::class.java)
+        setContentView(R.layout.activity_history)
+        historyViewModel = ViewModelProvider(this).get(HistoryViewModel::class.java)
         setSupportActionBar(toolbar)
 
         val navView: BottomNavigationView = nav_view

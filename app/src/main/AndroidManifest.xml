@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.voiceTranslation.VoiceTranslationActivity" />
+        <activity android:name=".ui.voiceTranslation.HistoryActivity" />
         <activity android:name=".ui.favorites.FavoritesActivity" />
         <activity
             android:name=".ui.textTranslation.TextTranslationActivity"

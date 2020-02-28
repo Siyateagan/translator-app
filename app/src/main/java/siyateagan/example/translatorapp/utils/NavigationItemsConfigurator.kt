@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Intent
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import siyateagan.example.translatorapp.R
-import siyateagan.example.translatorapp.ui.voiceTranslation.VoiceTranslationActivity
+import siyateagan.example.translatorapp.ui.voiceTranslation.HistoryActivity
 import siyateagan.example.translatorapp.ui.textTranslation.TextTranslationActivity
 import siyateagan.example.translatorapp.ui.favorites.FavoritesActivity
 
@@ -22,9 +22,9 @@ fun setItemsListeners(navView: BottomNavigationView, context: Context, activityN
                 }
             }
 
-            R.id.navigation_voice_translation -> {
-                if (activityName != VoiceTranslationActivity::class.java.simpleName) {
-                    val intent = Intent(context, VoiceTranslationActivity::class.java)
+            R.id.navigation_history -> {
+                if (activityName != HistoryActivity::class.java.simpleName) {
+                    val intent = Intent(context, HistoryActivity::class.java)
                     context.startActivity(intent)
                 }
             }

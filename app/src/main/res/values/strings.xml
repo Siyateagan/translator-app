@@ -1,11 +1,11 @@
 <resources>
     <string name="app_name">Translator app</string>
     <string name="title_text">Text</string>
-    <string name="title_voice">Voice</string>
     <string name="title_favorites">Favorites</string>
     <string name="test">test</string>
     <string name="yandex_translator_client">Yandex Translator Client</string>
     <string name="swap_languages">Swap languages</string>
     <string name="translate_text">Translate text</string>
     <string name="start_typing_or_paste_here">Start typing or paste here</string>
+    <string name="history">History</string>
 </resources>
