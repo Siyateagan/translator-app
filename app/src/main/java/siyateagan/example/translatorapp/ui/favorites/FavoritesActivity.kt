@@ -2,11 +2,10 @@ package siyateagan.example.translatorapp.ui.favorites
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_favorites.*
-import kotlinx.android.synthetic.main.toolbar.*
+import kotlinx.android.synthetic.main.toolbar.toolbar
 import siyateagan.example.translatorapp.R
 import siyateagan.example.translatorapp.di.DaggerAppComponent
 import siyateagan.example.translatorapp.utils.setItemsListeners
@@ -26,12 +25,6 @@ class FavoritesActivity : AppCompatActivity() {
         DaggerAppComponent.builder().build().inject(this)
         favoritesViewModel =
             ViewModelProvider(this, favoritesViewModelFactory).get(FavoritesViewModel::class.java)
-
-        val nameObserver = Observer<String> { newName ->
-            test_text.text = newName
-        }
-
-        favoritesViewModel.text.observe(this, nameObserver)
 
         val navView: BottomNavigationView = nav_view
         navView.menu.getItem(2).isChecked = true
