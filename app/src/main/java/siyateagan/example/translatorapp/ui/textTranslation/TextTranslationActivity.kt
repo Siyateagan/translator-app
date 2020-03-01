@@ -1,5 +1,6 @@
 package siyateagan.example.translatorapp.ui.textTranslation
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
 import android.view.inputmethod.EditorInfo
@@ -10,6 +11,7 @@ import kotlinx.android.synthetic.main.activity_text_translation.*
 import kotlinx.android.synthetic.main.bottom_navigation_layout.*
 import kotlinx.android.synthetic.main.toolbar.toolbar
 import siyateagan.example.translatorapp.R
+import siyateagan.example.translatorapp.ui.selectLanguage.SelectLanguage
 import siyateagan.example.translatorapp.utils.setItemsListeners
 
 class TextTranslationActivity : AppCompatActivity() {
@@ -27,6 +29,11 @@ class TextTranslationActivity : AppCompatActivity() {
         setItemsListeners(navView, this, this::class.java.simpleName)
 
         setKeyboardDoneButton()
+
+        input_language_button.setOnClickListener {
+            val intent = Intent(this, SelectLanguage::class.java)
+            this.startActivity(intent)
+        }
     }
 
     private fun setKeyboardDoneButton() {
