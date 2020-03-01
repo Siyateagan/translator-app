@@ -81,7 +81,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                app:layout_constraintBottom_toTopOf="@+id/nav_view"
+                app:layout_constraintBottom_toTopOf="@+id/navigation_layout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/select_languages_layout">
@@ -89,6 +89,8 @@
                 <EditText
                     android:id="@+id/input_text"
                     style="@style/InputEditText"
+                    android:layout_marginStart="@dimen/margin_16dp"
+                    android:layout_marginEnd="@dimen/margin_16dp"
                     android:hint="@string/start_typing_or_paste_here"
                     android:importantForAutofill="no"
                     app:layout_constraintBottom_toTopOf="@+id/translated_text"
@@ -111,21 +113,11 @@
                     app:layout_constraintVertical_weight="2" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <View
-                style="@style/Divider"
-                app:layout_constraintBottom_toTopOf="@id/nav_view"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <com.google.android.material.bottomnavigation.BottomNavigationView
-                android:id="@+id/nav_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
+            <include
+                layout="@layout/bottom_navigation_layout"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:menu="@menu/bottom_nav_menu" />
+                app:layout_constraintStart_toStartOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

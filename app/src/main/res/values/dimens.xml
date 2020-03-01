@@ -2,5 +2,4 @@
 <resources>
     <dimen name="margin_16dp">16dp</dimen>
     <dimen name="padding_16dp">16dp</dimen>
-    <dimen name="edittext_padding_16dp">16dp</dimen>
 </resources>

@@ -6,8 +6,8 @@ import android.view.inputmethod.EditorInfo
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlinx.android.synthetic.main.activity_favorites.nav_view
 import kotlinx.android.synthetic.main.activity_text_translation.*
+import kotlinx.android.synthetic.main.bottom_navigation_layout.*
 import kotlinx.android.synthetic.main.toolbar.toolbar
 import siyateagan.example.translatorapp.R
 import siyateagan.example.translatorapp.utils.setItemsListeners
