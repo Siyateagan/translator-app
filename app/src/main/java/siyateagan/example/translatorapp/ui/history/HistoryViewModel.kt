@@ -1,4 +1,4 @@
-package siyateagan.example.translatorapp.ui.voiceTranslation
+package siyateagan.example.translatorapp.ui.history
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

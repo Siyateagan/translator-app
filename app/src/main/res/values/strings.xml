@@ -8,4 +8,5 @@
     <string name="translate_text">Translate text</string>
     <string name="start_typing_or_paste_here">Start typing or paste here</string>
     <string name="history">History</string>
+    <string name="search">Search</string>
 </resources>

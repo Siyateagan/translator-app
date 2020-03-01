@@ -39,4 +39,10 @@
         <item name="android:scrollHorizontally">false</item>
         <item name="android:textColor">@color/primaryText</item>
     </style>
+
+    <style name="SearchViewStyle" parent="Widget.AppCompat.SearchView">
+        <item name="android:editTextColor">@color/primaryText</item>
+        <item name="android:textColorHint">@color/secondaryText</item>
+        <item name="android:fontFamily">@font/roboto</item>
+    </style>
 </resources>

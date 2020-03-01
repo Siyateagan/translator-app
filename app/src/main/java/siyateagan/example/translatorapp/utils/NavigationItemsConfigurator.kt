@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Intent
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import siyateagan.example.translatorapp.R
-import siyateagan.example.translatorapp.ui.voiceTranslation.HistoryActivity
+import siyateagan.example.translatorapp.ui.history.HistoryActivity
 import siyateagan.example.translatorapp.ui.textTranslation.TextTranslationActivity
 import siyateagan.example.translatorapp.ui.favorites.FavoritesActivity
 
