@@ -25,7 +25,7 @@ class HistoryActivity : AppCompatActivity() {
         val navView: BottomNavigationView = nav_view
         navView.menu.getItem(1).isChecked = true
 
-        val searchHistory: View = search_history.findViewById(androidx.appcompat.R.id.search_plate)
+        val searchHistory: View = search_view.findViewById(androidx.appcompat.R.id.search_plate)
         searchHistory.setBackgroundColor(Color.WHITE)
 
         setItemsListeners(navView, this, this::class.java.simpleName)
