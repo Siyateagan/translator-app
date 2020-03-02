@@ -6,9 +6,11 @@ import android.text.InputType
 import android.view.inputmethod.EditorInfo
 import androidx.lifecycle.ViewModelProvider
 import kotlinx.android.synthetic.main.activity_text_translation.*
+import kotlinx.android.synthetic.main.bottom_navigation_layout.*
 import siyateagan.example.translatorapp.R
-import siyateagan.example.translatorapp.ui.selectLanguage.SelectLanguage
+import kotlinx.android.synthetic.main.layout_toolbar.toolbar
 import siyateagan.example.translatorapp.ui.baseActivities.BaseNavigationActivity
+import siyateagan.example.translatorapp.ui.selectLanguage.SelectLanguage
 
 
 class TextTranslationActivity : BaseNavigationActivity() {
@@ -16,6 +18,10 @@ class TextTranslationActivity : BaseNavigationActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_text_translation)
+        setSupportActionBar(toolbar)
+        setItemsIntents(nav_view, this, this::class.java.simpleName)
+
         textTranslationViewModel = ViewModelProvider(this).get(TextTranslationViewModel::class.java)
 
         setKeyboardDoneButton()
@@ -25,9 +31,6 @@ class TextTranslationActivity : BaseNavigationActivity() {
             this.startActivity(intent)
         }
     }
-
-    override fun getLayoutResource() = R.layout.activity_text_translation
-    override fun getClassName() = this::class.java.simpleName
 
     private fun setKeyboardDoneButton() {
         input_text.imeOptions = EditorInfo.IME_ACTION_DONE

@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_select_language.*
+import kotlinx.android.synthetic.main.layout_toolbar.toolbar
 import siyateagan.example.translatorapp.R
 import siyateagan.example.translatorapp.ui.baseActivities.BaseActivity
 
@@ -14,6 +15,9 @@ class SelectLanguage : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_select_language)
+        setSupportActionBar(toolbar)
+        removeSearchViewUnderline()
 
         viewAdapter = RecyclerAdapter(
             listOf("1", "2", "3")
@@ -25,6 +29,4 @@ class SelectLanguage : BaseActivity() {
             adapter = viewAdapter
         }
     }
-
-    override fun getLayoutResource() = R.layout.activity_select_language
 }
