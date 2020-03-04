@@ -24,10 +24,18 @@
         <item name="android:gravity">center</item>
     </style>
 
+    <style name="FavoritesButton" parent="LanguageButton">
+        <item name="android:layout_width">24dp</item>
+        <item name="android:layout_height">20dp</item>
+        <item name="android:layout_gravity">top|start</item>
+        <item name="android:layout_marginStart">@dimen/margin_12dp</item>
+        <item name="android:layout_marginEnd">@dimen/margin_12dp</item>
+    </style>
+
     <style name="Divider">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item>
-        <item name="android:background">?android:attr/listDivider</item>
+        <item name="android:background">#BCBCBC</item>
     </style>
 
     <style name="InputEditText">
@@ -54,5 +62,17 @@
         <item name="android:layout_margin">@dimen/margin_16dp</item>
         <item name="android:background">@drawable/rounded_corners_button</item>
         <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="TextViewItem">
+        <item name="android:layout_marginEnd">@dimen/margin_12dp</item>
+        <item name="android:textColor">@color/primaryText</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">3</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:textSize">@dimen/list_text</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">6</item>
     </style>
 </resources>

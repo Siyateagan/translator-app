@@ -2,7 +2,7 @@
     <string name="app_name">Translator app</string>
     <string name="title_text">Text</string>
     <string name="title_favorites">Favorites</string>
-    <string name="test">test</string>
+    <string name="test">Test</string>
     <string name="yandex_translator_client">Yandex Translator Client</string>
     <string name="swap_languages">Swap languages</string>
     <string name="translate_text">Translate text</string>
@@ -10,4 +10,5 @@
     <string name="history">History</string>
     <string name="search">Search</string>
     <string name="learn_words">Learn words</string>
+    <string name="add_to_favorites">Add to favorites</string>
 </resources>

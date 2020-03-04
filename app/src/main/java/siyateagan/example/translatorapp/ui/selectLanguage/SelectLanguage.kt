@@ -1,12 +1,15 @@
 package siyateagan.example.translatorapp.ui.selectLanguage
 
 import android.os.Bundle
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_select_language.*
 import kotlinx.android.synthetic.main.layout_toolbar.toolbar
 import siyateagan.example.translatorapp.R
+import siyateagan.example.translatorapp.ui.adapters.RecyclerAdapter
 import siyateagan.example.translatorapp.ui.baseActivities.BaseActivity
+
 
 class SelectLanguage : BaseActivity() {
     private lateinit var recyclerView: RecyclerView
@@ -19,14 +22,17 @@ class SelectLanguage : BaseActivity() {
         setSupportActionBar(toolbar)
         removeSearchViewUnderline()
 
-        viewAdapter = RecyclerAdapter(
-            listOf("1", "2", "3")
-        )
+        viewAdapter =
+            RecyclerAdapter(
+                listOf("Rганшнунокоруруоsdfsdfsf\n\n\nру\naaa", "Russian", "Chinese")
+            )
         viewManager = LinearLayoutManager(this)
 
+        val itemDecor = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         recyclerView = recycler_languages.apply {
             layoutManager = viewManager
             adapter = viewAdapter
+            addItemDecoration(itemDecor)
         }
     }
 }

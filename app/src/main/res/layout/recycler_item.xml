@@ -1,11 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:minHeight="48dp"
+    android:orientation="horizontal"
+    android:paddingTop="@dimen/padding_12dp"
+    android:paddingBottom="@dimen/padding_12dp">
+
+    <ImageButton
+        android:id="@+id/imageView"
+        style="@style/FavoritesButton"
+        android:contentDescription="@string/add_to_favorites"
+        android:src="@drawable/ic_bookmark" />
 
     <TextView
-        android:id="@+id/item_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/test"/>
+        android:id="@+id/input_language"
+        style="@style/TextViewItem"
+        android:text="@string/test" />
+
+    <TextView
+        android:id="@+id/translation_language"
+        style="@style/TextViewItem"
+        android:maxLines="6"
+        android:text="@string/test" />
 </LinearLayout>

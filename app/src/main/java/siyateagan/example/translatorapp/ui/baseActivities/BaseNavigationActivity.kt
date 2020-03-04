@@ -2,9 +2,7 @@ package siyateagan.example.translatorapp.ui.baseActivities
 
 import android.content.Context
 import android.content.Intent
-import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlinx.android.synthetic.main.bottom_navigation_layout.*
 import siyateagan.example.translatorapp.R
 import siyateagan.example.translatorapp.ui.favorites.FavoritesActivity
 import siyateagan.example.translatorapp.ui.history.HistoryActivity

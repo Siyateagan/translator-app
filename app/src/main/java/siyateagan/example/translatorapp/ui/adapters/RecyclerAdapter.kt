@@ -1,9 +1,8 @@
-package siyateagan.example.translatorapp.ui.selectLanguage
+package siyateagan.example.translatorapp.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.recycler_item.view.*
 import siyateagan.example.translatorapp.R
@@ -23,7 +22,7 @@ class RecyclerAdapter(private val myDataset: List<String>) :
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.item.item_text.text = myDataset[position]
+        holder.item.input_language.text = myDataset[position]
     }
 
     override fun getItemCount() = myDataset.size
