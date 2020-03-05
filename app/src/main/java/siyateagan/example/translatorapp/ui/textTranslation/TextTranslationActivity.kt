@@ -9,7 +9,7 @@ import kotlinx.android.synthetic.main.activity_text_translation.*
 import kotlinx.android.synthetic.main.bottom_navigation_layout.*
 import siyateagan.example.translatorapp.R
 import kotlinx.android.synthetic.main.layout_toolbar.toolbar
-import siyateagan.example.translatorapp.ui.baseActivities.BaseNavigationActivity
+import siyateagan.example.translatorapp.ui.base.BaseNavigationActivity
 import siyateagan.example.translatorapp.ui.selectLanguage.SelectLanguage
 
 

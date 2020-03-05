@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import kotlinx.android.synthetic.main.bottom_navigation_layout.*
 import kotlinx.android.synthetic.main.layout_toolbar.toolbar
 import siyateagan.example.translatorapp.R
-import siyateagan.example.translatorapp.ui.baseActivities.BaseNavigationActivity
+import siyateagan.example.translatorapp.ui.base.BaseNavigationActivity
 
 
 class HistoryActivity : BaseNavigationActivity() {

@@ -6,7 +6,7 @@ import kotlinx.android.synthetic.main.bottom_navigation_layout.*
 import kotlinx.android.synthetic.main.layout_toolbar.toolbar
 import siyateagan.example.translatorapp.R
 import siyateagan.example.translatorapp.di.DaggerAppComponent
-import siyateagan.example.translatorapp.ui.baseActivities.BaseNavigationActivity
+import siyateagan.example.translatorapp.ui.base.BaseNavigationActivity
 import javax.inject.Inject
 
 class FavoritesActivity : BaseNavigationActivity() {

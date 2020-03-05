@@ -1,4 +1,4 @@
-package siyateagan.example.translatorapp.ui.baseActivities
+package siyateagan.example.translatorapp.ui.base
 
 import android.content.Context
 import android.content.Intent
