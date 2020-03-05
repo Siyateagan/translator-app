@@ -14,13 +14,14 @@ abstract class BaseNavigationActivity : BaseActivity() {
     protected fun setItemsIntents(
         navView: BottomNavigationView, context: Context, activityName: String
     ) {
+        setNavItemChecked(activityName, navView)
+
         navView.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.navigation_text_translation -> {
                     if (activityName != TextTranslationActivity::class.java.simpleName) {
                         val intent = Intent(context, TextTranslationActivity::class.java)
                         context.startActivity(intent)
-                        navView.menu.getItem(0).isChecked = true
                     }
                 }
 
@@ -28,7 +29,6 @@ abstract class BaseNavigationActivity : BaseActivity() {
                     if (activityName != HistoryActivity::class.java.simpleName) {
                         val intent = Intent(context, HistoryActivity::class.java)
                         context.startActivity(intent)
-                        navView.menu.getItem(1).isChecked = true
                     }
                 }
 
@@ -36,11 +36,22 @@ abstract class BaseNavigationActivity : BaseActivity() {
                     if (activityName != FavoritesActivity::class.java.simpleName) {
                         val intent = Intent(context, FavoritesActivity::class.java)
                         context.startActivity(intent)
-                        navView.menu.getItem(2).isChecked = true
                     }
                 }
             }
             return@setOnNavigationItemSelectedListener false
+        }
+    }
+
+    private fun setNavItemChecked(
+        activityName: String,
+        navView: BottomNavigationView
+    ) {
+        when (activityName) {
+            TextTranslationActivity::class.java.simpleName -> navView.menu.getItem(0)
+                .isChecked = true
+            HistoryActivity::class.java.simpleName -> navView.menu.getItem(1).isChecked = true
+            FavoritesActivity::class.java.simpleName -> navView.menu.getItem(2).isChecked = true
         }
     }
 }
