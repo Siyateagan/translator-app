@@ -1,6 +1,7 @@
 package siyateagan.example.translatorapp.ui.selectLanguage
 
 import android.os.Bundle
+import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -8,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_select_language.*
 import kotlinx.android.synthetic.main.layout_toolbar.toolbar
 import kotlinx.android.synthetic.main.search_view_layout.*
-import kotlinx.android.synthetic.main.search_view_layout.view.*
 import siyateagan.example.translatorapp.R
 import siyateagan.example.translatorapp.di.DaggerAppComponent
 import siyateagan.example.translatorapp.ui.adapters.LanguagesAdapter
@@ -29,7 +29,7 @@ class SelectLanguage : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_select_language)
         setSupportActionBar(toolbar)
-        removeSearchViewUnderline()
+        setSearchView(search_view, search_divider)
 
         //TODO check Multibindings
         DaggerAppComponent.builder().build().inject(this)
@@ -37,8 +37,6 @@ class SelectLanguage : BaseActivity() {
             ViewModelProvider(this, languageViewModelFactory).get(
                 SelectLanguageViewModel::class.java
             )
-
-        search_layout.search_view.queryHint = selectLanguageViewModel.test
 
         viewAdapter =
             LanguagesAdapter(

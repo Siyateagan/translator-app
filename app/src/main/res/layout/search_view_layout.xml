@@ -23,6 +23,7 @@
         app:theme="@style/SearchViewStyle" />
 
     <View
+        android:id="@+id/search_divider"
         style="@style/Divider"
         app:layout_constraintBottom_toBottomOf="@id/search_view"
         app:layout_constraintEnd_toEndOf="parent"

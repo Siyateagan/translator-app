@@ -7,4 +7,5 @@
     <color name="secondaryText">#757575</color>
     <color name="contentBackground">#ECECEC</color>
     <color name="white">#FFFFFF</color>
+    <color name="gray">#BCBCBC</color>
 </resources>
