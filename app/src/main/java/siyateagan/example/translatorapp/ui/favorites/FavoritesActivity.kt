@@ -6,14 +6,15 @@ import kotlinx.android.synthetic.main.bottom_navigation_layout.*
 import kotlinx.android.synthetic.main.layout_toolbar.toolbar
 import kotlinx.android.synthetic.main.search_view_layout.*
 import siyateagan.example.translatorapp.R
-import siyateagan.example.translatorapp.di.DaggerAppComponent
+import siyateagan.example.translatorapp.di.component.DaggerAppComponent
+
 import siyateagan.example.translatorapp.ui.base.BaseNavigationActivity
 import javax.inject.Inject
 
 class FavoritesActivity : BaseNavigationActivity() {
 
     @Inject
-    lateinit var favoritesViewModelFactory: ViewModelFactory<FavoritesViewModel>
+    lateinit var viewModelFactory: ViewModelProvider.Factory
     lateinit var favoritesViewModel: FavoritesViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,6 +26,6 @@ class FavoritesActivity : BaseNavigationActivity() {
 
         DaggerAppComponent.builder().build().inject(this)
         favoritesViewModel =
-            ViewModelProvider(this, favoritesViewModelFactory).get(FavoritesViewModel::class.java)
+            ViewModelProvider(this, viewModelFactory).get(FavoritesViewModel::class.java)
     }
 }

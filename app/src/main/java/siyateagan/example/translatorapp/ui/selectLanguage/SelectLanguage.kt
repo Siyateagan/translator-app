@@ -10,16 +10,17 @@ import kotlinx.android.synthetic.main.activity_select_language.*
 import kotlinx.android.synthetic.main.layout_toolbar.toolbar
 import kotlinx.android.synthetic.main.search_view_layout.*
 import siyateagan.example.translatorapp.R
-import siyateagan.example.translatorapp.di.DaggerAppComponent
+import siyateagan.example.translatorapp.di.component.DaggerAppComponent
+
 import siyateagan.example.translatorapp.ui.adapters.LanguagesAdapter
 import siyateagan.example.translatorapp.ui.base.BaseActivity
 import javax.inject.Inject
 
 
 class SelectLanguage : BaseActivity() {
-    @Inject
-    lateinit var languageViewModelFactory: LanguageViewModelFactory<SelectLanguageViewModel>
-    lateinit var selectLanguageViewModel: SelectLanguageViewModel
+     @Inject
+     lateinit var viewModelFactory: ViewModelProvider.Factory
+     private lateinit var selectLanguageViewModel: SelectLanguageViewModel
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
@@ -31,22 +32,17 @@ class SelectLanguage : BaseActivity() {
         setSupportActionBar(toolbar)
         setSearchView(search_view, search_divider)
 
-        //TODO check Multibindings
         DaggerAppComponent.builder().build().inject(this)
         selectLanguageViewModel =
-            ViewModelProvider(this, languageViewModelFactory).get(
-                SelectLanguageViewModel::class.java
-            )
+            ViewModelProvider(this, viewModelFactory).get(SelectLanguageViewModel::class.java)
 
-        viewAdapter =
+            viewAdapter =
             LanguagesAdapter(
                 listOf("Эльфийский", "Russian", "Chinese")
             )
         viewManager = LinearLayoutManager(this)
 
-        //TODO extract this?
         val itemDecor = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
-
         recyclerView = recycler_languages.apply {
             layoutManager = viewManager
             adapter = viewAdapter
