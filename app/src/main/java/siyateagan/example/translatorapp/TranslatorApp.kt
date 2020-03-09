@@ -1,4 +1,4 @@
-package siyateagan.example.translatorapp.di
+package siyateagan.example.translatorapp
 
 import android.app.Application
 import dagger.android.AndroidInjector
