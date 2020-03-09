@@ -8,6 +8,7 @@ import siyateagan.example.translatorapp.di.ViewModelKey
 import siyateagan.example.translatorapp.ui.favorites.FavoritesViewModel
 import siyateagan.example.translatorapp.ui.selectLanguage.SelectLanguageViewModel
 
+
 @Module
 abstract class ViewModelModule {
 

@@ -4,6 +4,7 @@
     package="siyateagan.example.translatorapp">
 
     <application
+        android:name=".di.TranslatorApp"
         android:allowBackup="true"
         android:fullBackupContent="true"
         android:icon="@mipmap/ic_launcher"
