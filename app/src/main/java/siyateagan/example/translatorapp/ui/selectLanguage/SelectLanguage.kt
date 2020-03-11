@@ -7,14 +7,12 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.android.AndroidInjection
-import io.reactivex.Observer
-import io.reactivex.disposables.Disposable
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_select_language.*
 import kotlinx.android.synthetic.main.layout_toolbar.toolbar
 import kotlinx.android.synthetic.main.search_view_layout.*
 import siyateagan.example.translatorapp.R
-import siyateagan.example.translatorapp.network.AvailableLanguages
 import siyateagan.example.translatorapp.network.YandexService
 import siyateagan.example.translatorapp.ui.adapters.LanguagesAdapter
 import siyateagan.example.translatorapp.ui.base.BaseActivity
@@ -43,23 +41,21 @@ class SelectLanguage : BaseActivity() {
         selectLanguageViewModel =
             ViewModelProvider(this, viewModelFactory).get(SelectLanguageViewModel::class.java)
 
-        viewAdapter =
-            LanguagesAdapter(
-                listOf("Эльфийский", "Russian", "Chinese")
-            )
         viewManager = LinearLayoutManager(this)
-
         val itemDecor = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         recyclerView = recycler_languages.apply {
             layoutManager = viewManager
-            adapter = viewAdapter
             addItemDecoration(itemDecor)
         }
 
         val languagesDisposable = YandexService.getLangs(Locale.getDefault().language)
-            ?.subscribeOn(Schedulers.computation())
+            ?.subscribeOn(Schedulers.io())
+            ?.observeOn(AndroidSchedulers.mainThread())
             ?.subscribe(
-                { availableLanguages -> Log.e(TAG, availableLanguages.toString()) },
+                { availableLanguages ->
+                    val data = availableLanguages?.langs?.values
+                    recyclerView.adapter = data?.toList()?.let { LanguagesAdapter(it) }
+                },
                 { error -> Log.e(TAG, "{$error.message}") }
             )
     }

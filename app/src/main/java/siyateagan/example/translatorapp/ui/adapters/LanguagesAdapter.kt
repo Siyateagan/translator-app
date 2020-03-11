@@ -7,9 +7,8 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_language.view.*
 import siyateagan.example.translatorapp.R
 
-class LanguagesAdapter(private val myDataset: List<String>) :
+class LanguagesAdapter(private val languagesList: List<String>) :
     RecyclerView.Adapter<LanguagesAdapter.MyViewHolder>() {
-
     class MyViewHolder(val item: View) : RecyclerView.ViewHolder(item)
 
     override fun onCreateViewHolder(
@@ -22,8 +21,8 @@ class LanguagesAdapter(private val myDataset: List<String>) :
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.item.language.text = myDataset[position]
+        holder.item.language.text = languagesList[position]
     }
 
-    override fun getItemCount() = myDataset.size
+    override fun getItemCount() = languagesList.size
 }
