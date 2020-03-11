@@ -1,24 +1,30 @@
 package siyateagan.example.translatorapp.ui.selectLanguage
 
 import android.os.Bundle
-import androidx.appcompat.widget.SearchView
+import android.util.Log
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.android.AndroidInjection
+import io.reactivex.Observer
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_select_language.*
 import kotlinx.android.synthetic.main.layout_toolbar.toolbar
 import kotlinx.android.synthetic.main.search_view_layout.*
 import siyateagan.example.translatorapp.R
-import siyateagan.example.translatorapp.di.component.DaggerAppComponent
-
+import siyateagan.example.translatorapp.network.AvailableLanguages
+import siyateagan.example.translatorapp.network.YandexService
 import siyateagan.example.translatorapp.ui.adapters.LanguagesAdapter
 import siyateagan.example.translatorapp.ui.base.BaseActivity
+import java.util.*
 import javax.inject.Inject
 
 
 class SelectLanguage : BaseActivity() {
+    val TAG = this::class.java.simpleName
+
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var selectLanguageViewModel: SelectLanguageViewModel
@@ -49,5 +55,12 @@ class SelectLanguage : BaseActivity() {
             adapter = viewAdapter
             addItemDecoration(itemDecor)
         }
+
+        val languagesDisposable = YandexService.getLangs(Locale.getDefault().language)
+            ?.subscribeOn(Schedulers.computation())
+            ?.subscribe(
+                { availableLanguages -> Log.e(TAG, availableLanguages.toString()) },
+                { error -> Log.e(TAG, "{$error.message}") }
+            )
     }
 }
