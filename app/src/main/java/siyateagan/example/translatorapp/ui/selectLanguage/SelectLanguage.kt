@@ -27,8 +27,10 @@ class SelectLanguage : BaseActivity() {
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var selectLanguageViewModel: SelectLanguageViewModel
 
+    @Inject
+    lateinit var yandexService: YandexService
+
     private lateinit var recyclerView: RecyclerView
-    private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,7 +50,7 @@ class SelectLanguage : BaseActivity() {
             addItemDecoration(itemDecor)
         }
 
-        val languagesDisposable = YandexService.getLangs(Locale.getDefault().language)
+        val languagesDisposable = yandexService.getLangs(Locale.getDefault().language)
             ?.subscribeOn(Schedulers.io())
             ?.observeOn(AndroidSchedulers.mainThread())
             ?.subscribe(
