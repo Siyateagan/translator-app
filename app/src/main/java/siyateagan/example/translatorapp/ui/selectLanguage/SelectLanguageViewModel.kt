@@ -14,17 +14,17 @@ class SelectLanguageViewModel @Inject constructor(
 ) :
     ViewModel() {
     private val TAG = this::class.java.simpleName
-    private lateinit var languages: MutableCollection<String>
 
-    fun getLanguages(): Single<MutableCollection<String>> {
+    fun getLanguages(): Single<List<String>> {
         return Single.create {
             yandexService.getLangs(Locale.getDefault().language)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     { availableLanguages ->
-                        languages = availableLanguages?.langs?.values!!
-                        it.onSuccess(languages)
+                        val sortedLanguages: List<String>? =
+                            availableLanguages.langs?.values?.sorted()
+                        sortedLanguages?.let { langs -> it.onSuccess(langs) }
                     },
                     { error -> Log.e(TAG, "{$error.message}") }
                 )
