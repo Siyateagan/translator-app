@@ -33,14 +33,13 @@ class SelectLanguage : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_select_language)
         setSupportActionBar(toolbar)
-        setSearchView(search_view, search_divider)
-
         selectLanguageViewModel =
             ViewModelProvider(this, viewModelFactory).get(SelectLanguageViewModel::class.java)
 
         languagesDisposable = selectLanguageViewModel.getLanguages()
             .subscribe { availableLanguages ->
                 recyclerView.adapter = LanguagesAdapter(availableLanguages.toList())
+                setSearchView(search_view, search_divider, recyclerView.adapter as LanguagesAdapter)
             }
 
         viewManager = LinearLayoutManager(this)

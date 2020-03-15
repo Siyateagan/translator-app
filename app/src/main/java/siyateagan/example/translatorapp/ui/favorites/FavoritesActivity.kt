@@ -22,7 +22,7 @@ class FavoritesActivity : BaseNavigationActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_favorites)
         setSupportActionBar(toolbar)
-        setSearchView(search_view, search_divider)
+        //setSearchView(search_view, search_divider)
         setItemsIntents(nav_view, this, this::class.java.simpleName)
 
         favoritesViewModel =

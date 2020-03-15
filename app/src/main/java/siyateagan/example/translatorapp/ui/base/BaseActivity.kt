@@ -6,12 +6,17 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import siyateagan.example.translatorapp.R
+import siyateagan.example.translatorapp.ui.adapters.LanguagesAdapter
 
 abstract class BaseActivity : AppCompatActivity() {
 
-    protected fun setSearchView(searchView: SearchView?, searchDivider: View?){
+    protected fun setSearchView(
+        searchView: SearchView?,
+        searchDivider: View?,
+        adapter: LanguagesAdapter
+    ) {
         removeSearchViewDefaultDivider(searchView)
-        setSearchViewQuerySettings(searchView)
+        setSearchViewQuerySettings(searchView, adapter)
         changeDividerStyle(searchView, searchDivider)
     }
 
@@ -19,9 +24,10 @@ abstract class BaseActivity : AppCompatActivity() {
         searchView?.setBackgroundColor(Color.WHITE)
     }
 
-    private fun setSearchViewQuerySettings(searchView: SearchView?){
+    private fun setSearchViewQuerySettings(searchView: SearchView?, adapter: LanguagesAdapter) {
         searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextChange(newText: String?): Boolean {
+                newText?.let { adapter.filter(it) }
                 return false
             }
 
@@ -32,7 +38,7 @@ abstract class BaseActivity : AppCompatActivity() {
         })
     }
 
-    private fun changeDividerStyle(searchView: SearchView?, searchDivider: View?){
+    private fun changeDividerStyle(searchView: SearchView?, searchDivider: View?) {
         val layoutParams = searchDivider?.layoutParams
         searchView?.setOnQueryTextFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
