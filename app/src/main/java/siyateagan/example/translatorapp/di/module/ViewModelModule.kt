@@ -7,6 +7,7 @@ import dagger.multibindings.IntoMap
 import siyateagan.example.translatorapp.di.ViewModelKey
 import siyateagan.example.translatorapp.ui.favorites.FavoritesViewModel
 import siyateagan.example.translatorapp.ui.selectLanguage.SelectLanguageViewModel
+import siyateagan.example.translatorapp.ui.textTranslation.TextTranslationViewModel
 
 
 @Module
@@ -21,4 +22,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(SelectLanguageViewModel::class)
     internal abstract fun selectLanguageViewModel(viewModel: SelectLanguageViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(TextTranslationViewModel::class)
+    internal abstract fun textTranslationViewModel(viewModel: TextTranslationViewModel): ViewModel
 }

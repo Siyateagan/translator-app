@@ -5,24 +5,30 @@ import android.os.Bundle
 import android.text.InputType
 import android.view.inputmethod.EditorInfo
 import androidx.lifecycle.ViewModelProvider
+import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_text_translation.*
 import kotlinx.android.synthetic.main.bottom_navigation_layout.*
-import siyateagan.example.translatorapp.R
 import kotlinx.android.synthetic.main.layout_toolbar.toolbar
+import siyateagan.example.translatorapp.R
 import siyateagan.example.translatorapp.ui.base.BaseNavigationActivity
 import siyateagan.example.translatorapp.ui.selectLanguage.SelectLanguage
+import javax.inject.Inject
 
 
 class TextTranslationActivity : BaseNavigationActivity() {
-    private lateinit var textTranslationViewModel: TextTranslationViewModel
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    lateinit var textTranslationViewModel: TextTranslationViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_text_translation)
         setSupportActionBar(toolbar)
         setItemsIntents(nav_view, this, this::class.java.simpleName)
 
-        textTranslationViewModel = ViewModelProvider(this).get(TextTranslationViewModel::class.java)
+        textTranslationViewModel = ViewModelProvider(this, viewModelFactory).get(TextTranslationViewModel::class.java)
 
         setKeyboardDoneButton()
 
