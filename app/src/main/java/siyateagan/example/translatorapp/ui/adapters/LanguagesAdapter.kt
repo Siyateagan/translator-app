@@ -1,5 +1,8 @@
 package siyateagan.example.translatorapp.ui.adapters
 
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +12,8 @@ import siyateagan.example.translatorapp.R
 import java.util.*
 import kotlin.collections.ArrayList
 
-class LanguagesAdapter(private val languagesList: List<String>) :
+
+class LanguagesAdapter(private val languagesList: MutableList<String>, private val context: Context) :
     RecyclerView.Adapter<LanguagesAdapter.MyViewHolder>() {
     class MyViewHolder(val item: View) : RecyclerView.ViewHolder(item)
 
@@ -30,13 +34,18 @@ class LanguagesAdapter(private val languagesList: List<String>) :
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.item.language.text = languagesList[position]
+        holder.item.language.setOnClickListener {
+            val intent = Intent().putExtra("language", languagesList[position])
+            (context as Activity).setResult(1, intent)
+            context.finish()
+        }
     }
 
     override fun getItemCount() = languagesList.size
 
     //TODO check filterable
     fun filter(userInput: String) {
-        (languagesList as ArrayList<String>).clear()
+        languagesList.clear()
         val lowerCaseInput = userInput.toLowerCase(Locale.ROOT)
         for (item in languagesCopy) {
             if (item.toLowerCase(Locale.ROOT).contains(lowerCaseInput))
