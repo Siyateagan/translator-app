@@ -17,7 +17,7 @@
         android:theme="@style/AppTheme.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".ui.selectLanguage.SelectLanguage"
+            android:name=".ui.selectLanguage.SelectLanguageActivity"
             android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".ui.history.HistoryActivity"

@@ -16,7 +16,7 @@ import siyateagan.example.translatorapp.ui.base.BaseActivity
 import javax.inject.Inject
 
 
-class SelectLanguage : BaseActivity() {
+class SelectLanguageActivity : BaseActivity() {
     val TAG = this::class.java.simpleName
 
     @Inject

@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.layout_toolbar.toolbar
 import siyateagan.example.translatorapp.R
 import siyateagan.example.translatorapp.databinding.ActivityTextTranslationBinding
 import siyateagan.example.translatorapp.ui.base.BaseNavigationActivity
-import siyateagan.example.translatorapp.ui.selectLanguage.SelectLanguage
+import siyateagan.example.translatorapp.ui.selectLanguage.SelectLanguageActivity
 import javax.inject.Inject
 
 
@@ -42,7 +42,7 @@ class TextTranslationActivity : BaseNavigationActivity() {
         binding.viewModel = textTranslationViewModel
 
         binding.inputLanguageButton.setOnClickListener {
-            val intent = Intent(this, SelectLanguage::class.java)
+            val intent = Intent(this, SelectLanguageActivity::class.java)
             this.startActivityForResult(intent, 1)
         }
     }
