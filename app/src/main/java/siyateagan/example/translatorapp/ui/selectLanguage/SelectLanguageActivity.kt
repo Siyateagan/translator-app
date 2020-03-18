@@ -39,7 +39,7 @@ class SelectLanguageActivity : BaseActivity() {
 
         languagesDisposable = selectLanguageViewModel.getLanguages()
             .subscribe { availableLanguages ->
-                recyclerView.adapter = LanguagesAdapter(availableLanguages, this)
+                recyclerView.adapter = LanguagesAdapter(availableLanguages.toMutableList(), this)
                 setSearchView(search_view, search_divider, recyclerView.adapter as LanguagesAdapter)
             }
 
