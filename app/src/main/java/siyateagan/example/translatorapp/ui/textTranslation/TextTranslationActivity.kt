@@ -8,8 +8,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_text_translation.*
-import kotlinx.android.synthetic.main.bottom_navigation_layout.*
-import kotlinx.android.synthetic.main.layout_toolbar.toolbar
 import siyateagan.example.translatorapp.R
 import siyateagan.example.translatorapp.databinding.ActivityTextTranslationBinding
 import siyateagan.example.translatorapp.ui.base.BaseNavigationActivity
@@ -32,8 +30,8 @@ class TextTranslationActivity : BaseNavigationActivity() {
         binding =
             DataBindingUtil.setContentView(this, R.layout.activity_text_translation)
 
-        setSupportActionBar(toolbar)
-        setItemsIntents(nav_view, this, this::class.java.simpleName)
+        setSupportActionBar(binding.toolbar)
+        setItemsIntents(binding.navView, this, this::class.java.simpleName)
         setKeyboardDoneButton()
 
         textTranslationViewModel =

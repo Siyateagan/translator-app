@@ -1,6 +1,7 @@
 package siyateagan.example.translatorapp.ui.selectLanguage
 
 import android.os.Bundle
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -8,9 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import dagger.android.AndroidInjection
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_select_language.*
-import kotlinx.android.synthetic.main.layout_toolbar.toolbar
-import kotlinx.android.synthetic.main.search_view_layout.*
 import siyateagan.example.translatorapp.R
+import siyateagan.example.translatorapp.databinding.ActivitySelectLanguageBinding
 import siyateagan.example.translatorapp.ui.adapters.LanguagesAdapter
 import siyateagan.example.translatorapp.ui.base.BaseActivity
 import javax.inject.Inject
@@ -31,8 +31,10 @@ class SelectLanguageActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_select_language)
-        setSupportActionBar(toolbar)
+        val binding: ActivitySelectLanguageBinding =
+            DataBindingUtil.setContentView(this, R.layout.activity_select_language)
+
+        setSupportActionBar(binding.toolbar)
 
         selectLanguageViewModel =
             ViewModelProvider(this, viewModelFactory).get(SelectLanguageViewModel::class.java)
@@ -40,7 +42,7 @@ class SelectLanguageActivity : BaseActivity() {
         languagesDisposable = selectLanguageViewModel.getLanguages()
             .subscribe { availableLanguages ->
                 recyclerView.adapter = LanguagesAdapter(availableLanguages.toMutableList(), this)
-                setSearchView(search_view, search_divider, recyclerView.adapter as LanguagesAdapter)
+                setSearchView(binding.searchView, binding.searchDivider, recyclerView.adapter as LanguagesAdapter)
             }
 
         viewManager = LinearLayoutManager(this)
