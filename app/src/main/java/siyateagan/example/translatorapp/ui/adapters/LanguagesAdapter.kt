@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_language.view.*
 import siyateagan.example.translatorapp.R
 import java.util.*
+import kotlin.collections.LinkedHashMap
 
 
 class LanguagesAdapter(
@@ -19,9 +20,7 @@ class LanguagesAdapter(
     RecyclerView.Adapter<LanguagesAdapter.MyViewHolder>() {
     class MyViewHolder(val item: View) : RecyclerView.ViewHolder(item)
 
-    //TODO refactor
-    private val languagesCopy: LinkedHashMap<String, String> =
-        languagesMap.toMap() as LinkedHashMap<String, String>
+    private val languagesCopy: LinkedHashMap<String, String> = LinkedHashMap(languagesMap)
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -35,13 +34,11 @@ class LanguagesAdapter(
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.item.language.text = ArrayList(languagesMap.values)[position]
         holder.item.language.setOnClickListener {
-            val pair = Pair(
+            val languageWithCode = Pair(
                 ArrayList(languagesMap.keys)[position],
                 ArrayList(languagesMap.values)[position]
             )
-            val map = HashMap<String, String>()
-            map[ArrayList(languagesMap.keys)[position]] = ArrayList(languagesMap.values)[position]
-            val intent = Intent().putExtra("languagePair", pair)
+            val intent = Intent().putExtra("languageWithCode", languageWithCode)
             (context as Activity).setResult(1, intent)
             context.finish()
         }
@@ -53,9 +50,9 @@ class LanguagesAdapter(
     fun filter(userInput: String) {
         languagesMap.clear()
         val lowerCaseInput = userInput.toLowerCase(Locale.ROOT)
-        for ((index, item) in languagesCopy.values.withIndex()) {
-            if (item.toLowerCase(Locale.ROOT).contains(lowerCaseInput))
-                languagesMap.put(ArrayList(languagesCopy.keys)[index], item)
+        for ((index, language) in languagesCopy.values.withIndex()) {
+            if (language.toLowerCase(Locale.ROOT).contains(lowerCaseInput))
+                languagesMap[ArrayList(languagesCopy.keys)[index]] = language
         }
         notifyDataSetChanged()
     }
