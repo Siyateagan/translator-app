@@ -12,19 +12,13 @@ abstract class BaseActivity : AppCompatActivity() {
 
     protected fun setSearchView(
         searchView: SearchView?,
-        searchDivider: View?,
-        adapter: LanguagesAdapter
+        searchDivider: View?
     ) {
         removeSearchViewDefaultDivider(searchView)
-        setSearchViewQuerySettings(searchView, adapter)
         changeDividerStyle(searchView, searchDivider)
     }
 
-    private fun removeSearchViewDefaultDivider(searchView: View?) {
-        searchView?.setBackgroundColor(Color.WHITE)
-    }
-
-    private fun setSearchViewQuerySettings(searchView: SearchView?, adapter: LanguagesAdapter) {
+    fun setSearchViewQuerySettings(searchView: SearchView?, adapter: LanguagesAdapter) {
         searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextChange(newText: String?): Boolean {
                 newText?.let { adapter.filter(it) }
@@ -36,6 +30,10 @@ abstract class BaseActivity : AppCompatActivity() {
                 return false
             }
         })
+    }
+
+    private fun removeSearchViewDefaultDivider(searchView: View?) {
+        searchView?.setBackgroundColor(Color.WHITE)
     }
 
     private fun changeDividerStyle(searchView: SearchView?, searchDivider: View?) {

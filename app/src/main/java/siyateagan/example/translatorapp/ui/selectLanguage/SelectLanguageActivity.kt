@@ -35,6 +35,7 @@ class SelectLanguageActivity : BaseActivity() {
             DataBindingUtil.setContentView(this, R.layout.activity_select_language)
 
         setSupportActionBar(binding.toolbar)
+        setSearchView(binding.searchView, binding.searchDivider)
 
         selectLanguageViewModel =
             ViewModelProvider(this, viewModelFactory).get(SelectLanguageViewModel::class.java)
@@ -42,7 +43,7 @@ class SelectLanguageActivity : BaseActivity() {
         languagesDisposable = selectLanguageViewModel.getLanguages()
             .subscribe { availableLanguages ->
                 recyclerView.adapter = LanguagesAdapter(availableLanguages, this)
-                setSearchView(binding.searchView, binding.searchDivider, recyclerView.adapter as LanguagesAdapter)
+                setSearchViewQuerySettings(binding.searchView, recyclerView.adapter as LanguagesAdapter)
             }
 
         viewManager = LinearLayoutManager(this)
