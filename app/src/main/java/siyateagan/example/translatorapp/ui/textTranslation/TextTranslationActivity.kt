@@ -16,6 +16,7 @@ import javax.inject.Inject
 
 
 class TextTranslationActivity : BaseNavigationActivity() {
+    val TAG = TextTranslationActivity::class.java.simpleName
 
     private lateinit var binding: ActivityTextTranslationBinding
 
@@ -52,7 +53,6 @@ class TextTranslationActivity : BaseNavigationActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        textTranslationViewModel.currentLanguage.set(data?.getStringExtra("language"))
-        textTranslationViewModel.currentLanguage.notifyChange()
+        textTranslationViewModel.setNewInputLanguage(data)
     }
 }

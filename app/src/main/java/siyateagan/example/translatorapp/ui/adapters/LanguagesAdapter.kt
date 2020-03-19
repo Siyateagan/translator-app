@@ -10,18 +10,18 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_language.view.*
 import siyateagan.example.translatorapp.R
 import java.util.*
-import kotlin.collections.ArrayList
 
 
-class LanguagesAdapter(private val languagesList: MutableList<String>, private val context: Context) :
+class LanguagesAdapter(
+    private val languagesMap: LinkedHashMap<String, String>,
+    private val context: Context
+) :
     RecyclerView.Adapter<LanguagesAdapter.MyViewHolder>() {
     class MyViewHolder(val item: View) : RecyclerView.ViewHolder(item)
 
-    private val languagesCopy: ArrayList<String> = ArrayList()
-
-    init {
-        languagesCopy.addAll(languagesList)
-    }
+    //TODO refactor
+    private val languagesCopy: LinkedHashMap<String, String> =
+        languagesMap.toMap() as LinkedHashMap<String, String>
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -33,23 +33,29 @@ class LanguagesAdapter(private val languagesList: MutableList<String>, private v
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.item.language.text = languagesList[position]
+        holder.item.language.text = ArrayList(languagesMap.values)[position]
         holder.item.language.setOnClickListener {
-            val intent = Intent().putExtra("language", languagesList[position])
+            val pair = Pair(
+                ArrayList(languagesMap.keys)[position],
+                ArrayList(languagesMap.values)[position]
+            )
+            val map = HashMap<String, String>()
+            map[ArrayList(languagesMap.keys)[position]] = ArrayList(languagesMap.values)[position]
+            val intent = Intent().putExtra("languagePair", pair)
             (context as Activity).setResult(1, intent)
             context.finish()
         }
     }
 
-    override fun getItemCount() = languagesList.size
+    override fun getItemCount() = languagesMap.size
 
     //TODO check filterable
     fun filter(userInput: String) {
-        languagesList.clear()
+        languagesMap.clear()
         val lowerCaseInput = userInput.toLowerCase(Locale.ROOT)
-        for (item in languagesCopy) {
+        for ((index, item) in languagesCopy.values.withIndex()) {
             if (item.toLowerCase(Locale.ROOT).contains(lowerCaseInput))
-                languagesList.add(item)
+                languagesMap.put(ArrayList(languagesCopy.keys)[index], item)
         }
         notifyDataSetChanged()
     }

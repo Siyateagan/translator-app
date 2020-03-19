@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModelProvider
 import dagger.android.AndroidInjection
 import siyateagan.example.translatorapp.R
 import siyateagan.example.translatorapp.databinding.ActivityFavoritesBinding
-
 import siyateagan.example.translatorapp.ui.base.BaseNavigationActivity
 import javax.inject.Inject
 

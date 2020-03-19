@@ -15,16 +15,15 @@ class SelectLanguageViewModel @Inject constructor(
     ViewModel() {
     private val TAG = this::class.java.simpleName
 
-    fun getLanguages(): Single<List<String>> {
+    fun getLanguages(): Single<LinkedHashMap<String, String>> {
         return Single.create {
             yandexService.getLangs(Locale.getDefault().language)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     { availableLanguages ->
-                        val sortedLanguages: List<String>? =
-                            availableLanguages.langs?.values?.sorted()
-                        sortedLanguages?.let { langs -> it.onSuccess(langs) }
+                       availableLanguages.langs?.toList()?.sortedBy { (key, value) -> value }
+                           ?.toMap()?.let { it1 -> it.onSuccess(it1 as LinkedHashMap<String, String>) }
                     },
                     { error -> Log.e(TAG, "{$error.message}") }
                 )
