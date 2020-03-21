@@ -11,4 +11,8 @@
     <string name="search">Search</string>
     <string name="learn_words">Learn words</string>
     <string name="add_to_favorites">Add to favorites</string>
+
+    <string name="pref_languages">Saved languages</string>
+    <string name="current_language">Current language</string>
+    <string name="current_language_code">Current language code</string>
 </resources>

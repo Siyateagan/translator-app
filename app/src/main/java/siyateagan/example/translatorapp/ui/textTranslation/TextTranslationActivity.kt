@@ -44,6 +44,8 @@ class TextTranslationActivity : BaseNavigationActivity() {
             val intent = Intent(this, SelectLanguageActivity::class.java)
             this.startActivityForResult(intent, 1)
         }
+
+        textTranslationViewModel.setPreviousLanguage()
     }
 
     private fun setKeyboardDoneButton() {
