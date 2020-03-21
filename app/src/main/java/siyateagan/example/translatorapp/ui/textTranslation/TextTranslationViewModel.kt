@@ -22,23 +22,24 @@ class TextTranslationViewModel @Inject constructor() : ViewModel() {
     private lateinit var currentLanguageCode: String
 
     fun setNewInputLanguage(data: Intent?) {
-        val pair = data?.getSerializableExtra("languageWithCode") as Pair<*, *>?
+        val languageWithCode = data?.getSerializableExtra("languageWithCode") as Pair<*, *>?
 
-        with(sharedPref.edit()) {
-            putString(
-                applicationContext.getString(R.string.current_language_code),
-                pair?.first.toString()
-            )
-            putString(
-                applicationContext.getString(R.string.current_language),
-                pair?.second.toString()
-            )
-            apply()
-        }
+        if (languageWithCode != null) {
 
-        if (pair != null) {
-            currentLanguageCode = pair.first.toString()
-            currentLanguage.set(pair.second.toString())
+            with(sharedPref.edit()) {
+                putString(
+                    applicationContext.getString(R.string.current_language_code),
+                    languageWithCode.first.toString()
+                )
+                putString(
+                    applicationContext.getString(R.string.current_language),
+                    languageWithCode.second.toString()
+                )
+                apply()
+            }
+
+            currentLanguageCode = languageWithCode.first.toString()
+            currentLanguage.set(languageWithCode.second.toString())
             currentLanguage.notifyChange()
         }
     }
