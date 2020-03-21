@@ -1,5 +1,7 @@
 package siyateagan.example.translatorapp.di.component
 
+import android.content.Context
+import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
 import siyateagan.example.translatorapp.TranslatorApp
@@ -16,5 +18,11 @@ import javax.inject.Singleton
 )
 
 interface AppComponent {
+
+    @Component.Factory
+    interface Factory {
+        fun create(@BindsInstance context: Context): AppComponent
+    }
+
     fun inject(application: TranslatorApp)
 }
