@@ -58,8 +58,7 @@ class LanguagesAdapter(private val context: Context) :
     fun setLanguages(languages: LinkedHashMap<String, String>) {
         languagesMap.clear()
         languagesMap.putAll(languages)
-        languagesCopy.clear()
-        languagesCopy.putAll(languagesMap)
+        languagesCopy = LinkedHashMap(languagesMap)
         notifyDataSetChanged()
     }
 }

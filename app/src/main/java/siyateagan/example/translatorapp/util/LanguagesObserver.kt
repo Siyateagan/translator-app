@@ -19,12 +19,14 @@ class LanguagesObserver(private val recyclerAdapter: LanguagesAdapter) :
         val sortedLanguages = availableLanguages.langs?.values?.toList()?.sorted()
         val languagesWithKeys = LinkedHashMap<String, String>()
 
-        for (index in 0 until availableLanguages.langs?.size!!) {
-            languagesWithKeys[ArrayList(availableLanguages.langs!!.keys)[index]] =
-                sortedLanguages?.get(index).toString()
-        }
+        availableLanguages.langs?.let {
+            for (index in 0 until it.keys.size) {
+                languagesWithKeys[ArrayList(it.keys)[index]] =
+                    sortedLanguages?.get(index).toString()
+            }
 
-        recyclerAdapter.setLanguages(languagesWithKeys)
+            recyclerAdapter.setLanguages(languagesWithKeys)
+        }
     }
 
     override fun onSubscribe(d: Disposable) {
