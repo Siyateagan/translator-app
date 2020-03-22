@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.android.AndroidInjection
-import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_select_language.*
 import siyateagan.example.translatorapp.R
 import siyateagan.example.translatorapp.databinding.ActivitySelectLanguageBinding
@@ -26,8 +25,6 @@ class SelectLanguageActivity : BaseActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewManager: RecyclerView.LayoutManager
 
-    private var languagesDisposable: Disposable? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
@@ -40,22 +37,16 @@ class SelectLanguageActivity : BaseActivity() {
         selectLanguageViewModel =
             ViewModelProvider(this, viewModelFactory).get(SelectLanguageViewModel::class.java)
 
-        languagesDisposable = selectLanguageViewModel.getLanguages()
-            .subscribe { availableLanguages ->
-                recyclerView.adapter = LanguagesAdapter(availableLanguages, this)
-                setSearchViewQuerySettings(binding.searchView, recyclerView.adapter as LanguagesAdapter)
-            }
-
         viewManager = LinearLayoutManager(this)
         val itemDecor = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         recyclerView = recycler_languages.apply {
             layoutManager = viewManager
             addItemDecoration(itemDecor)
         }
-    }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        languagesDisposable?.dispose()
+        val recyclerAdapter = LanguagesAdapter(this)
+        recyclerView.adapter = recyclerAdapter
+        selectLanguageViewModel.getLanguages(recyclerAdapter)
+        setSearchViewQuerySettings(binding.searchView, recyclerAdapter)
     }
 }

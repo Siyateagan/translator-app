@@ -13,14 +13,12 @@ import java.util.*
 import kotlin.collections.LinkedHashMap
 
 
-class LanguagesAdapter(
-    private val languagesMap: LinkedHashMap<String, String>,
-    private val context: Context
-) :
+class LanguagesAdapter(private val context: Context) :
     RecyclerView.Adapter<LanguagesAdapter.MyViewHolder>() {
     class MyViewHolder(val item: View) : RecyclerView.ViewHolder(item)
 
-    private val languagesCopy: LinkedHashMap<String, String> = LinkedHashMap(languagesMap)
+    private val languagesMap = LinkedHashMap<String, String>()
+    private var languagesCopy: LinkedHashMap<String, String> = LinkedHashMap(languagesMap)
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -54,6 +52,14 @@ class LanguagesAdapter(
             if (language.toLowerCase(Locale.ROOT).contains(lowerCaseInput))
                 languagesMap[ArrayList(languagesCopy.keys)[index]] = language
         }
+        notifyDataSetChanged()
+    }
+
+    fun setLanguages(languages: LinkedHashMap<String, String>) {
+        languagesMap.clear()
+        languagesMap.putAll(languages)
+        languagesCopy.clear()
+        languagesCopy.putAll(languagesMap)
         notifyDataSetChanged()
     }
 }
