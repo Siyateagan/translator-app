@@ -42,7 +42,7 @@ class LanguagesObserver @Inject constructor(
     override fun onError(e: Throwable) {
         when (e) {
             is HttpException -> {
-                val responseBody: ResponseBody? = e.response()?.errorBody()
+                val responseBody = e.response()?.code()
                 Log.e(TAG, applicationContext.getString(R.string.http_exception_message) + responseBody)
             }
             is SocketTimeoutException -> {
