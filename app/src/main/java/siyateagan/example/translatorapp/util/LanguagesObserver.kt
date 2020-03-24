@@ -1,17 +1,23 @@
 package siyateagan.example.translatorapp.util
 
+import android.content.Context
 import android.util.Log
 import io.reactivex.SingleObserver
 import io.reactivex.disposables.Disposable
 import okhttp3.ResponseBody
 import retrofit2.HttpException
+import siyateagan.example.translatorapp.R
 import siyateagan.example.translatorapp.network.AvailableLanguages
 import siyateagan.example.translatorapp.ui.adapters.LanguagesAdapter
 import java.io.IOException
 import java.net.SocketTimeoutException
+import javax.inject.Inject
 
 
-class LanguagesObserver(private val recyclerAdapter: LanguagesAdapter) :
+class LanguagesObserver @Inject constructor(
+    private val recyclerAdapter: LanguagesAdapter,
+    var applicationContext: Context
+) :
     SingleObserver<AvailableLanguages> {
     val TAG = LanguagesObserver::class.java.simpleName
 
@@ -36,24 +42,17 @@ class LanguagesObserver(private val recyclerAdapter: LanguagesAdapter) :
     override fun onError(e: Throwable) {
         when (e) {
             is HttpException -> {
-                val responseBody: ResponseBody? =
-                    e.response()?.errorBody()
-                //view.onUnknownError(Krb5.getErrorMessage(responseBody))
-                Log.e(TAG, "1st" + responseBody.toString())
-                //error.code()
+                val responseBody: ResponseBody? = e.response()?.errorBody()
+                Log.e(TAG, applicationContext.getString(R.string.http_exception_message) + responseBody)
             }
             is SocketTimeoutException -> {
-                //view.onTimeout()
-                Log.e(TAG, "2nd" + e.message)
+                Log.e(TAG, applicationContext.getString(R.string.socket_timeout_exception) + e.message)
             }
             is IOException -> {
-                //view.onNetworkError()
-                Log.e(TAG, "3rd" + e.message)
-
+                Log.e(TAG, applicationContext.getString(R.string.IOException_message) + e.message)
             }
             else -> {
-                //view.onUnknownError(e.getMessage())
-                Log.e(TAG, "4th" + e.message)
+                Log.e(TAG,  applicationContext.getString(R.string.unknown_error)+ e.message)
             }
         }
     }

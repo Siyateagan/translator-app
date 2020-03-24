@@ -15,8 +15,10 @@ class SelectLanguageViewModel @Inject constructor(
     ViewModel() {
     private val TAG = this::class.java.simpleName
 
-    fun getLanguages(recyclerAdapter: LanguagesAdapter) {
-        val languagesObserver = LanguagesObserver(recyclerAdapter)
+    @Inject
+    lateinit var languagesObserver: LanguagesObserver
+
+    fun getLanguages() {
         yandexService.getLangs(Locale.getDefault().language)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())

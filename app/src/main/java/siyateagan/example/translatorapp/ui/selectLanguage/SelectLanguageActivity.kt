@@ -14,12 +14,14 @@ import siyateagan.example.translatorapp.ui.adapters.LanguagesAdapter
 import siyateagan.example.translatorapp.ui.base.BaseActivity
 import javax.inject.Inject
 
-
-class SelectLanguageActivity : BaseActivity() {
+class SelectLanguageActivity @Inject constructor() : BaseActivity() {
     val TAG = this::class.java.simpleName
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
+    @Inject
+    lateinit var recyclerAdapter: LanguagesAdapter
+
     private lateinit var selectLanguageViewModel: SelectLanguageViewModel
 
     private lateinit var recyclerView: RecyclerView
@@ -44,9 +46,8 @@ class SelectLanguageActivity : BaseActivity() {
             addItemDecoration(itemDecor)
         }
 
-        val recyclerAdapter = LanguagesAdapter(this)
         recyclerView.adapter = recyclerAdapter
-        selectLanguageViewModel.getLanguages(recyclerAdapter)
+        selectLanguageViewModel.getLanguages()
         setSearchViewQuerySettings(binding.searchView, recyclerAdapter)
     }
 }

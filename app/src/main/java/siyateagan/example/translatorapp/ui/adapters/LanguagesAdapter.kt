@@ -10,10 +10,11 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_language.view.*
 import siyateagan.example.translatorapp.R
 import java.util.*
+import javax.inject.Inject
 import kotlin.collections.LinkedHashMap
 
-
-class LanguagesAdapter(private val context: Context) :
+//TODO is it correct context?
+class LanguagesAdapter @Inject constructor(val context: Context) :
     RecyclerView.Adapter<LanguagesAdapter.MyViewHolder>() {
     class MyViewHolder(val item: View) : RecyclerView.ViewHolder(item)
 
