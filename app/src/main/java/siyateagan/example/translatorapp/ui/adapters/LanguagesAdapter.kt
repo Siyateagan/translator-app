@@ -14,9 +14,8 @@ import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.collections.LinkedHashMap
 
-//TODO is it correct context?
 @Singleton
-class LanguagesAdapter @Inject constructor(val context: Context) :
+class LanguagesAdapter @Inject constructor() :
     RecyclerView.Adapter<LanguagesAdapter.MyViewHolder>() {
     class MyViewHolder(val item: View) : RecyclerView.ViewHolder(item)
 
@@ -33,6 +32,8 @@ class LanguagesAdapter @Inject constructor(val context: Context) :
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+        val context = holder.item.context
+
         holder.item.language.text = ArrayList(languagesMap.values)[position]
         holder.item.language.setOnClickListener {
             val languageWithCode = Pair(
