@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.Log
 import io.reactivex.SingleObserver
 import io.reactivex.disposables.Disposable
-import okhttp3.ResponseBody
 import retrofit2.HttpException
 import siyateagan.example.translatorapp.R
 import siyateagan.example.translatorapp.network.AvailableLanguages
@@ -20,6 +19,7 @@ class LanguagesObserver @Inject constructor(
 ) :
     SingleObserver<AvailableLanguages> {
     val TAG = LanguagesObserver::class.java.simpleName
+    var errorMessage: String? = null
 
     override fun onSuccess(availableLanguages: AvailableLanguages) {
         val sortedLanguages = availableLanguages.langs?.values?.toList()?.sorted()
@@ -40,19 +40,21 @@ class LanguagesObserver @Inject constructor(
     }
 
     override fun onError(e: Throwable) {
-        when (e) {
-            is HttpException -> {
-                val responseBody = e.response()?.code()
-                Log.e(TAG, applicationContext.getString(R.string.http_exception_message) + responseBody)
-            }
-            is SocketTimeoutException -> {
-                Log.e(TAG, applicationContext.getString(R.string.socket_timeout_exception) + e.message)
-            }
-            is IOException -> {
-                Log.e(TAG, applicationContext.getString(R.string.IOException_message) + e.message)
-            }
-            else -> {
-                Log.e(TAG,  applicationContext.getString(R.string.unknown_error)+ e.message)
+        if (recyclerAdapter.isAdapterEmpty()){
+            errorMessage = when (e) {
+                is HttpException -> {
+                    val responseCode = e.response()?.code()
+                    applicationContext.getString(R.string.http_exception_message) + responseCode
+                }
+                is SocketTimeoutException -> {
+                    applicationContext.getString(R.string.socket_timeout_exception)
+                }
+                is IOException -> {
+                    applicationContext.getString(R.string.IOException_message)
+                }
+                else -> {
+                    applicationContext.getString(R.string.unknown_error) + e.message
+                }
             }
         }
     }

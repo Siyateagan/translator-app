@@ -65,4 +65,6 @@ class LanguagesAdapter @Inject constructor() :
         languagesCopy = LinkedHashMap(languagesMap)
         notifyDataSetChanged()
     }
+
+    fun isAdapterEmpty() = languagesMap.isEmpty()
 }
