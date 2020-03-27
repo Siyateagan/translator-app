@@ -13,6 +13,7 @@ import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_select_language.*
 import siyateagan.example.translatorapp.R
 import siyateagan.example.translatorapp.databinding.ActivitySelectLanguageBinding
+import siyateagan.example.translatorapp.network.ResponseStatus
 import siyateagan.example.translatorapp.ui.adapters.LanguagesAdapter
 import siyateagan.example.translatorapp.ui.base.BaseActivity
 import javax.inject.Inject
@@ -76,20 +77,20 @@ class SelectLanguageActivity @Inject constructor() : BaseActivity() {
         } else binding.refreshLayout.isEnabled = false
     }
 
-    private fun displayResult(result: SelectLanguageViewModel.LanguagesResult?) {
+    private fun displayResult(result: ResponseStatus?) {
         when (result) {
-            is SelectLanguageViewModel.LanguagesResult.Loading -> {
+            is ResponseStatus.Loading -> {
                 if (binding.refreshLayout.isEnabled) {
                     binding.refreshLayout.isRefreshing = true
                 }
             }
-            is SelectLanguageViewModel.LanguagesResult.Success -> {
+            is ResponseStatus.Success -> {
                 binding.refreshLayout.isRefreshing = false
                 binding.refreshLayout.isEnabled = false
                 binding.recyclerLanguages.visibility = View.VISIBLE
                 binding.errorLayout.visibility = View.GONE
             }
-            is SelectLanguageViewModel.LanguagesResult.Error -> {
+            is ResponseStatus.Error -> {
                 binding.refreshLayout.isRefreshing = false
                 binding.recyclerLanguages.visibility = View.GONE
                 binding.errorLayout.visibility = View.VISIBLE
