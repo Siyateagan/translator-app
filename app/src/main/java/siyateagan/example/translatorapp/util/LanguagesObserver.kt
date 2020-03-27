@@ -1,7 +1,6 @@
 package siyateagan.example.translatorapp.util
 
 import android.content.Context
-import android.util.Log
 import io.reactivex.SingleObserver
 import io.reactivex.disposables.Disposable
 import retrofit2.HttpException
@@ -20,6 +19,7 @@ class LanguagesObserver @Inject constructor(
     SingleObserver<AvailableLanguages> {
     val TAG = LanguagesObserver::class.java.simpleName
     var errorMessage: String? = null
+    lateinit var disposable: Disposable
 
     override fun onSuccess(availableLanguages: AvailableLanguages) {
         val sortedLanguages = availableLanguages.langs?.values?.toList()?.sorted()
@@ -33,14 +33,15 @@ class LanguagesObserver @Inject constructor(
 
             recyclerAdapter.setLanguages(languagesWithKeys)
         }
+        disposable.dispose()
     }
 
-    override fun onSubscribe(d: Disposable) {
-        Log.e(TAG, "Subscribed")
+    override fun onSubscribe(disposable: Disposable) {
+        this.disposable = disposable
     }
 
     override fun onError(e: Throwable) {
-        if (recyclerAdapter.isAdapterEmpty()){
+        if (recyclerAdapter.isDataAlreadyLoaded()){
             errorMessage = when (e) {
                 is HttpException -> {
                     val responseCode = e.response()?.code()
@@ -57,5 +58,6 @@ class LanguagesObserver @Inject constructor(
                 }
             }
         }
+        disposable.dispose()
     }
 }

@@ -1,5 +1,6 @@
 package siyateagan.example.translatorapp.ui.selectLanguage
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -14,7 +15,8 @@ class SelectLanguageViewModel @Inject constructor(
 ) :
     ViewModel() {
     private val TAG = this::class.java.simpleName
-    var isRefreshing: ObservableVariable<LanguagesResult> = ObservableVariable(LanguagesResult.Loading)
+    var isRefreshing: ObservableVariable<LanguagesResult> =
+        ObservableVariable(LanguagesResult.Loading)
 
     @Inject
     lateinit var languagesObserver: LanguagesObserver
@@ -25,7 +27,7 @@ class SelectLanguageViewModel @Inject constructor(
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSuccess { isRefreshing.value = LanguagesResult.Success }
             .doAfterTerminate {
-                if(isRefreshing.value != LanguagesResult.Success){
+                if (isRefreshing.value != LanguagesResult.Success) {
                     isRefreshing.value = LanguagesResult.Error(languagesObserver.errorMessage)
                 }
             }
@@ -33,7 +35,7 @@ class SelectLanguageViewModel @Inject constructor(
     }
 
     sealed class LanguagesResult {
-        object Loading: LanguagesResult()
+        object Loading : LanguagesResult()
         object Success : LanguagesResult()
         data class Error(val errorMessage: String?) : LanguagesResult()
     }
