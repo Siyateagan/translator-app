@@ -15,6 +15,8 @@
     <string name="pref_languages">Saved languages</string>
     <string name="current_language">Current language</string>
     <string name="current_language_code">Current language code</string>
+    <string name="translation_language">Translation language</string>
+    <string name="translation_language_code">Translation language code</string>
 
     <string name="http_exception_message">Something went wrong, try again later. Error code: </string>
     <string name="unknown_error">"Something went wrong, try again later. Error message: </string>

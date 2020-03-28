@@ -45,6 +45,11 @@ class TextTranslationActivity : BaseNavigationActivity() {
             this.startActivityForResult(intent, 1)
         }
 
+        binding.translationLanguageButton.setOnClickListener {
+            val intent = Intent(this, SelectLanguageActivity::class.java)
+            this.startActivityForResult(intent, 2)
+        }
+
         textTranslationViewModel.setPreviousLanguage()
     }
 
@@ -55,6 +60,6 @@ class TextTranslationActivity : BaseNavigationActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        textTranslationViewModel.setNewInputLanguage(data)
+        textTranslationViewModel.setNewLanguage(requestCode, data)
     }
 }

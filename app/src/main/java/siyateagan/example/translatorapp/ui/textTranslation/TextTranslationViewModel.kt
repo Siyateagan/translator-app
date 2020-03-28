@@ -8,7 +8,6 @@ import androidx.lifecycle.ViewModel
 import siyateagan.example.translatorapp.R
 import javax.inject.Inject
 
-
 class TextTranslationViewModel @Inject constructor() : ViewModel() {
     private val TAG = TextTranslationViewModel::class.java.simpleName
 
@@ -19,29 +18,47 @@ class TextTranslationViewModel @Inject constructor() : ViewModel() {
     lateinit var sharedPref: SharedPreferences
 
     var currentLanguage: ObservableField<String> = ObservableField("Select language")
+    var translationLanguage: ObservableField<String> = ObservableField("Select language")
     private lateinit var currentLanguageCode: String
+    private lateinit var translationLanguageCode: String
 
-    fun setNewInputLanguage(data: Intent?) {
+    fun setNewLanguage(requestCode: Int, data: Intent?) {
         val languageWithCode = data?.getSerializableExtra("languageWithCode") as Pair<*, *>?
 
         if (languageWithCode != null) {
-
-            with(sharedPref.edit()) {
-                putString(
+            lateinit var codeWithLanguage: Pair<String, String>
+            if (requestCode == 1) {
+                codeWithLanguage = Pair(
                     applicationContext.getString(R.string.current_language_code),
-                    languageWithCode.first.toString()
+                    applicationContext.getString(R.string.current_language)
                 )
-                putString(
-                    applicationContext.getString(R.string.current_language),
-                    languageWithCode.second.toString()
+
+                currentLanguageCode = languageWithCode.first.toString()
+                displayLanguage(currentLanguage, languageWithCode)
+            } else {
+                codeWithLanguage = Pair(
+                    applicationContext.getString(R.string.translation_language_code),
+                    applicationContext.getString(R.string.translation_language)
                 )
-                apply()
+
+                translationLanguageCode = languageWithCode.first.toString()
+                displayLanguage(translationLanguage, languageWithCode)
             }
 
-            currentLanguageCode = languageWithCode.first.toString()
-            currentLanguage.set(languageWithCode.second.toString())
-            currentLanguage.notifyChange()
+            with(sharedPref.edit()) {
+                putString(codeWithLanguage.first, languageWithCode.first.toString())
+                putString(codeWithLanguage.second, languageWithCode.second.toString())
+                apply()
+            }
         }
+    }
+
+    private fun displayLanguage(
+        observableLanguage: ObservableField<String>,
+        languageWithCode: Pair<*, *>?
+    ) {
+        observableLanguage.set(languageWithCode?.second.toString())
+        observableLanguage.notifyChange()
     }
 
     /**
@@ -50,14 +67,22 @@ class TextTranslationViewModel @Inject constructor() : ViewModel() {
      * since applicationContext has not yet been initialized.
      */
     fun setPreviousLanguage() {
-        val savedLanguage =
+        val currentCodeAndLanguage = Pair(
+            sharedPref.getString(applicationContext.getString(R.string.current_language_code), ""),
             sharedPref.getString(applicationContext.getString(R.string.current_language), "")
-        val savedLanguageCode =
-            sharedPref.getString(applicationContext.getString(R.string.current_language_code), "")
+        )
+        val translationCodeAndLanguage = Pair(
+            sharedPref.getString(applicationContext.getString(R.string.translation_language_code), ""),
+            sharedPref.getString(applicationContext.getString(R.string.translation_language), "")
+        )
 
-        if (!savedLanguage.isNullOrBlank() && savedLanguage != "null") {
-            currentLanguage.set(savedLanguage)
-            currentLanguageCode = savedLanguageCode!!
+        if (!currentCodeAndLanguage.second.isNullOrBlank() && currentCodeAndLanguage.second != "null") {
+            currentLanguage.set(currentCodeAndLanguage.second)
+            currentLanguageCode = currentCodeAndLanguage.first!!
+        }
+        if (!translationCodeAndLanguage.second.isNullOrBlank() && translationCodeAndLanguage.second != "null") {
+            translationLanguage.set(translationCodeAndLanguage.second)
+            translationLanguageCode = translationCodeAndLanguage.first!!
         }
     }
 }
