@@ -19,7 +19,7 @@ class LanguagesAdapter @Inject constructor() :
     RecyclerView.Adapter<LanguagesAdapter.MyViewHolder>() {
     class MyViewHolder(val item: View) : RecyclerView.ViewHolder(item)
 
-    private val languagesMap = LinkedHashMap<String, String>()
+    private var languagesMap = LinkedHashMap<String, String>()
     private var languagesCopy: LinkedHashMap<String, String> = LinkedHashMap(languagesMap)
 
     override fun onCreateViewHolder(
@@ -57,6 +57,10 @@ class LanguagesAdapter @Inject constructor() :
                 languagesMap[ArrayList(languagesCopy.keys)[index]] = language
         }
         notifyDataSetChanged()
+    }
+
+    fun resetAdapterValues(){
+        languagesMap = LinkedHashMap(languagesCopy)
     }
 
     fun setLanguages(languages: LinkedHashMap<String, String>) {

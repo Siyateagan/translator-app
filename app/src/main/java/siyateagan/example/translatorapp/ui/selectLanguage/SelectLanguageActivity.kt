@@ -102,5 +102,6 @@ class SelectLanguageActivity @Inject constructor() : BaseActivity() {
     override fun onDestroy() {
         super.onDestroy()
         disposables.dispose()
+        recyclerAdapter.resetAdapterValues()
     }
 }
