@@ -2,6 +2,7 @@ package siyateagan.example.translatorapp.ui.textTranslation
 
 import android.content.Intent
 import android.content.SharedPreferences
+import android.util.Log
 import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
 import siyateagan.example.translatorapp.util.StringsHelper
@@ -15,8 +16,8 @@ class TextTranslationViewModel @Inject constructor(
 
     var currentLanguage: ObservableField<String> = ObservableField("Select language")
     var targetLanguage: ObservableField<String> = ObservableField("Select language")
-    private lateinit var currentLanguageCode: String
-    private lateinit var targetLanguageCode: String
+    private var currentLanguageCode: String? = null
+    private var targetLanguageCode: String? = null
 
     fun setNewLanguage(requestCode: Int, data: Intent?) {
         val languageWithCode = data?.getSerializableExtra("languageWithCode") as Pair<*, *>?
@@ -76,7 +77,7 @@ class TextTranslationViewModel @Inject constructor(
     }
 
     private fun checkPair(pair: Pair<String?, String?>, directionName: LanguagesDirection) {
-        if (!pair.second.isNullOrBlank() && pair.second != "null") {
+        if (!pair.second.isNullOrBlank()) {
             when (directionName) {
                 LanguagesDirection.CURRENT -> {
                     currentLanguage.set(pair.second)
@@ -88,5 +89,12 @@ class TextTranslationViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    fun swapLanguages() {
+        currentLanguage = targetLanguage.also { targetLanguage = currentLanguage }
+        currentLanguageCode = targetLanguageCode.also { targetLanguageCode = currentLanguageCode }
+        currentLanguage.notifyChange()
+        targetLanguage.notifyChange()
     }
 }

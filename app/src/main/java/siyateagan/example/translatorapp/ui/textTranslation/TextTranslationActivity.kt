@@ -50,6 +50,10 @@ class TextTranslationActivity : BaseNavigationActivity() {
             this.startActivityForResult(intent, 2)
         }
 
+        binding.swapLanguagesButton.setOnClickListener {
+            textTranslationViewModel.swapLanguages()
+        }
+
         textTranslationViewModel.setPreviousLanguages()
     }
 
