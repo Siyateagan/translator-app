@@ -50,7 +50,7 @@ class TextTranslationActivity : BaseNavigationActivity() {
             this.startActivityForResult(intent, 2)
         }
 
-        textTranslationViewModel.setPreviousLanguage()
+        textTranslationViewModel.setPreviousLanguages()
     }
 
     private fun setKeyboardDoneButton() {
