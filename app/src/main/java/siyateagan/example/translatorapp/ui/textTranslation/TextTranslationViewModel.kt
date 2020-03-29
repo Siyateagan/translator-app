@@ -2,7 +2,6 @@ package siyateagan.example.translatorapp.ui.textTranslation
 
 import android.content.Intent
 import android.content.SharedPreferences
-import android.util.Log
 import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
 import siyateagan.example.translatorapp.util.StringsHelper
@@ -20,28 +19,28 @@ class TextTranslationViewModel @Inject constructor(
     private var targetLanguageCode: String? = null
 
     fun setNewLanguage(requestCode: Int, data: Intent?) {
-        val languageWithCode = data?.getSerializableExtra("languageWithCode") as Pair<*, *>?
-        if (languageWithCode != null) {
-            lateinit var codeWithLanguage: Pair<String, String>
-            if (requestCode == 1) {
-                codeWithLanguage =
-                    Pair(stringsHelper.getCurrentLanguageCode(), stringsHelper.getCurrentLanguage())
+        val languageWithCode =
+            data?.getSerializableExtra("languageWithCode") as Pair<*, *>? ?: return
 
-                currentLanguageCode = languageWithCode.first.toString()
-                displayLanguage(currentLanguage, languageWithCode)
-            } else {
-                codeWithLanguage =
-                    Pair(stringsHelper.getTargetLanguageCode(), stringsHelper.getTargetLanguage())
+        lateinit var codeWithLanguage: Pair<String, String>
+        if (requestCode == 1) {
+            codeWithLanguage =
+                Pair(stringsHelper.getCurrentLanguageCode(), stringsHelper.getCurrentLanguage())
 
-                targetLanguageCode = languageWithCode.first.toString()
-                displayLanguage(targetLanguage, languageWithCode)
-            }
+            currentLanguageCode = languageWithCode.first.toString()
+            displayLanguage(currentLanguage, languageWithCode)
+        } else {
+            codeWithLanguage =
+                Pair(stringsHelper.getTargetLanguageCode(), stringsHelper.getTargetLanguage())
 
-            with(sharedPref.edit()) {
-                putString(codeWithLanguage.first, languageWithCode.first.toString())
-                putString(codeWithLanguage.second, languageWithCode.second.toString())
-                apply()
-            }
+            targetLanguageCode = languageWithCode.first.toString()
+            displayLanguage(targetLanguage, languageWithCode)
+        }
+
+        with(sharedPref.edit()) {
+            putString(codeWithLanguage.first, languageWithCode.first.toString())
+            putString(codeWithLanguage.second, languageWithCode.second.toString())
+            apply()
         }
     }
 
@@ -77,16 +76,15 @@ class TextTranslationViewModel @Inject constructor(
     }
 
     private fun checkPair(pair: Pair<String?, String?>, directionName: LanguagesDirection) {
-        if (!pair.second.isNullOrBlank()) {
-            when (directionName) {
-                LanguagesDirection.CURRENT -> {
-                    currentLanguage.set(pair.second)
-                    currentLanguageCode = pair.first!!
-                }
-                LanguagesDirection.TARGET -> {
-                    targetLanguage.set(pair.second)
-                    targetLanguageCode = pair.first!!
-                }
+        if (pair.second.isNullOrBlank()) return
+        when (directionName) {
+            LanguagesDirection.CURRENT -> {
+                currentLanguage.set(pair.second)
+                currentLanguageCode = pair.first!!
+            }
+            LanguagesDirection.TARGET -> {
+                targetLanguage.set(pair.second)
+                targetLanguageCode = pair.first!!
             }
         }
     }
