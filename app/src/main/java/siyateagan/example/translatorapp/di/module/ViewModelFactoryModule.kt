@@ -3,7 +3,7 @@ package siyateagan.example.translatorapp.di.module
 import androidx.lifecycle.ViewModelProvider
 import dagger.Binds
 import dagger.Module
-import siyateagan.example.translatorapp.factory.ViewModelFactory
+import siyateagan.example.translatorapp.di.ViewModelFactory
 
 @Module
 abstract class ViewModelFactoryModule {

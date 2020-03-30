@@ -1,4 +1,4 @@
-package siyateagan.example.translatorapp.factory
+package siyateagan.example.translatorapp.di
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
