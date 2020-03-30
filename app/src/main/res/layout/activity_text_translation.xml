@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="siyateagan.example.translatorapp.ui.textTranslation.TextTranslationViewModel" />
@@ -102,10 +103,8 @@
                     app:layout_constraintTop_toBottomOf="@+id/select_languages_layout">
 
                     <EditText
-                        android:id="@+id/input_text"
+                        android:id="@+id/edit_text_to_translate"
                         style="@style/InputEditText"
-                        android:layout_marginStart="@dimen/margin_16dp"
-                        android:layout_marginEnd="@dimen/margin_16dp"
                         android:hint="@string/start_typing_or_paste_here"
                         android:importantForAutofill="no"
                         app:layout_constraintBottom_toTopOf="@+id/translated_text"
@@ -117,14 +116,17 @@
 
                     <TextView
                         android:id="@+id/translated_text"
+                        style="@style/DefaultText"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        android:padding="@dimen/padding_16dp"
+                        android:text="@{viewModel.translatedText}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.5"
+                        android:layout_marginStart="18dp"
+                        android:layout_marginEnd="18dp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/input_text"
+                        app:layout_constraintTop_toBottomOf="@+id/edit_text_to_translate"
                         app:layout_constraintVertical_weight="2" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

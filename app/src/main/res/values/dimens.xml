@@ -7,6 +7,7 @@
 
     <dimen name="list_title">16sp</dimen>
     <dimen name="list_text">14sp</dimen>
+    <dimen name="defalt_text">16sp</dimen>
 
     <dimen name="default_icon_24dp">24dp</dimen>
 

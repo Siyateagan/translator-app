@@ -2,21 +2,28 @@ package siyateagan.example.translatorapp.ui.textTranslation
 
 import android.content.Intent
 import android.content.SharedPreferences
+import android.util.Log
 import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
+import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
+import io.reactivex.schedulers.Schedulers
+import siyateagan.example.translatorapp.network.YandexService
 import siyateagan.example.translatorapp.util.StringsHelper
 import javax.inject.Inject
 
 class TextTranslationViewModel @Inject constructor(
     private val sharedPref: SharedPreferences,
-    private val stringsHelper: StringsHelper
+    private val stringsHelper: StringsHelper,
+    private val yandexService: YandexService
 ) : ViewModel() {
     private val TAG = TextTranslationViewModel::class.java.simpleName
 
-    var currentLanguage: ObservableField<String> = ObservableField("Select language")
-    var targetLanguage: ObservableField<String> = ObservableField("Select language")
+    var currentLanguage = ObservableField("Select language")
+    var targetLanguage = ObservableField("Select language")
     private var currentLanguageCode: String? = null
     private var targetLanguageCode: String? = null
+
+    var translatedText = ObservableField("")
 
     fun setNewLanguage(requestCode: Int, data: Intent?) {
         val languageWithCode =
@@ -94,5 +101,16 @@ class TextTranslationViewModel @Inject constructor(
         currentLanguageCode = targetLanguageCode.also { targetLanguageCode = currentLanguageCode }
         currentLanguage.notifyChange()
         targetLanguage.notifyChange()
+    }
+
+    fun translateText(text: String){
+        val translateDirection = "$currentLanguageCode-$targetLanguageCode"
+
+        Log.e(TAG, "$text $translateDirection")
+        val disposable = yandexService.translate(text, translateDirection)
+            .subscribeOn(Schedulers.io())
+            .observeOn(mainThread())
+            .subscribe({ result -> translatedText.set(result.text[0])},
+                {error -> Log.e(TAG, "ERROR: ${error.message}")})
     }
 }

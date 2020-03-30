@@ -38,16 +38,20 @@
         <item name="android:background">@color/gray</item>
     </style>
 
-    <style name="InputEditText">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">0dp</item>
-        <item name="android:fontFamily">@font/roboto</item>
-        <item name="android:gravity">top</item>
-        <item name="android:inputType">textMultiLine</item>
+    <style name="DefaultText">
+        <item name="android:textColor">@color/primaryText</item>
         <item name="android:layout_marginStart">@dimen/margin_16dp</item>
         <item name="android:layout_marginEnd">@dimen/margin_16dp</item>
+        <item name="android:fontFamily">@font/roboto</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="InputEditText" parent="DefaultText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:gravity">top</item>
+        <item name="android:inputType">textMultiLine</item>
         <item name="android:scrollHorizontally">false</item>
-        <item name="android:textColor">@color/primaryText</item>
     </style>
 
     <style name="SearchView">

@@ -7,11 +7,11 @@ import android.view.inputmethod.EditorInfo
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import dagger.android.AndroidInjection
-import kotlinx.android.synthetic.main.activity_text_translation.*
 import siyateagan.example.translatorapp.R
 import siyateagan.example.translatorapp.databinding.ActivityTextTranslationBinding
 import siyateagan.example.translatorapp.ui.base.BaseNavigationActivity
 import siyateagan.example.translatorapp.ui.selectLanguage.SelectLanguageActivity
+import siyateagan.example.translatorapp.util.afterTextChanged
 import javax.inject.Inject
 
 
@@ -55,11 +55,15 @@ class TextTranslationActivity : BaseNavigationActivity() {
         }
 
         textTranslationViewModel.setPreviousLanguages()
+
+        binding.editTextToTranslate.afterTextChanged {
+            textTranslationViewModel.translateText(it)
+        }
     }
 
     private fun setKeyboardDoneButton() {
-        input_text.imeOptions = EditorInfo.IME_ACTION_DONE
-        input_text.setRawInputType(InputType.TYPE_CLASS_TEXT)
+        binding.editTextToTranslate.imeOptions = EditorInfo.IME_ACTION_DONE
+        binding.editTextToTranslate.setRawInputType(InputType.TYPE_CLASS_TEXT)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
