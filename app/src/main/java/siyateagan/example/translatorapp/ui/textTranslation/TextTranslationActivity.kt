@@ -60,6 +60,11 @@ class TextTranslationActivity : BaseNavigationActivity() {
             if (it.isNotBlank()) textTranslationViewModel.translateText(it)
             else textTranslationViewModel.clearTranslatedText()
         }
+
+        binding.buttonClear.setOnClickListener {
+            textTranslationViewModel.clearTranslatedText()
+            binding.editTextToTranslate.text = null
+        }
     }
 
     private fun setKeyboardDoneButton() {
