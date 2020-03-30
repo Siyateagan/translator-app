@@ -57,7 +57,8 @@ class TextTranslationActivity : BaseNavigationActivity() {
         textTranslationViewModel.setPreviousLanguages()
 
         binding.editTextToTranslate.afterTextChangedDelayed {
-            textTranslationViewModel.translateText(it)
+            if (it.isNotBlank()) textTranslationViewModel.translateText(it)
+            else textTranslationViewModel.clearTranslatedText()
         }
     }
 

@@ -113,4 +113,8 @@ class TextTranslationViewModel @Inject constructor(
             .subscribe({ result -> translatedText.set(result.text[0])},
                 {error -> Log.e(TAG, "ERROR: ${error.message}")})
     }
+
+    fun clearTranslatedText() {
+        translatedText.set("")
+    }
 }

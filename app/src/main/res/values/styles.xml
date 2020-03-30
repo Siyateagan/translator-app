@@ -38,7 +38,7 @@
         <item name="android:background">@color/gray</item>
     </style>
 
-    <style name="DefaultText">
+    <style name="TranslateText">
         <item name="android:textColor">@color/primaryText</item>
         <item name="android:layout_marginStart">@dimen/margin_16dp</item>
         <item name="android:layout_marginEnd">@dimen/margin_16dp</item>
@@ -46,7 +46,7 @@
         <item name="android:textSize">18sp</item>
     </style>
 
-    <style name="InputEditText" parent="DefaultText">
+    <style name="InputEditText" parent="TranslateText">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">0dp</item>
         <item name="android:gravity">top</item>
