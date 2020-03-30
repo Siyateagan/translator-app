@@ -13,4 +13,12 @@ interface YandexTranslateApi {
         @Query("key") apiKey: String?,
         @Query("ui") uiLangCode: String?
     ): Single<AvailableLanguages>
+
+    @GET("v1.5/tr.json/translate")
+    fun translate(
+        @Query("key") apiKey: String?,
+        @Query("text") textToTranslate: String?,
+        @Query("lang") translateDirection: String?,
+        @Query("format") format: String?
+    ): Single<TranslatedText>
 }

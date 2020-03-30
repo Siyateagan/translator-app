@@ -10,4 +10,8 @@ class YandexService @Inject constructor(private val yandexTranslateApi: YandexTr
     fun getLangs(uiLangCode: String?): Single<AvailableLanguages> {
         return yandexTranslateApi.getLanguages(API_KEY, uiLangCode)
     }
+
+    fun translate(textToTranslate: String, translateDirection: String): Single<TranslatedText> {
+        return yandexTranslateApi.translate(API_KEY, textToTranslate, translateDirection, "plain")
+    }
 }

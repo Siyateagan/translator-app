@@ -5,3 +5,7 @@ package siyateagan.example.translatorapp.network
  */
 
 data class AvailableLanguages(var langs: LinkedHashMap<String, String>?)
+data class TranslatedText(
+    val code: Int,
+    val lang: String,
+    val text: List<String>)
