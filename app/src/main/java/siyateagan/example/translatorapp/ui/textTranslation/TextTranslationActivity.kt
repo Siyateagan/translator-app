@@ -11,7 +11,7 @@ import siyateagan.example.translatorapp.R
 import siyateagan.example.translatorapp.databinding.ActivityTextTranslationBinding
 import siyateagan.example.translatorapp.ui.base.BaseNavigationActivity
 import siyateagan.example.translatorapp.ui.selectLanguage.SelectLanguageActivity
-import siyateagan.example.translatorapp.util.afterTextChanged
+import siyateagan.example.translatorapp.util.afterTextChangedDelayed
 import javax.inject.Inject
 
 
@@ -56,7 +56,7 @@ class TextTranslationActivity : BaseNavigationActivity() {
 
         textTranslationViewModel.setPreviousLanguages()
 
-        binding.editTextToTranslate.afterTextChanged {
+        binding.editTextToTranslate.afterTextChangedDelayed {
             textTranslationViewModel.translateText(it)
         }
     }
