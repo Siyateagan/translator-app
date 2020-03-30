@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 
 class LanguagesObserver @Inject constructor(
-    private val recyclerAdapter: LanguagesAdapter,
+    private var recyclerAdapter: LanguagesAdapter,
     var applicationContext: Context
 ) :
     SingleObserver<AvailableLanguages> {
@@ -22,17 +22,11 @@ class LanguagesObserver @Inject constructor(
     lateinit var disposable: Disposable
 
     override fun onSuccess(availableLanguages: AvailableLanguages) {
-        val sortedLanguages = availableLanguages.langs?.values?.toList()?.sorted()
-        val languagesWithKeys = LinkedHashMap<String, String>()
+        val sortedLangs: LinkedHashMap<String, String> = availableLanguages.langs?.toList()
+            ?.sortedBy { (_, value) -> value }
+            ?.toMap() as LinkedHashMap<String, String>
 
-        availableLanguages.langs?.let {
-            for (index in 0 until it.keys.size) {
-                languagesWithKeys[ArrayList(it.keys)[index]] =
-                    sortedLanguages?.get(index).toString()
-            }
-
-            recyclerAdapter.setLanguages(languagesWithKeys)
-        }
+        recyclerAdapter.setLanguages(sortedLangs)
         disposable.dispose()
     }
 
