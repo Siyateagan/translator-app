@@ -72,5 +72,9 @@ class TextTranslationActivity : BaseNavigationActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         textTranslationViewModel.setNewLanguage(requestCode, data)
+
+        val enteredText = binding.editTextToTranslate.text.toString()
+        if (enteredText.isNotBlank())
+            textTranslationViewModel.translateText(enteredText)
     }
 }
