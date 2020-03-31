@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import dagger.android.AndroidInjection
 import io.reactivex.disposables.CompositeDisposable
-import kotlinx.android.synthetic.main.activity_select_language.*
 import siyateagan.example.translatorapp.R
 import siyateagan.example.translatorapp.databinding.ActivitySelectLanguageBinding
 import siyateagan.example.translatorapp.network.ResponseStatus
@@ -30,7 +29,7 @@ class SelectLanguageActivity @Inject constructor() : BaseActivity() {
 
     private lateinit var selectLanguageViewModel: SelectLanguageViewModel
 
-    private lateinit var recyclerView: RecyclerView
+    private lateinit var languagesRecycler: RecyclerView
     private lateinit var viewManager: RecyclerView.LayoutManager
 
     private lateinit var binding: ActivitySelectLanguageBinding
@@ -48,55 +47,75 @@ class SelectLanguageActivity @Inject constructor() : BaseActivity() {
         selectLanguageViewModel =
             ViewModelProvider(this, viewModelFactory).get(SelectLanguageViewModel::class.java)
 
+        setLanguagesRecycler()
+        setSearchViewQuerySettings(binding.searchView, recyclerAdapter)
+
+        if (recyclerAdapter.isAdapterEmpty()) loadLanguages()
+        else binding.refreshLayout.isEnabled = false
+    }
+
+    private fun setLanguagesRecycler() {
         viewManager = LinearLayoutManager(this)
         val itemDecor = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
-        recyclerView = recycler_languages.apply {
+
+        languagesRecycler = binding.recyclerLanguages.apply {
             layoutManager = viewManager
             addItemDecoration(itemDecor)
         }
-
-        recyclerView.adapter = recyclerAdapter
-        setSearchViewQuerySettings(binding.searchView, recyclerAdapter)
-
-        if (recyclerAdapter.isDataAlreadyLoaded()) {
-            val languagesDisposable = selectLanguageViewModel.isRefreshing.observable.subscribe {
-                displayResult(it)
-            }
-            disposables.add(languagesDisposable)
-
-            val swipeRefreshListener = OnRefreshListener {
-                selectLanguageViewModel.getLanguages()
-            }
-
-            binding.refreshLayout.setOnRefreshListener(swipeRefreshListener)
-
-            binding.refreshLayout.post {
-                binding.refreshLayout.isRefreshing = true
-                swipeRefreshListener.onRefresh()
-            }
-        } else binding.refreshLayout.isEnabled = false
+        languagesRecycler.adapter = recyclerAdapter
     }
 
-    private fun displayResult(result: ResponseStatus?) {
-        when (result) {
-            is ResponseStatus.Loading -> {
-                if (binding.refreshLayout.isEnabled) {
-                    binding.refreshLayout.isRefreshing = true
-                }
+    private fun loadLanguages() {
+        val languagesDisposable =
+            selectLanguageViewModel.isRefreshing.observable.subscribe {
+                handleResult(it)
             }
-            is ResponseStatus.Success -> {
-                binding.refreshLayout.isRefreshing = false
-                binding.refreshLayout.isEnabled = false
-                binding.recyclerLanguages.visibility = View.VISIBLE
-                binding.errorLayout.visibility = View.GONE
-            }
-            is ResponseStatus.Error -> {
-                binding.refreshLayout.isRefreshing = false
-                binding.recyclerLanguages.visibility = View.GONE
-                binding.errorLayout.visibility = View.VISIBLE
-                binding.textErrorMessage.text = result.errorMessage
-            }
+        disposables.add(languagesDisposable)
+
+        initShowLoading()
+    }
+
+    private fun initShowLoading() {
+        val swipeRefreshListener = setRefreshListener()
+        binding.refreshLayout.post {
+            binding.refreshLayout.isRefreshing = true
+            swipeRefreshListener.onRefresh()
         }
+    }
+
+    private fun handleResult(result: ResponseStatus?) {
+        when (result) {
+            is ResponseStatus.Loading -> showLoading()
+            is ResponseStatus.Success -> showLanguages()
+            is ResponseStatus.Error -> showError(result.errorMessage)
+        }
+    }
+
+    private fun setRefreshListener(): OnRefreshListener {
+        val swipeRefreshListener = OnRefreshListener {
+            selectLanguageViewModel.getLanguages()
+        }
+        binding.refreshLayout.setOnRefreshListener(swipeRefreshListener)
+        return swipeRefreshListener
+    }
+
+    private fun showLoading() {
+        if (!binding.refreshLayout.isEnabled) return
+        binding.refreshLayout.isRefreshing = true
+    }
+
+    private fun showLanguages() {
+        binding.refreshLayout.isRefreshing = false
+        binding.refreshLayout.isEnabled = false
+        binding.recyclerLanguages.visibility = View.VISIBLE
+        binding.errorLayout.visibility = View.GONE
+    }
+
+    private fun showError(error: String?) {
+        binding.refreshLayout.isRefreshing = false
+        binding.recyclerLanguages.visibility = View.GONE
+        binding.errorLayout.visibility = View.VISIBLE
+        binding.textErrorMessage.text = error
     }
 
     override fun onDestroy() {

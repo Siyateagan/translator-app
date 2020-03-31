@@ -69,5 +69,5 @@ class LanguagesAdapter @Inject constructor() :
         notifyDataSetChanged()
     }
 
-    fun isDataAlreadyLoaded() = languagesMap.isEmpty()
+    fun isAdapterEmpty() = languagesMap.isEmpty()
 }

@@ -35,7 +35,7 @@ class LanguagesObserver @Inject constructor(
     }
 
     override fun onError(e: Throwable) {
-        if (recyclerAdapter.isDataAlreadyLoaded()){
+        if (recyclerAdapter.isAdapterEmpty()){
             errorMessage = when (e) {
                 is HttpException -> {
                     val responseCode = e.response()?.code()
