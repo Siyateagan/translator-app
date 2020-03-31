@@ -3,6 +3,7 @@ package siyateagan.example.translatorapp.ui.textTranslation
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
@@ -40,16 +41,6 @@ class TextTranslationActivity : BaseNavigationActivity() {
 
         binding.viewModel = textTranslationViewModel
 
-        binding.inputLanguageButton.setOnClickListener {
-            val intent = Intent(this, SelectLanguageActivity::class.java)
-            this.startActivityForResult(intent, 1)
-        }
-
-        binding.translationLanguageButton.setOnClickListener {
-            val intent = Intent(this, SelectLanguageActivity::class.java)
-            this.startActivityForResult(intent, 2)
-        }
-
         binding.swapLanguagesButton.setOnClickListener {
             textTranslationViewModel.swapLanguages()
         }
@@ -70,6 +61,12 @@ class TextTranslationActivity : BaseNavigationActivity() {
     private fun setKeyboardDoneButton() {
         binding.editTextToTranslate.imeOptions = EditorInfo.IME_ACTION_DONE
         binding.editTextToTranslate.setRawInputType(InputType.TYPE_CLASS_TEXT)
+    }
+
+    fun setLanguage(view: View) {
+        val intent = Intent(this, SelectLanguageActivity::class.java)
+        val requestCode: Int = if (view.id == binding.inputLanguageButton.id) 1 else 2
+        this.startActivityForResult(intent, requestCode)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

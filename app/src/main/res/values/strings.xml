@@ -23,4 +23,5 @@
     <string name="IOException_message">Looks like you have an unstable network at the moment, please try again when network stabilizes</string>
     <string name="socket_timeout_exception">Looks like the server is taking to long to respond, please try again in sometime</string>
     <string name="error_image">Error image</string>
+    <string name="clear_text">Clear text</string>
 </resources>

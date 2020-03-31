@@ -56,6 +56,7 @@
                     <Button
                         android:id="@+id/input_language_button"
                         style="@style/LanguageButton"
+                        android:onClick="setLanguage"
                         android:text="@={viewModel.currentLanguage}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/swap_languages_button"
@@ -71,14 +72,15 @@
                         android:contentDescription="@string/swap_languages"
                         android:src="@drawable/ic_swap"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/translation_language_button"
+                        app:layout_constraintEnd_toStartOf="@+id/target_language_button"
                         app:layout_constraintHorizontal_bias="0.5"
                         app:layout_constraintStart_toEndOf="@+id/input_language_button"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <Button
-                        android:id="@+id/translation_language_button"
+                        android:id="@+id/target_language_button"
                         style="@style/LanguageButton"
+                        android:onClick="setLanguage"
                         android:text="@={viewModel.targetLanguage}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -122,15 +124,16 @@
                         android:background="@android:color/transparent"
                         android:src="@drawable/ic_clear_24dp"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:contentDescription="@string/clear_text" />
 
                     <View
                         android:id="@+id/text_divider"
                         style="@style/DividerColored"
-                        app:layout_constraintBottom_toBottomOf="@+id/edit_text_to_translate"
-                        app:layout_constraintEnd_toEndOf="parent"
                         android:layout_marginStart="4dp"
                         android:layout_marginEnd="4dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/edit_text_to_translate"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/edit_text_to_translate" />
 
