@@ -43,17 +43,17 @@ class TextTranslationActivity : BaseNavigationActivity() {
 
         binding.swapLanguagesButton.setOnClickListener {
             textTranslationViewModel.swapLanguages()
+            textTranslationViewModel.translateText()
         }
 
         textTranslationViewModel.setPreviousLanguages()
 
         binding.editTextToTranslate.afterTextChangedDelayed {
-            if (it.isNotBlank()) textTranslationViewModel.translateText(it)
-            else textTranslationViewModel.clearTranslatedText()
+            textTranslationViewModel.translateText()
         }
 
         binding.buttonClear.setOnClickListener {
-            textTranslationViewModel.clearTranslatedText()
+            textTranslationViewModel.translatedText.set("")
             binding.editTextToTranslate.text = null
         }
     }
@@ -72,9 +72,6 @@ class TextTranslationActivity : BaseNavigationActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         textTranslationViewModel.setNewLanguage(requestCode, data)
-
-        val enteredText = binding.editTextToTranslate.text.toString()
-        if (enteredText.isNotBlank())
-            textTranslationViewModel.translateText(enteredText)
+        textTranslationViewModel.translateText()
     }
 }

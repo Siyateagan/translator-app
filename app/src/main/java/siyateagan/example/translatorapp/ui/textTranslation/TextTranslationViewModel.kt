@@ -24,6 +24,7 @@ class TextTranslationViewModel @Inject constructor(
     private var targetLanguageCode: String? = null
 
     var translatedText = ObservableField("")
+    var textToTranslate: String? = null
 
     fun setNewLanguage(requestCode: Int, data: Intent?) {
         val languageWithCode =
@@ -103,18 +104,18 @@ class TextTranslationViewModel @Inject constructor(
         targetLanguage.notifyChange()
     }
 
-    fun translateText(text: String){
+    fun translateText(){
+        if (textToTranslate.isNullOrBlank()) {
+            translatedText.set("")
+            return
+        }
         val translateDirection = "$currentLanguageCode-$targetLanguageCode"
 
-        Log.e(TAG, "$text $translateDirection")
-        val disposable = yandexService.translate(text, translateDirection)
+        Log.e(TAG, "$textToTranslate $translateDirection")
+        val disposable = yandexService.translate(textToTranslate!!, translateDirection)
             .subscribeOn(Schedulers.io())
             .observeOn(mainThread())
             .subscribe({ result -> translatedText.set(result.text[0])},
                 {error -> Log.e(TAG, "ERROR: ${error.message}")})
-    }
-
-    fun clearTranslatedText() {
-        translatedText.set("")
     }
 }

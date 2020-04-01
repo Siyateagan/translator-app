@@ -110,6 +110,7 @@
                         android:background="@android:color/transparent"
                         android:hint="@string/start_typing_or_paste_here"
                         android:importantForAutofill="no"
+                        android:text="@={viewModel.textToTranslate}"
                         app:layout_constraintBottom_toTopOf="@+id/translated_text"
                         app:layout_constraintEnd_toStartOf="@+id/button_clear"
                         app:layout_constraintStart_toStartOf="parent"
