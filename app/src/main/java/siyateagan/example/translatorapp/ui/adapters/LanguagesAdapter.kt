@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_language.view.*
 import siyateagan.example.translatorapp.R
+import siyateagan.example.translatorapp.util.ParcelablePair
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -35,9 +36,11 @@ class LanguagesAdapter @Inject constructor() :
 
         holder.item.language.text = ArrayList(languagesMap.values)[position]
         holder.item.language.setOnClickListener {
-            val languageWithCode = Pair(
-                ArrayList(languagesMap.keys)[position],
-                ArrayList(languagesMap.values)[position]
+            val languageWithCode = ParcelablePair(
+                Pair(
+                    ArrayList(languagesMap.keys)[position],
+                    ArrayList(languagesMap.values)[position]
+                )
             )
             val intent = Intent().putExtra("languageWithCode", languageWithCode)
             (context as Activity).setResult(1, intent)
@@ -58,7 +61,7 @@ class LanguagesAdapter @Inject constructor() :
         notifyDataSetChanged()
     }
 
-    fun resetAdapterValues(){
+    fun resetAdapterValues() {
         languagesMap = LinkedHashMap(languagesCopy)
     }
 

@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
 import io.reactivex.schedulers.Schedulers
 import siyateagan.example.translatorapp.network.YandexService
+import siyateagan.example.translatorapp.util.ParcelablePair
 import siyateagan.example.translatorapp.util.StringsHelper
 import javax.inject.Inject
 
@@ -27,27 +28,27 @@ class TextTranslationViewModel @Inject constructor(
     var textToTranslate: String? = null
 
     fun setNewLanguage(requestCode: Int, data: Intent?) {
-        val languageWithCode =
-            data?.getSerializableExtra("languageWithCode") as Pair<*, *>? ?: return
+        val codeWithLanguage:Pair<String, String> =
+            data?.getParcelableExtra<ParcelablePair<String, String>>("languageWithCode")?.pair ?: return
 
-        lateinit var codeWithLanguage: Pair<String, String>
+        lateinit var codeWithLanguageStrings: Pair<String, String>
         if (requestCode == 1) {
-            codeWithLanguage =
+            codeWithLanguageStrings =
                 Pair(stringsHelper.getCurrentLanguageCode(), stringsHelper.getCurrentLanguage())
 
-            currentLanguageCode = languageWithCode.first.toString()
-            displayLanguage(currentLanguage, languageWithCode)
+            currentLanguageCode = codeWithLanguage.first
+            displayLanguage(currentLanguage, codeWithLanguage)
         } else {
-            codeWithLanguage =
+            codeWithLanguageStrings =
                 Pair(stringsHelper.getTargetLanguageCode(), stringsHelper.getTargetLanguage())
 
-            targetLanguageCode = languageWithCode.first.toString()
-            displayLanguage(targetLanguage, languageWithCode)
+            targetLanguageCode = codeWithLanguage.first
+            displayLanguage(targetLanguage, codeWithLanguage)
         }
 
         with(sharedPref.edit()) {
-            putString(codeWithLanguage.first, languageWithCode.first.toString())
-            putString(codeWithLanguage.second, languageWithCode.second.toString())
+            putString(codeWithLanguageStrings.first, codeWithLanguage.first)
+            putString(codeWithLanguageStrings.second, codeWithLanguage.second)
             apply()
         }
     }
