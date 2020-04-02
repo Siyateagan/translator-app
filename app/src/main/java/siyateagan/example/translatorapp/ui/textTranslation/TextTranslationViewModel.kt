@@ -19,10 +19,9 @@ class TextTranslationViewModel @Inject constructor(
 ) : ViewModel() {
     private val TAG = TextTranslationViewModel::class.java.simpleName
 
-    var currentLanguage = ObservableField("Select language")
-    var targetLanguage = ObservableField("Select language")
-    private var currentLanguageCode: String? = null
-    private var targetLanguageCode: String? = null
+    var currentButton = LanguageButton(stringsHelper.getCurrentLanguage(), sharedPref, stringsHelper)
+    var targetButton = LanguageButton(stringsHelper.getTargetLanguage(), sharedPref, stringsHelper)
+    lateinit var buttonForWork: LanguageButton
 
     var translatedText = ObservableField("")
     var textToTranslate: String? = null
@@ -32,25 +31,11 @@ class TextTranslationViewModel @Inject constructor(
             data?.getParcelableExtra<ParcelablePair<String, String>>("languageWithCode")?.pair
                 ?: return
 
-        val codeWithLanguageStrings: Pair<String, String> = getLanguagesStrings(requestCode)
+        buttonForWork = if (requestCode == 1) currentButton else targetButton
+        buttonForWork.setLanguage(codeWithLanguage)
+
+        val codeWithLanguageStrings: Pair<String, String> = buttonForWork.getStringsPair()
         setSharedPrefData(codeWithLanguageStrings, codeWithLanguage)
-
-        if (requestCode == 1) {
-            setLanguage(currentLanguage, codeWithLanguage.second)
-            currentLanguageCode = codeWithLanguage.first
-        } else {
-            setLanguage(targetLanguage, codeWithLanguage.second)
-            targetLanguageCode = codeWithLanguage.first
-        }
-    }
-
-    private fun getLanguagesStrings(
-        requestCode: Int
-    ): Pair<String, String> {
-        return if (requestCode == 1)
-            Pair(stringsHelper.getCurrentLanguageCode(), stringsHelper.getCurrentLanguage())
-        else
-            Pair(stringsHelper.getTargetLanguageCode(), stringsHelper.getTargetLanguage())
     }
 
     private fun setSharedPrefData(
@@ -64,70 +49,36 @@ class TextTranslationViewModel @Inject constructor(
         }
     }
 
-    private fun setLanguage(
-        observableLanguage: ObservableField<String>,
-        language: String
-    ) {
-        observableLanguage.set(language)
-        observableLanguage.notifyChange()
-    }
-
-    private enum class LanguagesDirection {
-        CURRENT, TARGET
-    }
-
     /**
      * This method is called in TextTranslationActivity,
      * because its contents cannot be placed in the "init" block,
      * since applicationContext has not yet been initialized.
      */
     fun setPreviousLanguages() {
-        val currentCodeAndLanguage = Pair(
-            sharedPref.getString(stringsHelper.getCurrentLanguageCode(), ""),
-            sharedPref.getString(stringsHelper.getCurrentLanguage(), "")
-        )
-        checkPair(currentCodeAndLanguage, LanguagesDirection.CURRENT)
-
-        val translationCodeAndLanguage = Pair(
-            sharedPref.getString(stringsHelper.getTargetLanguageCode(), ""),
-            sharedPref.getString(stringsHelper.getTargetLanguage(), "")
-        )
-        checkPair(translationCodeAndLanguage, LanguagesDirection.TARGET)
-    }
-
-    private fun checkPair(pair: Pair<String?, String?>, directionName: LanguagesDirection) {
-        if (pair.second.isNullOrBlank()) return
-        when (directionName) {
-            LanguagesDirection.CURRENT -> {
-                currentLanguage.set(pair.second)
-                currentLanguageCode = pair.first!!
-            }
-            LanguagesDirection.TARGET -> {
-                targetLanguage.set(pair.second)
-                targetLanguageCode = pair.first!!
-            }
-        }
+        currentButton.checkPair(currentButton.getStringsPair())
+        targetButton.checkPair(targetButton.getStringsPair())
     }
 
     fun swapLanguages() {
-        currentLanguage = targetLanguage.also { targetLanguage = currentLanguage }
-        currentLanguageCode = targetLanguageCode.also { targetLanguageCode = currentLanguageCode }
-        currentLanguage.notifyChange()
-        targetLanguage.notifyChange()
+        currentButton.language = targetButton.language.also { targetButton.language = currentButton.language }
+        currentButton.languageCode = targetButton.languageCode.also { targetButton.languageCode = currentButton.languageCode }
+
+        currentButton.language.notifyChange()
+        targetButton.language.notifyChange()
     }
 
-    fun translateText(){
+    fun translateText() {
         if (textToTranslate.isNullOrBlank()) {
             translatedText.set("")
             return
         }
-        val translateDirection = "$currentLanguageCode-$targetLanguageCode"
+        val translateDirection = "${currentButton.languageCode}-${targetButton.languageCode}"
 
         Log.e(TAG, "$textToTranslate $translateDirection")
         val disposable = yandexService.translate(textToTranslate!!, translateDirection)
             .subscribeOn(Schedulers.io())
             .observeOn(mainThread())
-            .subscribe({ result -> translatedText.set(result.text[0])},
-                {error -> Log.e(TAG, "ERROR: ${error.message}")})
+            .subscribe({ result -> translatedText.set(result.text[0]) },
+                { error -> Log.e(TAG, "ERROR: ${error.message}") })
     }
 }
