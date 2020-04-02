@@ -28,24 +28,35 @@ class TextTranslationViewModel @Inject constructor(
     var textToTranslate: String? = null
 
     fun setNewLanguage(requestCode: Int, data: Intent?) {
-        val codeWithLanguage:Pair<String, String> =
-            data?.getParcelableExtra<ParcelablePair<String, String>>("languageWithCode")?.pair ?: return
+        val codeWithLanguage: Pair<String, String> =
+            data?.getParcelableExtra<ParcelablePair<String, String>>("languageWithCode")?.pair
+                ?: return
 
-        lateinit var codeWithLanguageStrings: Pair<String, String>
+        val codeWithLanguageStrings: Pair<String, String> = getLanguagesStrings(requestCode)
+        setSharedPrefData(codeWithLanguageStrings, codeWithLanguage)
+
         if (requestCode == 1) {
-            codeWithLanguageStrings =
-                Pair(stringsHelper.getCurrentLanguageCode(), stringsHelper.getCurrentLanguage())
-
+            setLanguage(currentLanguage, codeWithLanguage.second)
             currentLanguageCode = codeWithLanguage.first
-            displayLanguage(currentLanguage, codeWithLanguage)
         } else {
-            codeWithLanguageStrings =
-                Pair(stringsHelper.getTargetLanguageCode(), stringsHelper.getTargetLanguage())
-
+            setLanguage(targetLanguage, codeWithLanguage.second)
             targetLanguageCode = codeWithLanguage.first
-            displayLanguage(targetLanguage, codeWithLanguage)
         }
+    }
 
+    private fun getLanguagesStrings(
+        requestCode: Int
+    ): Pair<String, String> {
+        return if (requestCode == 1)
+            Pair(stringsHelper.getCurrentLanguageCode(), stringsHelper.getCurrentLanguage())
+        else
+            Pair(stringsHelper.getTargetLanguageCode(), stringsHelper.getTargetLanguage())
+    }
+
+    private fun setSharedPrefData(
+        codeWithLanguageStrings: Pair<String, String>,
+        codeWithLanguage: Pair<String, String>
+    ) {
         with(sharedPref.edit()) {
             putString(codeWithLanguageStrings.first, codeWithLanguage.first)
             putString(codeWithLanguageStrings.second, codeWithLanguage.second)
@@ -53,11 +64,11 @@ class TextTranslationViewModel @Inject constructor(
         }
     }
 
-    private fun displayLanguage(
+    private fun setLanguage(
         observableLanguage: ObservableField<String>,
-        languageWithCode: Pair<*, *>?
+        language: String
     ) {
-        observableLanguage.set(languageWithCode?.second.toString())
+        observableLanguage.set(language)
         observableLanguage.notifyChange()
     }
 
