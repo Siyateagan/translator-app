@@ -4,24 +4,27 @@ import android.content.SharedPreferences
 import androidx.databinding.ObservableField
 import siyateagan.example.translatorapp.util.StringsHelper
 
-class LanguageButton(
-    buttonType: String,
-    val sharedPref: SharedPreferences,
-    stringsHelper: StringsHelper
+class LanguageButton private constructor(
+    private val sharedPref: SharedPreferences,
+    private val languageString: String,
+    private val languageCodeString: String
 ) {
-    var languageString: String?
-    var languageCodeString: String?
-
     var languageCode: String? = null
     var language = ObservableField("Select language")
 
-    init {
-        if (buttonType == stringsHelper.getCurrentLanguage()) {
-            languageString = stringsHelper.getCurrentLanguage()
-            languageCodeString = stringsHelper.getCurrentLanguageCode()
-        } else {
-            languageString = stringsHelper.getTargetLanguage()
-            languageCodeString = stringsHelper.getTargetLanguageCode()
+    companion object {
+        fun createCurrentButton(sharedPref: SharedPreferences, stringsHelper: StringsHelper)
+                : LanguageButton {
+            val languageString = stringsHelper.getCurrentLanguage()
+            val languageCodeString = stringsHelper.getCurrentLanguageCode()
+            return LanguageButton(sharedPref, languageString, languageCodeString)
+        }
+
+        fun createTargetButton(sharedPref: SharedPreferences, stringsHelper: StringsHelper)
+                : LanguageButton {
+            val languageString = stringsHelper.getTargetLanguage()
+            val languageCodeString = stringsHelper.getTargetLanguageCode()
+            return LanguageButton(sharedPref, languageString, languageCodeString)
         }
     }
 

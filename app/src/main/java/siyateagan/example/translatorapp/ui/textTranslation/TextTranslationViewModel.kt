@@ -19,9 +19,8 @@ class TextTranslationViewModel @Inject constructor(
 ) : ViewModel() {
     private val TAG = TextTranslationViewModel::class.java.simpleName
 
-    var currentButton =
-        LanguageButton(stringsHelper.getCurrentLanguage(), sharedPref, stringsHelper)
-    var targetButton = LanguageButton(stringsHelper.getTargetLanguage(), sharedPref, stringsHelper)
+    var currentButton = LanguageButton.createCurrentButton(sharedPref, stringsHelper)
+    var targetButton = LanguageButton.createTargetButton(sharedPref, stringsHelper)
     lateinit var buttonForWork: LanguageButton
 
     var translatedText = ObservableField("")
