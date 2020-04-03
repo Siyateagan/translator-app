@@ -1,6 +1,7 @@
 package siyateagan.example.translatorapp.ui.adapters
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
@@ -32,23 +33,30 @@ class LanguagesAdapter @Inject constructor() :
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val context = holder.item.context
-
         holder.item.language.text = ArrayList(languagesMap.values)[position]
+
         holder.item.language.setOnClickListener {
-            val languageWithCode = ParcelablePair(
+            val context = holder.item.context
+            val codeWithLanguage = ParcelablePair(
                     ArrayList(languagesMap.keys)[position],
                     ArrayList(languagesMap.values)[position]
             )
-            val intent = Intent().putExtra("languageWithCode", languageWithCode)
-            (context as Activity).setResult(1, intent)
-            context.finish()
+
+            returnActivityResult(codeWithLanguage, context)
         }
+    }
+
+    private fun returnActivityResult(
+        languageWithCode: ParcelablePair<String, String>,
+        context: Context?
+    ) {
+        val intent = Intent().putExtra("languageWithCode", languageWithCode)
+        (context as Activity).setResult(1, intent)
+        context.finish()
     }
 
     override fun getItemCount() = languagesMap.size
 
-    //TODO check filterable
     fun filter(userInput: String) {
         languagesMap.clear()
         val lowerCaseInput = userInput.toLowerCase(Locale.ROOT)
