@@ -6,7 +6,7 @@ import siyateagan.example.translatorapp.util.StringsHelper
 
 class LanguageButton(
     buttonType: String,
-    sharedPref: SharedPreferences,
+    val sharedPref: SharedPreferences,
     stringsHelper: StringsHelper
 ) {
     var languageString: String?
@@ -16,12 +16,12 @@ class LanguageButton(
     var language = ObservableField("Select language")
 
     init {
-        if (buttonType == stringsHelper.getCurrentLanguage()){
-            languageString = sharedPref.getString(stringsHelper.getCurrentLanguage(), "")
-            languageCodeString = sharedPref.getString(stringsHelper.getCurrentLanguageCode(), "")
+        if (buttonType == stringsHelper.getCurrentLanguage()) {
+            languageString = stringsHelper.getCurrentLanguage()
+            languageCodeString = stringsHelper.getCurrentLanguageCode()
         } else {
-            languageString = sharedPref.getString(stringsHelper.getTargetLanguage(), "")
-            languageCodeString = sharedPref.getString(stringsHelper.getTargetLanguageCode(), "")
+            languageString = stringsHelper.getTargetLanguage()
+            languageCodeString = stringsHelper.getTargetLanguageCode()
         }
     }
 
@@ -31,10 +31,12 @@ class LanguageButton(
     }
 
     fun checkPair(pair: Pair<String?, String?>) {
-        if (language.get().isNullOrBlank()) return
+        if (pair.second.isNullOrBlank()) return
         language.set(pair.second)
         languageCode = pair.first!!
     }
 
     fun getStringsPair(): Pair<String?, String?> = Pair(languageCodeString, languageString)
+    fun getStringsPrefPair(): Pair<String?, String?> =
+        Pair(sharedPref.getString(languageCodeString, ""), sharedPref.getString(languageString, ""))
 }

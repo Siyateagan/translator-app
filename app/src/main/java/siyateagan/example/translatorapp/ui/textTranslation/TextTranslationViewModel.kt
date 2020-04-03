@@ -14,12 +14,13 @@ import javax.inject.Inject
 
 class TextTranslationViewModel @Inject constructor(
     private val sharedPref: SharedPreferences,
-    private val stringsHelper: StringsHelper,
+    stringsHelper: StringsHelper,
     private val yandexService: YandexService
 ) : ViewModel() {
     private val TAG = TextTranslationViewModel::class.java.simpleName
 
-    var currentButton = LanguageButton(stringsHelper.getCurrentLanguage(), sharedPref, stringsHelper)
+    var currentButton =
+        LanguageButton(stringsHelper.getCurrentLanguage(), sharedPref, stringsHelper)
     var targetButton = LanguageButton(stringsHelper.getTargetLanguage(), sharedPref, stringsHelper)
     lateinit var buttonForWork: LanguageButton
 
@@ -34,12 +35,12 @@ class TextTranslationViewModel @Inject constructor(
         buttonForWork = if (requestCode == 1) currentButton else targetButton
         buttonForWork.setLanguage(codeWithLanguage)
 
-        val codeWithLanguageStrings: Pair<String, String> = buttonForWork.getStringsPair()
+        val codeWithLanguageStrings: Pair<String?, String?> = buttonForWork.getStringsPair()
         setSharedPrefData(codeWithLanguageStrings, codeWithLanguage)
     }
 
     private fun setSharedPrefData(
-        codeWithLanguageStrings: Pair<String, String>,
+        codeWithLanguageStrings: Pair<String?, String?>,
         codeWithLanguage: Pair<String, String>
     ) {
         with(sharedPref.edit()) {
@@ -55,13 +56,16 @@ class TextTranslationViewModel @Inject constructor(
      * since applicationContext has not yet been initialized.
      */
     fun setPreviousLanguages() {
-        currentButton.checkPair(currentButton.getStringsPair())
-        targetButton.checkPair(targetButton.getStringsPair())
+        currentButton.checkPair(currentButton.getStringsPrefPair())
+        targetButton.checkPair(targetButton.getStringsPrefPair())
     }
 
     fun swapLanguages() {
-        currentButton.language = targetButton.language.also { targetButton.language = currentButton.language }
-        currentButton.languageCode = targetButton.languageCode.also { targetButton.languageCode = currentButton.languageCode }
+        currentButton.language =
+            targetButton.language.also { targetButton.language = currentButton.language }
+        currentButton.languageCode = targetButton.languageCode.also {
+            targetButton.languageCode = currentButton.languageCode
+        }
 
         currentButton.language.notifyChange()
         targetButton.language.notifyChange()
