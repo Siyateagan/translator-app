@@ -37,10 +37,8 @@ class LanguagesAdapter @Inject constructor() :
         holder.item.language.text = ArrayList(languagesMap.values)[position]
         holder.item.language.setOnClickListener {
             val languageWithCode = ParcelablePair(
-                Pair(
                     ArrayList(languagesMap.keys)[position],
                     ArrayList(languagesMap.values)[position]
-                )
             )
             val intent = Intent().putExtra("languageWithCode", languageWithCode)
             (context as Activity).setResult(1, intent)

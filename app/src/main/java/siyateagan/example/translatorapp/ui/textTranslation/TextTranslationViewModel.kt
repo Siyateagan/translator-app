@@ -26,8 +26,8 @@ class TextTranslationViewModel @Inject constructor(
     var textToTranslate: String? = null
 
     fun setNewLanguage(requestCode: Int, data: Intent?) {
-        val codeWithLanguage: Pair<String, String> =
-            data?.getParcelableExtra<ParcelablePair<String, String>>("languageWithCode")?.pair
+        val codeWithLanguage =
+            data?.getParcelableExtra<ParcelablePair<String, String>>("languageWithCode")?.toPair()
                 ?: return
 
         val buttonForWork = if (requestCode == 1) currentButton else targetButton
