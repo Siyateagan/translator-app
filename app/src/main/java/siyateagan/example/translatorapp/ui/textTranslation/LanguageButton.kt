@@ -42,4 +42,5 @@ class LanguageButton private constructor(
     fun getStringsPair(): Pair<String?, String?> = Pair(languageCodeString, languageString)
     fun getStringsPrefPair(): Pair<String?, String?> =
         Pair(sharedPref.getString(languageCodeString, ""), sharedPref.getString(languageString, ""))
+    fun getCodeAndLanguagePair(): Pair<String?, String?> = Pair(languageCode, language.get())
 }

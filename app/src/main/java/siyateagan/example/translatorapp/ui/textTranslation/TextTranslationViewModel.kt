@@ -21,7 +21,6 @@ class TextTranslationViewModel @Inject constructor(
 
     var currentButton = LanguageButton.createCurrentButton(sharedPref, stringsHelper)
     var targetButton = LanguageButton.createTargetButton(sharedPref, stringsHelper)
-    lateinit var buttonForWork: LanguageButton
 
     var translatedText = ObservableField("")
     var textToTranslate: String? = null
@@ -31,16 +30,16 @@ class TextTranslationViewModel @Inject constructor(
             data?.getParcelableExtra<ParcelablePair<String, String>>("languageWithCode")?.pair
                 ?: return
 
-        buttonForWork = if (requestCode == 1) currentButton else targetButton
+        val buttonForWork = if (requestCode == 1) currentButton else targetButton
         buttonForWork.setLanguage(codeWithLanguage)
 
         val codeWithLanguageStrings: Pair<String?, String?> = buttonForWork.getStringsPair()
-        setSharedPrefData(codeWithLanguageStrings, codeWithLanguage)
+        saveLanguage(codeWithLanguageStrings, codeWithLanguage)
     }
 
-    private fun setSharedPrefData(
+    private fun saveLanguage(
         codeWithLanguageStrings: Pair<String?, String?>,
-        codeWithLanguage: Pair<String, String>
+        codeWithLanguage: Pair<String?, String?>
     ) {
         with(sharedPref.edit()) {
             putString(codeWithLanguageStrings.first, codeWithLanguage.first)
@@ -49,11 +48,6 @@ class TextTranslationViewModel @Inject constructor(
         }
     }
 
-    /**
-     * This method is called in TextTranslationActivity,
-     * because its contents cannot be placed in the "init" block,
-     * since applicationContext has not yet been initialized.
-     */
     fun setPreviousLanguages() {
         currentButton.checkPair(currentButton.getStringsPrefPair())
         targetButton.checkPair(targetButton.getStringsPrefPair())
@@ -66,8 +60,11 @@ class TextTranslationViewModel @Inject constructor(
             targetButton.languageCode = currentButton.languageCode
         }
 
-        currentButton.language.notifyChange()
-        targetButton.language.notifyChange()
+        val buttonsList = listOf(currentButton, targetButton)
+        buttonsList.forEach {
+            it.language.notifyChange()
+            saveLanguage(it.getStringsPair(), it.getCodeAndLanguagePair())
+        }
     }
 
     fun translateText() {
