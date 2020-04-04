@@ -23,4 +23,6 @@ class SelectLanguageViewModel @Inject constructor(
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(languagesObserver)
     }
+
+    fun getRefreshObservable() = languagesObserver.isRefreshing.observable
 }
