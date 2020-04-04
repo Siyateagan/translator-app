@@ -67,7 +67,7 @@ class SelectLanguageActivity @Inject constructor() : BaseActivity() {
 
     private fun loadLanguages() {
         val languagesDisposable =
-            selectLanguageViewModel.isRefreshing.observable.subscribe {
+            selectLanguageViewModel.languagesObserver.isRefreshing.observable.subscribe {
                 handleResult(it)
             }
         disposables.add(languagesDisposable)
