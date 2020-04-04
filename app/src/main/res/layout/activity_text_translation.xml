@@ -119,20 +119,34 @@
 
                     <ImageButton
                         android:id="@+id/button_clear"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        android:background="@android:color/transparent"
+                        style="@style/ButtonControl"
+                        android:layout_marginTop="8dp"
+                        android:contentDescription="@string/clear_text"
                         android:src="@drawable/ic_clear_24dp"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        android:contentDescription="@string/clear_text" />
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageButton
+                        android:id="@+id/button_voice_recognition"
+                        style="@style/ButtonControl"
+                        android:contentDescription="@string/listen_entered_text"
+                        android:src="@drawable/ic_keyboard_voice_24dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/button_clear" />
+
+                    <ImageButton
+                        android:id="@+id/button_listen_input"
+                        style="@style/ButtonControl"
+                        android:contentDescription="@string/listen_entered_text"
+                        android:src="@drawable/ic_volume_24dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/button_voice_recognition" />
 
                     <View
                         android:id="@+id/text_divider"
                         style="@style/DividerColored"
-                        android:layout_marginStart="4dp"
-                        android:layout_marginEnd="4dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
                         app:layout_constraintBottom_toBottomOf="@+id/edit_text_to_translate"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -150,6 +164,25 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/edit_text_to_translate"
                         app:layout_constraintVertical_weight="2" />
+
+                    <ImageButton
+                        android:id="@+id/button_listen_output"
+                        style="@style/ButtonControl"
+                        android:layout_marginTop="8dp"
+                        android:contentDescription="@string/clear_text"
+                        android:src="@drawable/ic_volume_24dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/text_divider" />
+
+                    <ImageButton
+                        android:layout_height="24dp"
+                        android:layout_width="24dp"
+                        android:id="@+id/button_favorites"
+                        style="@style/ButtonControl"
+                        android:contentDescription="@string/listen_entered_text"
+                        android:src="@drawable/ic_bookmark"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/button_listen_output" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <View

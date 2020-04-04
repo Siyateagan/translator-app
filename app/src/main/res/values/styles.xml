@@ -47,7 +47,6 @@
     <style name="TranslateText">
         <item name="android:textColor">@color/primaryText</item>
         <item name="android:paddingStart">@dimen/padding_16dp</item>
-        <item name="android:paddingEnd">@dimen/padding_16dp</item>
         <item name="android:paddingTop">8dp</item>
         <item name="android:paddingBottom">8dp</item>
         <item name="android:fontFamily">@font/roboto</item>
@@ -60,6 +59,7 @@
         <item name="android:gravity">top</item>
         <item name="android:inputType">textMultiLine</item>
         <item name="android:scrollHorizontally">false</item>
+        <item name="android:includeFontPadding">false</item>
     </style>
 
     <style name="SearchView">
@@ -127,6 +127,14 @@
         <item name="android:textAlignment">center</item>
         <item name="android:textColor">@color/secondaryText</item>
         <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="ButtonControl">
+        <item name="android:layout_width">@dimen/default_icon_24dp</item>
+        <item name="android:layout_height">@dimen/default_icon_24dp</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:layout_marginRight">8dp</item>
+        <item name="android:background">@android:color/transparent</item>
     </style>
 
 </resources>

@@ -24,4 +24,5 @@
     <string name="socket_timeout_exception">Looks like the server is taking to long to respond, please try again in sometime</string>
     <string name="error_image">Error image</string>
     <string name="clear_text">Clear text</string>
+    <string name="listen_entered_text">Listen entered text</string>
 </resources>
