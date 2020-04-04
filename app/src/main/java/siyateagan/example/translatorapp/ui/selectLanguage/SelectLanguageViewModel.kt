@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import siyateagan.example.translatorapp.network.YandexService
-import siyateagan.example.translatorapp.util.LanguagesObserver
+import siyateagan.example.translatorapp.network.observer.LanguagesObserver
 import java.util.*
 import javax.inject.Inject
 

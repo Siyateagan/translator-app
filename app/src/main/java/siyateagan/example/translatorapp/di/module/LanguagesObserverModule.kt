@@ -4,7 +4,7 @@ import android.content.Context
 import dagger.Module
 import dagger.Provides
 import siyateagan.example.translatorapp.ui.adapters.LanguagesAdapter
-import siyateagan.example.translatorapp.util.LanguagesObserver
+import siyateagan.example.translatorapp.network.observer.LanguagesObserver
 
 @Module
 class LanguagesObserverModule {
