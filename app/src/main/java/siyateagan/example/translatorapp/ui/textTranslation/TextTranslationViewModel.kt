@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
 import io.reactivex.schedulers.Schedulers
 import siyateagan.example.translatorapp.network.YandexService
+import siyateagan.example.translatorapp.network.observer.TranslateObserver
 import siyateagan.example.translatorapp.util.ParcelablePair
 import siyateagan.example.translatorapp.util.StringsHelper
 import javax.inject.Inject
@@ -22,8 +23,10 @@ class TextTranslationViewModel @Inject constructor(
     var currentButton = LanguageButton.createCurrentButton(sharedPref, stringsHelper)
     var targetButton = LanguageButton.createTargetButton(sharedPref, stringsHelper)
 
-    var translatedText = ObservableField("")
     var textToTranslate: String? = null
+
+    @Inject
+    lateinit var translateObserver: TranslateObserver
 
     fun setNewLanguage(requestCode: Int, data: Intent?) {
         val codeWithLanguage =
@@ -69,16 +72,14 @@ class TextTranslationViewModel @Inject constructor(
 
     fun translateText() {
         if (textToTranslate.isNullOrBlank()) {
-            translatedText.set("")
+            translateObserver.translatedText.set("")
             return
         }
         val translateDirection = "${currentButton.languageCode}-${targetButton.languageCode}"
 
-        Log.e(TAG, "$textToTranslate $translateDirection")
-        val disposable = yandexService.translate(textToTranslate!!, translateDirection)
+        yandexService.translate(textToTranslate!!, translateDirection)
             .subscribeOn(Schedulers.io())
             .observeOn(mainThread())
-            .subscribe({ result -> translatedText.set(result.text[0]) },
-                { error -> Log.e(TAG, "ERROR: ${error.message}") })
+            .subscribe(translateObserver)
     }
 }

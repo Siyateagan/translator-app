@@ -53,7 +53,7 @@ class TextTranslationActivity : BaseNavigationActivity() {
         }
 
         binding.buttonClear.setOnClickListener {
-            textTranslationViewModel.translatedText.set("")
+            textTranslationViewModel.translateObserver.translatedText.set("")
             binding.editTextToTranslate.text = null
         }
     }

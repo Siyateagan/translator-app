@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="viewModel"
             type="siyateagan.example.translatorapp.ui.textTranslation.TextTranslationViewModel" />
@@ -157,7 +156,7 @@
                         style="@style/TranslateText"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
-                        android:text="@{viewModel.translatedText}"
+                        android:text="@{viewModel.translateObserver.translatedText}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/button_clear"
                         app:layout_constraintHorizontal_bias="0.5"
