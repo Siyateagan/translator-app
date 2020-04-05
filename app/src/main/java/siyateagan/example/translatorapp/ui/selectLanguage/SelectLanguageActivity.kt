@@ -107,14 +107,14 @@ class SelectLanguageActivity @Inject constructor() : BaseActivity() {
         binding.refreshLayout.isRefreshing = false
         binding.refreshLayout.isEnabled = false
         binding.recyclerLanguages.visibility = View.VISIBLE
-        binding.errorLayout.visibility = View.GONE
+        binding.errorInclude.errorLayout.visibility = View.GONE
     }
 
     private fun showError(error: String?) {
         binding.refreshLayout.isRefreshing = false
         binding.recyclerLanguages.visibility = View.GONE
-        binding.errorLayout.visibility = View.VISIBLE
-        binding.errorLayout.text_error_message.text = error
+        binding.errorInclude.errorLayout.visibility = View.VISIBLE
+        binding.errorInclude.textErrorMessage.text = error
     }
 
     override fun onDestroy() {
