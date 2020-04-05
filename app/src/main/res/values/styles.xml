@@ -123,7 +123,6 @@
     <style name="TextErrorMessage">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginTop">@dimen/margin_16dp</item>
         <item name="android:textAlignment">center</item>
         <item name="android:textColor">@color/secondaryText</item>
         <item name="android:textSize">16sp</item>
