@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import dagger.android.AndroidInjection
 import io.reactivex.disposables.CompositeDisposable
+import kotlinx.android.synthetic.main.error_layout.view.*
 import siyateagan.example.translatorapp.R
 import siyateagan.example.translatorapp.databinding.ActivitySelectLanguageBinding
 import siyateagan.example.translatorapp.network.ResponseStatus
@@ -113,7 +114,7 @@ class SelectLanguageActivity @Inject constructor() : BaseActivity() {
         binding.refreshLayout.isRefreshing = false
         binding.recyclerLanguages.visibility = View.GONE
         binding.errorLayout.visibility = View.VISIBLE
-        binding.textErrorMessage.text = error
+        binding.errorLayout.text_error_message.text = error
     }
 
     override fun onDestroy() {
