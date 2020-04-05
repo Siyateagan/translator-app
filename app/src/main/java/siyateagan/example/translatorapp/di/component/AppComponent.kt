@@ -11,7 +11,8 @@ import javax.inject.Singleton
 @Singleton
 @Component(
     modules = [ViewModelModule::class, ViewModelFactoryModule::class,
-        ActivitiesModule::class, AndroidInjectionModule::class, NetworkModule::class, SharedPreferencesModule::class]
+        ActivitiesModule::class, AndroidInjectionModule::class, NetworkModule::class,
+        SharedPreferencesModule::class, ObservableFieldModule::class]
 )
 
 interface AppComponent {
