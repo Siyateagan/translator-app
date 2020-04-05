@@ -2,8 +2,6 @@ package siyateagan.example.translatorapp.ui.textTranslation
 
 import android.content.Intent
 import android.content.SharedPreferences
-import android.util.Log
-import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
 import io.reactivex.schedulers.Schedulers
@@ -82,4 +80,6 @@ class TextTranslationViewModel @Inject constructor(
             .observeOn(mainThread())
             .subscribe(translateObserver)
     }
+
+    fun getResponseObservable() = translateObserver.isLoading.observable
 }

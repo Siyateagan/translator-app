@@ -8,11 +8,14 @@ import android.view.inputmethod.EditorInfo
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import dagger.android.AndroidInjection
+import io.reactivex.disposables.CompositeDisposable
 import siyateagan.example.translatorapp.R
 import siyateagan.example.translatorapp.databinding.ActivityTextTranslationBinding
+import siyateagan.example.translatorapp.network.ResponseStatus
 import siyateagan.example.translatorapp.ui.base.BaseNavigationActivity
 import siyateagan.example.translatorapp.ui.selectLanguage.SelectLanguageActivity
 import siyateagan.example.translatorapp.util.afterTextChangedDelayed
+import java.util.*
 import javax.inject.Inject
 
 
@@ -24,6 +27,9 @@ class TextTranslationActivity : BaseNavigationActivity() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     lateinit var textTranslationViewModel: TextTranslationViewModel
+
+    private val disposables = CompositeDisposable()
+    var timer = Timer()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
@@ -56,6 +62,43 @@ class TextTranslationActivity : BaseNavigationActivity() {
             textTranslationViewModel.translateObserver.translatedText.set("")
             binding.editTextToTranslate.text = null
         }
+
+        val disposable = textTranslationViewModel.getResponseObservable().subscribe {
+            when (it) {
+                is ResponseStatus.Loading -> showLoading()
+                is ResponseStatus.Success -> hideError()
+                is ResponseStatus.Error -> showError(it.errorMessage)
+            }
+        }
+
+        disposables.add(disposable)
+    }
+
+    /** if the response comes long a message is displayed*/
+    private fun showLoading() {
+        timer.cancel()
+        timer = Timer()
+        timer.schedule(setLoadingMessage(), 200)
+    }
+
+    private fun setLoadingMessage() = object : TimerTask() {
+        override fun run() {
+            binding.translatedText.post {
+                binding.translatedText.text = getString(R.string.loading_message)
+            }
+        }
+    }
+
+    private fun showError(error: String?) {
+        timer.cancel()
+        binding.translatedText.text = ""
+        binding.errorInclude.errorLayout.visibility = View.VISIBLE
+        binding.errorInclude.textErrorMessage.text = error
+    }
+
+    private fun hideError() {
+        timer.cancel()
+        binding.errorInclude.errorLayout.visibility = View.GONE
     }
 
     private fun setKeyboardDoneButton() {
@@ -73,5 +116,10 @@ class TextTranslationActivity : BaseNavigationActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         textTranslationViewModel.setNewLanguage(requestCode, data)
         textTranslationViewModel.translateText()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        disposables.dispose()
     }
 }
