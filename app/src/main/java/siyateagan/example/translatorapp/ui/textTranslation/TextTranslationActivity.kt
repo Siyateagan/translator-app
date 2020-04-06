@@ -2,6 +2,7 @@ package siyateagan.example.translatorapp.ui.textTranslation
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.text.InputType
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -15,8 +16,8 @@ import siyateagan.example.translatorapp.network.ResponseStatus
 import siyateagan.example.translatorapp.ui.base.BaseNavigationActivity
 import siyateagan.example.translatorapp.ui.base.interfaces.OnRetryClick
 import siyateagan.example.translatorapp.ui.selectLanguage.SelectLanguageActivity
-import siyateagan.example.translatorapp.util.afterTextChangedDelayed
-import java.util.*
+import siyateagan.example.translatorapp.util.getOnFinishTimer
+import siyateagan.example.translatorapp.util.setRestartTimerManager
 import javax.inject.Inject
 
 
@@ -30,7 +31,7 @@ class TextTranslationActivity : BaseNavigationActivity(), OnRetryClick {
     lateinit var textTranslationViewModel: TextTranslationViewModel
 
     private val disposables = CompositeDisposable()
-    var timer = Timer()
+    private val timer = getOnFinishTimer(400, ::setLoadingMessage)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
@@ -55,9 +56,8 @@ class TextTranslationActivity : BaseNavigationActivity(), OnRetryClick {
 
         textTranslationViewModel.setPreviousLanguages()
 
-        binding.editTextToTranslate.afterTextChangedDelayed {
-            textTranslationViewModel.translateText()
-        }
+        val requestTimer: CountDownTimer = getOnFinishTimer(500, textTranslationViewModel::translateText)
+        binding.editTextToTranslate.setRestartTimerManager(requestTimer)
 
         binding.buttonClear.setOnClickListener {
             textTranslationViewModel.translateObserver.translatedText.set("")
@@ -85,17 +85,12 @@ class TextTranslationActivity : BaseNavigationActivity(), OnRetryClick {
     /** if the response comes long a message is displayed*/
     private fun showLoading() {
         timer.cancel()
-        timer = Timer()
-        timer.schedule(setLoadingMessage(), 400)
+        timer.start()
         binding.errorInclude.errorLayout.visibility = View.GONE
     }
 
-    private fun setLoadingMessage() = object : TimerTask() {
-        override fun run() {
-            binding.translatedText.post {
-                binding.translatedText.text = getString(R.string.loading_message)
-            }
-        }
+    private fun setLoadingMessage() {
+        binding.translatedText.text = getString(R.string.loading_message)
     }
 
     private fun getImageButtons() = listOf(binding.buttonListenOutput, binding.buttonFavorites)
