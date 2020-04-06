@@ -27,4 +27,6 @@
     <string name="error_image">Error image</string>
     <string name="clear_text">Clear text</string>
     <string name="listen_entered_text">Listen entered text</string>
+    <string name="retry">Retry</string>
+    <string name="error">Error!</string>
 </resources>

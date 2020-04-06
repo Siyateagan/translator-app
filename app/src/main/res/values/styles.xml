@@ -78,7 +78,6 @@
     <style name="RoundedButton" parent="Widget.AppCompat.Button.Borderless">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_margin">@dimen/margin_16dp</item>
         <item name="android:background">@drawable/rounded_corners_button</item>
         <item name="android:textColor">@color/white</item>
     </style>
@@ -120,9 +119,20 @@
         <item name="menu">@menu/bottom_nav_menu</item>
     </style>
 
+    <style name="TextErrorTitle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textColor">@color/secondaryText</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="TextErrorMessage">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:includeFontPadding">false</item>
         <item name="android:textAlignment">center</item>
         <item name="android:textColor">@color/secondaryText</item>
         <item name="android:textSize">16sp</item>

@@ -10,28 +10,43 @@
         android:paddingTop="4dp"
         android:paddingEnd="@dimen/padding_16dp"
         android:paddingStart="@dimen/padding_16dp"
-        android:visibility="gone"
+        android:visibility="visible"
         tools:showIn="@layout/activity_select_language">
 
-        <ImageView
-            android:id="@+id/image_error"
+        <TextView
+            android:id="@+id/text_error_title"
+            android:lineSpacingExtra="0dp"
+            style="@style/TextErrorTitle"
             android:layout_width="wrap_content"
-            android:layout_height="72dp"
-            android:contentDescription="@string/error_image"
-            android:src="@drawable/ic_error_outline_black"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/error"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/text_error_message"
             style="@style/TextErrorMessage"
+            android:layout_marginTop="4dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/image_error"
+            app:layout_constraintTop_toBottomOf="@+id/text_error_title"
             tools:text="@string/http_exception_message" />
+
+        <Button
+            android:id="@+id/button_error"
+            style="@style/RoundedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/retry"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_error_message" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
