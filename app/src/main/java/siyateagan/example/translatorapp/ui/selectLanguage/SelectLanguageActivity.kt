@@ -44,13 +44,13 @@ class SelectLanguageActivity @Inject constructor() : BaseActivity(),
         binding = DataBindingUtil.setContentView(this, R.layout.activity_select_language)
 
         setSupportActionBar(binding.toolbar)
-        setSearchView(binding.searchView, binding.searchDivider)
+        setSearchView(binding.layoutSearchView.searchView, binding.layoutSearchView.searchDivider)
 
         selectLanguageViewModel =
             ViewModelProvider(this, viewModelFactory).get(SelectLanguageViewModel::class.java)
 
         setLanguagesRecycler()
-        setSearchViewQuerySettings(binding.searchView, recyclerAdapter)
+        setSearchViewQuerySettings(binding.layoutSearchView.searchView, recyclerAdapter)
 
         if (recyclerAdapter.isAdapterEmpty()) loadLanguages()
         else binding.refreshLayout.isEnabled = false
@@ -59,7 +59,7 @@ class SelectLanguageActivity @Inject constructor() : BaseActivity(),
         swipeRefreshListener = setRefreshListener()
     }
 
-    override fun onRetryClick(){
+    override fun onRetryClick() {
         binding.refreshLayout.isRefreshing = true
         swipeRefreshListener.onRefresh()
     }

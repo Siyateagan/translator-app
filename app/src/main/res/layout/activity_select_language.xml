@@ -37,19 +37,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <androidx.appcompat.widget.SearchView
-                    android:id="@+id/search_view"
-                    style="@style/SearchView"
+                <include
+                    android:id="@+id/layout_search_view"
+                    layout="@layout/layout_search_view"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-
-                <View
-                    android:id="@+id/search_divider"
-                    style="@style/Divider"
-                    app:layout_constraintBottom_toBottomOf="@id/search_view"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
 
                 <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                     android:id="@+id/refresh_layout"
@@ -58,7 +51,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/search_view">
+                    app:layout_constraintTop_toBottomOf="@+id/layout_search_view">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
