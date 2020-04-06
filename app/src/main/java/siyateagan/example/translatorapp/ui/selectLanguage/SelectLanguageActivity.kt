@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import dagger.android.AndroidInjection
 import io.reactivex.disposables.CompositeDisposable
-import kotlinx.android.synthetic.main.error_layout.view.*
 import siyateagan.example.translatorapp.R
 import siyateagan.example.translatorapp.databinding.ActivitySelectLanguageBinding
 import siyateagan.example.translatorapp.network.ResponseStatus
@@ -35,7 +34,7 @@ class SelectLanguageActivity @Inject constructor() : BaseActivity() {
 
     private lateinit var binding: ActivitySelectLanguageBinding
     private val disposables = CompositeDisposable()
-
+    private lateinit var swipeRefreshListener: OnRefreshListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
@@ -53,6 +52,13 @@ class SelectLanguageActivity @Inject constructor() : BaseActivity() {
 
         if (recyclerAdapter.isAdapterEmpty()) loadLanguages()
         else binding.refreshLayout.isEnabled = false
+
+        binding.errorInclude.activity = this
+        swipeRefreshListener = setRefreshListener()
+    }
+    fun onRetryClick(){
+        binding.refreshLayout.isRefreshing = true
+        swipeRefreshListener.onRefresh()
     }
 
     private fun setLanguagesRecycler() {
@@ -75,7 +81,6 @@ class SelectLanguageActivity @Inject constructor() : BaseActivity() {
     }
 
     private fun initShowLoading() {
-        val swipeRefreshListener = setRefreshListener()
         binding.refreshLayout.post {
             binding.refreshLayout.isRefreshing = true
             swipeRefreshListener.onRefresh()

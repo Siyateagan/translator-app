@@ -3,23 +3,30 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="activity"
+            type="siyateagan.example.translatorapp.ui.selectLanguage.SelectLanguageActivity" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/error_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingStart="@dimen/padding_16dp"
         android:paddingTop="4dp"
         android:paddingEnd="@dimen/padding_16dp"
-        android:paddingStart="@dimen/padding_16dp"
-        android:visibility="visible"
+        android:visibility="gone"
         tools:showIn="@layout/activity_select_language">
 
         <TextView
             android:id="@+id/text_error_title"
-            android:lineSpacingExtra="0dp"
             style="@style/TextErrorTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:lineSpacingExtra="0dp"
             android:text="@string/error"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -40,6 +47,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:onClick="@{(view) -> activity.onRetryClick()}"
             android:text="@string/retry"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
