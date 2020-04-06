@@ -13,13 +13,14 @@ import siyateagan.example.translatorapp.R
 import siyateagan.example.translatorapp.databinding.ActivityTextTranslationBinding
 import siyateagan.example.translatorapp.network.ResponseStatus
 import siyateagan.example.translatorapp.ui.base.BaseNavigationActivity
+import siyateagan.example.translatorapp.ui.base.interfaces.OnRetryClick
 import siyateagan.example.translatorapp.ui.selectLanguage.SelectLanguageActivity
 import siyateagan.example.translatorapp.util.afterTextChangedDelayed
 import java.util.*
 import javax.inject.Inject
 
 
-class TextTranslationActivity : BaseNavigationActivity() {
+class TextTranslationActivity : BaseNavigationActivity(), OnRetryClick {
     val TAG = TextTranslationActivity::class.java.simpleName
 
     private lateinit var binding: ActivityTextTranslationBinding
@@ -72,13 +73,20 @@ class TextTranslationActivity : BaseNavigationActivity() {
         }
 
         disposables.add(disposable)
+
+        binding.errorInclude.listener = this
+    }
+
+    override fun onRetryClick() {
+        hideError()
+        textTranslationViewModel.translateText()
     }
 
     /** if the response comes long a message is displayed*/
     private fun showLoading() {
         timer.cancel()
         timer = Timer()
-        timer.schedule(setLoadingMessage(), 200)
+        timer.schedule(setLoadingMessage(), 400)
     }
 
     private fun setLoadingMessage() = object : TimerTask() {
