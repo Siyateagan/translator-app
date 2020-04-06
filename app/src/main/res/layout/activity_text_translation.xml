@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="siyateagan.example.translatorapp.ui.textTranslation.TextTranslationViewModel" />
@@ -185,10 +186,10 @@
                         app:layout_constraintTop_toBottomOf="@+id/text_divider" />
 
                     <ImageButton
-                        android:layout_height="24dp"
-                        android:layout_width="24dp"
                         android:id="@+id/button_favorites"
                         style="@style/ButtonControl"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         android:contentDescription="@string/listen_entered_text"
                         android:src="@drawable/ic_bookmark"
                         app:layout_constraintEnd_toEndOf="parent"

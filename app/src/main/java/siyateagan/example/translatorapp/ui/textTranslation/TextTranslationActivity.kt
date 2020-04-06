@@ -67,7 +67,7 @@ class TextTranslationActivity : BaseNavigationActivity(), OnRetryClick {
         val disposable = textTranslationViewModel.getResponseObservable().subscribe {
             when (it) {
                 is ResponseStatus.Loading -> showLoading()
-                is ResponseStatus.Success -> hideError()
+                is ResponseStatus.Success -> showSuccess()
                 is ResponseStatus.Error -> showError(it.errorMessage)
             }
         }
@@ -78,7 +78,7 @@ class TextTranslationActivity : BaseNavigationActivity(), OnRetryClick {
     }
 
     override fun onRetryClick() {
-        hideError()
+        showLoading()
         textTranslationViewModel.translateText()
     }
 
@@ -87,6 +87,7 @@ class TextTranslationActivity : BaseNavigationActivity(), OnRetryClick {
         timer.cancel()
         timer = Timer()
         timer.schedule(setLoadingMessage(), 400)
+        binding.errorInclude.errorLayout.visibility = View.GONE
     }
 
     private fun setLoadingMessage() = object : TimerTask() {
@@ -97,16 +98,20 @@ class TextTranslationActivity : BaseNavigationActivity(), OnRetryClick {
         }
     }
 
+    private fun getImageButtons() = listOf(binding.buttonListenOutput, binding.buttonFavorites)
+
     private fun showError(error: String?) {
         timer.cancel()
         binding.translatedText.text = ""
         binding.errorInclude.errorLayout.visibility = View.VISIBLE
         binding.errorInclude.textErrorMessage.text = error
+        getImageButtons().forEach { it.visibility = View.INVISIBLE }
     }
 
-    private fun hideError() {
+    private fun showSuccess() {
         timer.cancel()
         binding.errorInclude.errorLayout.visibility = View.GONE
+        getImageButtons().forEach { it.visibility = View.VISIBLE }
     }
 
     private fun setKeyboardDoneButton() {
