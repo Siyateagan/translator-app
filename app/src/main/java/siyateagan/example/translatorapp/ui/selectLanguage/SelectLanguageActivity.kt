@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import dagger.android.AndroidInjection
 import io.reactivex.disposables.CompositeDisposable
+import siyateagan.example.translatorapp.ui.base.interfaces.OnRetryClick
 import siyateagan.example.translatorapp.R
 import siyateagan.example.translatorapp.databinding.ActivitySelectLanguageBinding
 import siyateagan.example.translatorapp.network.ResponseStatus
@@ -18,7 +19,8 @@ import siyateagan.example.translatorapp.ui.base.BaseActivity
 import javax.inject.Inject
 
 
-class SelectLanguageActivity @Inject constructor() : BaseActivity() {
+class SelectLanguageActivity @Inject constructor() : BaseActivity(),
+    OnRetryClick {
     val TAG = this::class.java.simpleName
 
     @Inject
@@ -53,10 +55,11 @@ class SelectLanguageActivity @Inject constructor() : BaseActivity() {
         if (recyclerAdapter.isAdapterEmpty()) loadLanguages()
         else binding.refreshLayout.isEnabled = false
 
-        binding.errorInclude.activity = this
+        binding.errorInclude.listener = this
         swipeRefreshListener = setRefreshListener()
     }
-    fun onRetryClick(){
+
+    override fun onRetryClick(){
         binding.refreshLayout.isRefreshing = true
         swipeRefreshListener.onRefresh()
     }

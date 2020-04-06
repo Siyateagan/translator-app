@@ -6,8 +6,8 @@
     <data>
 
         <variable
-            name="activity"
-            type="siyateagan.example.translatorapp.ui.selectLanguage.SelectLanguageActivity" />
+            name="listener"
+            type="siyateagan.example.translatorapp.ui.base.interfaces.OnRetryClick" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -47,7 +47,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:onClick="@{(view) -> activity.onRetryClick()}"
+            android:onClick="@{(view) -> listener.onRetryClick()}"
             android:text="@string/retry"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
