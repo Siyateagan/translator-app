@@ -40,7 +40,7 @@ class TextTranslationActivity : BaseNavigationActivity(), OnRetryClick {
         binding =
             DataBindingUtil.setContentView(this, R.layout.activity_text_translation)
 
-        setSupportActionBar(binding.toolbar)
+        setSupportActionBar(binding.layoutToolbar.toolbar)
         setItemsIntents(binding.navView, this, this::class.java.simpleName)
         setKeyboardDoneButton()
 

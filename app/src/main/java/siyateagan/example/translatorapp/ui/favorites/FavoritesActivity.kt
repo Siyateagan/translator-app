@@ -21,7 +21,7 @@ class FavoritesActivity : BaseNavigationActivity() {
         val binding: ActivityFavoritesBinding =
             DataBindingUtil.setContentView(this, R.layout.activity_favorites)
 
-        setSupportActionBar(binding.toolbar)
+        setSupportActionBar(binding.layoutToolbar.toolbar)
         //setSearchView(search_view, search_divider)
         setItemsIntents(binding.navView, this, this::class.java.simpleName)
 

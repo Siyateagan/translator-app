@@ -43,7 +43,7 @@ class SelectLanguageActivity @Inject constructor() : BaseActivity(),
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_select_language)
 
-        setSupportActionBar(binding.toolbar)
+        setSupportActionBar(binding.layoutToolbar.toolbar)
         setSearchView(binding.layoutSearchView.searchView, binding.layoutSearchView.searchDivider)
 
         selectLanguageViewModel =

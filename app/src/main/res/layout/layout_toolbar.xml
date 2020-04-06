@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/toolbar"
+        style="@style/Toolbar"
+        tools:layout_height="56dp"
+        tools:showIn="@layout/activity_favorites"
+        tools:targetApi="lollipop">
+
+        <TextView style="@style/ToolbarTitle" />
+
+    </androidx.appcompat.widget.Toolbar>
+</layout>
