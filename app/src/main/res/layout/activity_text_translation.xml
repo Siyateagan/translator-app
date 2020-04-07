@@ -92,7 +92,7 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    app:layout_constraintBottom_toTopOf="@+id/nav_view"
+                    app:layout_constraintBottom_toTopOf="@+id/layout_navigation"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/select_languages_layout">
@@ -189,18 +189,12 @@
                         app:layout_constraintTop_toBottomOf="@+id/button_listen_output" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <View
-                    style="@style/Divider"
-                    app:layout_constraintBottom_toTopOf="@id/nav_view"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
-
-                <com.google.android.material.bottomnavigation.BottomNavigationView
-                    android:id="@+id/nav_view"
-                    style="@style/BottomNavigationView"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
+                <include
+                    android:id="@+id/layout_navigation"
+                    layout="@layout/layout_navigation"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toBottomOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
     </androidx.constraintlayout.widget.ConstraintLayout>

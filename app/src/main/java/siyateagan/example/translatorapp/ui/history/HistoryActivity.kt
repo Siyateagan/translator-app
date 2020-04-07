@@ -18,7 +18,7 @@ class HistoryActivity : BaseNavigationActivity() {
 
         setSupportActionBar(binding.layoutToolbar.toolbar)
         //setSearchView(search_view, search_divider)
-        setItemsIntents(binding.navView, this, this::class.java.simpleName)
+        setItemsIntents(binding.layoutNavigation.navView, this, this::class.java.simpleName)
 
         historyViewModel = ViewModelProvider(this).get(HistoryViewModel::class.java)
     }
