@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Translator app</string>
-    <string name="title_text">Text</string>
+    <string name="title_text_translation">Text translation</string>
     <string name="title_favorites">Favorites</string>
     <string name="test">Test</string>
     <string name="yandex_translator_client">Yandex Translator Client</string>
@@ -10,6 +10,7 @@
     <string name="history">History</string>
     <string name="search">Search</string>
     <string name="learn_words">Learn words</string>
+    <string name="add_or_remove_from_favorites">Add or remove from favorites</string>
     <string name="add_to_favorites">Add to favorites</string>
 
     <string name="pref_languages">Saved languages</string>
@@ -18,7 +19,7 @@
     <string name="target_language">Target language</string>
     <string name="target_language_code">Target language code</string>
     <string name="current_button">Current button</string>
-    <string name="target_button">Current button</string>
+    <string name="target_button">Target button</string>
 
     <string name="http_exception_message">Something went wrong, try again later. Error code: </string>
     <string name="unknown_error">"Something went wrong, try again later. Error message: </string>
@@ -30,5 +31,5 @@
     <string name="clear_text">Clear text</string>
     <string name="listen_entered_text">Listen entered text</string>
     <string name="retry">Retry</string>
-    <string name="error">Error!</string>
+    <string name="error">Error</string>
 </resources>
