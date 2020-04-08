@@ -17,9 +17,10 @@ import java.util.*
 import javax.inject.Inject
 
 class TextTranslationViewModel @Inject constructor(
+    val translateObserver: TranslateObserver,
     private val context: Context,
     private val sharedPref: SharedPreferences,
-    stringsHelper: StringsHelper,
+    private val stringsHelper: StringsHelper,
     private val yandexService: YandexService
 ) : ViewModel() {
     private val TAG = TextTranslationViewModel::class.java.simpleName
@@ -28,12 +29,6 @@ class TextTranslationViewModel @Inject constructor(
     var targetButton = LanguageButton.createTargetButton(sharedPref, stringsHelper)
 
     var textToTranslate: ObservableField<String?> = ObservableField("")
-
-    @Inject
-    lateinit var translateObserver: TranslateObserver
-
-    @Inject
-    lateinit var stringsHelper: StringsHelper
 
     /** If using only single tts object there will be big delay
      * if you listen to current and target text in turn.
@@ -130,7 +125,6 @@ class TextTranslationViewModel @Inject constructor(
 
         if (languageButton == stringsHelper.currentButton())
             currentTextToSpeech?.language = Locale.forLanguageTag(currentButton.languageCode!!)
-        else
-            targetTextToSpeech?.language = Locale.forLanguageTag(targetButton.languageCode!!)
+        else targetTextToSpeech?.language = Locale.forLanguageTag(targetButton.languageCode!!)
     }
 }
