@@ -21,7 +21,6 @@ import siyateagan.example.translatorapp.ui.base.interfaces.OnRetryClick
 import siyateagan.example.translatorapp.ui.selectLanguage.SelectLanguageActivity
 import siyateagan.example.translatorapp.util.getOnFinishTimer
 import siyateagan.example.translatorapp.util.setRestartTimerManager
-import java.util.*
 import javax.inject.Inject
 
 
@@ -36,8 +35,6 @@ class TextTranslationActivity : BaseNavigationActivity(), OnRetryClick {
 
     private val disposables = CompositeDisposable()
     private val timer = getOnFinishTimer(400, ::setLoadingMessage)
-    private var currentTextToSpeech: TextToSpeech? = null
-    private var targetTextToSpeech: TextToSpeech? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
@@ -58,8 +55,7 @@ class TextTranslationActivity : BaseNavigationActivity(), OnRetryClick {
         binding.swapLanguagesButton.setOnClickListener {
             textTranslationViewModel.swapLanguages()
             textTranslationViewModel.translateText()
-            setTtsLanguage(textTranslationViewModel.currentButton)
-            setTtsLanguage(textTranslationViewModel.targetButton)
+            textTranslationViewModel.swapTtsLanguages()
         }
 
         textTranslationViewModel.setPreviousLanguages()
@@ -86,15 +82,7 @@ class TextTranslationActivity : BaseNavigationActivity(), OnRetryClick {
         binding.errorInclude.listener = this
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            currentTextToSpeech =
-                TextToSpeech(
-                    this,
-                    TextToSpeech.OnInitListener { setTtsLanguage(textTranslationViewModel.currentButton) })
-            targetTextToSpeech =
-                TextToSpeech(
-                    this,
-                    TextToSpeech.OnInitListener { setTtsLanguage(textTranslationViewModel.targetButton) })
-
+            textTranslationViewModel.initTts()
             listOf(binding.buttonListenInput, binding.buttonListenOutput).forEach { imageButton ->
                 imageButton.setOnClickListener { speakOut(imageButton.id) }
             }
@@ -149,34 +137,27 @@ class TextTranslationActivity : BaseNavigationActivity(), OnRetryClick {
         textTranslationViewModel.setNewLanguage(requestCode, data)
         textTranslationViewModel.translateText()
 
-        if (requestCode == 1) setTtsLanguage(textTranslationViewModel.currentButton)
-        else setTtsLanguage(textTranslationViewModel.targetButton)
+        if (requestCode == 1) textTranslationViewModel.setTtsLanguage(getString(R.string.current_button))
+        else textTranslationViewModel.setTtsLanguage(getString(R.string.target_button))
+    }
+
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    fun speakOut(buttonId: Int) {
+        val text: CharSequence?
+        val tts: TextToSpeech?
+        if (buttonId == binding.buttonListenInput.id) {
+            text = binding.editTextToTranslate.text
+            tts = textTranslationViewModel.currentTextToSpeech
+        } else {
+            text = binding.translatedText.text
+            tts = textTranslationViewModel.targetTextToSpeech
+        }
+
+        tts?.speak(text, TextToSpeech.QUEUE_FLUSH, null, "")
     }
 
     override fun onDestroy() {
         super.onDestroy()
         disposables.dispose()
-    }
-
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    private fun speakOut(buttonId: Int) {
-        val text: CharSequence
-        if (buttonId == binding.buttonListenInput.id) {
-            text = binding.editTextToTranslate.text
-            currentTextToSpeech?.speak(text, TextToSpeech.QUEUE_FLUSH, null, "")
-        } else {
-            text = binding.translatedText.text
-            targetTextToSpeech?.speak(text, TextToSpeech.QUEUE_FLUSH, null, "")
-        }
-    }
-
-    private fun setTtsLanguage(button: LanguageButton) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) return
-        if (button.languageCode.isNullOrEmpty()) return
-
-        val languageCode: String = button.languageCode!!
-        if (button == textTranslationViewModel.currentButton)
-            currentTextToSpeech?.language = Locale.forLanguageTag(languageCode)
-        else targetTextToSpeech?.language = Locale.forLanguageTag(languageCode)
     }
 }

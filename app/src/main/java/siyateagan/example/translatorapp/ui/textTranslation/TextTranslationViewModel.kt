@@ -1,7 +1,10 @@
 package siyateagan.example.translatorapp.ui.textTranslation
 
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.os.Build
+import android.speech.tts.TextToSpeech
 import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
@@ -10,9 +13,11 @@ import siyateagan.example.translatorapp.network.YandexService
 import siyateagan.example.translatorapp.network.observer.TranslateObserver
 import siyateagan.example.translatorapp.util.ParcelablePair
 import siyateagan.example.translatorapp.util.StringsHelper
+import java.util.*
 import javax.inject.Inject
 
 class TextTranslationViewModel @Inject constructor(
+    private val context: Context,
     private val sharedPref: SharedPreferences,
     stringsHelper: StringsHelper,
     private val yandexService: YandexService
@@ -26,6 +31,15 @@ class TextTranslationViewModel @Inject constructor(
 
     @Inject
     lateinit var translateObserver: TranslateObserver
+
+    @Inject
+    lateinit var stringsHelper: StringsHelper
+
+    /** If using only single tts object there will be big delay
+     * if you listen to current and target text in turn.
+     * So there are two tts object to prevent delay*/
+    var currentTextToSpeech: TextToSpeech? = null
+    var targetTextToSpeech: TextToSpeech? = null
 
     fun setNewLanguage(requestCode: Int, data: Intent?) {
         val codeWithLanguage =
@@ -92,4 +106,31 @@ class TextTranslationViewModel @Inject constructor(
     }
 
     fun getResponseObservable() = translateObserver.isLoading.observable
+
+    fun initTts() {
+        currentTextToSpeech = TextToSpeech(
+            context,
+            TextToSpeech.OnInitListener { setTtsLanguage(stringsHelper.currentButton()) })
+
+        targetTextToSpeech =
+            TextToSpeech(
+                context,
+                TextToSpeech.OnInitListener { setTtsLanguage(stringsHelper.targetButton()) })
+    }
+
+    fun swapTtsLanguages() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) return
+        currentTextToSpeech?.language = targetTextToSpeech?.voice?.locale.also {
+            targetTextToSpeech?.language = currentTextToSpeech?.voice?.locale
+        }
+    }
+
+    fun setTtsLanguage(languageButton: String) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) return
+
+        if (languageButton == stringsHelper.currentButton())
+            currentTextToSpeech?.language = Locale.forLanguageTag(currentButton.languageCode!!)
+        else
+            targetTextToSpeech?.language = Locale.forLanguageTag(targetButton.languageCode!!)
+    }
 }
