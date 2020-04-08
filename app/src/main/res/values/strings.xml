@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Translator app</string>
-    <string name="title_text_translation">Text translation</string>
+    <string name="title_text_translation">Text</string>
     <string name="title_favorites">Favorites</string>
     <string name="test">Test</string>
     <string name="yandex_translator_client">Yandex Translator Client</string>
