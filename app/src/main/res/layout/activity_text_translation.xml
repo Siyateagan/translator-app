@@ -120,20 +120,12 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <ImageButton
-                        android:id="@+id/button_voice_recognition"
-                        style="@style/ButtonControl"
-                        android:contentDescription="@string/listen_entered_text"
-                        android:src="@drawable/ic_keyboard_voice_24dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/button_clear" />
-
-                    <ImageButton
                         android:id="@+id/button_listen_input"
                         style="@style/ButtonControl"
                         android:contentDescription="@string/listen_entered_text"
                         android:src="@drawable/ic_volume_24dp"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/button_voice_recognition" />
+                        app:layout_constraintTop_toBottomOf="@+id/button_clear" />
 
                     <View
                         android:id="@+id/text_divider"
