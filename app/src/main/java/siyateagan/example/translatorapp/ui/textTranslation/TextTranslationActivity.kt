@@ -55,7 +55,6 @@ class TextTranslationActivity : BaseNavigationActivity(), OnRetryClick {
         binding.swapLanguagesButton.setOnClickListener {
             textTranslationViewModel.swapLanguages()
             textTranslationViewModel.translateText()
-            textTranslationViewModel.swapTtsLanguages()
         }
 
         textTranslationViewModel.setPreviousLanguages()

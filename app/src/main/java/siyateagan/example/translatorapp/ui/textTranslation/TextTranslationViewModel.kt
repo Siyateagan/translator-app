@@ -67,6 +67,7 @@ class TextTranslationViewModel @Inject constructor(
     fun swapLanguages() {
         swapLanguagesData()
         swapButtons()
+        swapTtsLanguages()
     }
 
     private fun swapLanguagesData() {
@@ -85,6 +86,11 @@ class TextTranslationViewModel @Inject constructor(
             it.language.notifyChange()
             saveLanguage(it.getStringsPair(), it.getCodeAndLanguagePair())
         }
+    }
+
+    private fun swapTtsLanguages() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) return
+        currentTextToSpeech = targetTextToSpeech.also { targetTextToSpeech = currentTextToSpeech }
     }
 
     fun translateText() {
@@ -111,13 +117,6 @@ class TextTranslationViewModel @Inject constructor(
             TextToSpeech(
                 context,
                 TextToSpeech.OnInitListener { setTtsLanguage(stringsHelper.targetButton()) })
-    }
-
-    fun swapTtsLanguages() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) return
-        currentTextToSpeech?.language = targetTextToSpeech?.voice?.locale.also {
-            targetTextToSpeech?.language = currentTextToSpeech?.voice?.locale
-        }
     }
 
     fun setTtsLanguage(languageButton: String) {
