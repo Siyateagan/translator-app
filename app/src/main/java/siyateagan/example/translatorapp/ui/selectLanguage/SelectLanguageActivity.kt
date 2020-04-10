@@ -13,7 +13,7 @@ import io.reactivex.disposables.CompositeDisposable
 import siyateagan.example.translatorapp.ui.base.interfaces.OnRetryClick
 import siyateagan.example.translatorapp.R
 import siyateagan.example.translatorapp.databinding.ActivitySelectLanguageBinding
-import siyateagan.example.translatorapp.network.ResponseStatus
+import siyateagan.example.translatorapp.data.local.ResponseStatus
 import siyateagan.example.translatorapp.ui.adapters.LanguagesAdapter
 import siyateagan.example.translatorapp.ui.base.BaseActivity
 import javax.inject.Inject

@@ -1,4 +1,4 @@
-package siyateagan.example.translatorapp.network
+package siyateagan.example.translatorapp.data.local
 
 sealed class ResponseStatus {
     object Init : ResponseStatus()

@@ -1,8 +1,10 @@
-package siyateagan.example.translatorapp.network
+package siyateagan.example.translatorapp.data.remote
 
 import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Query
+import siyateagan.example.translatorapp.data.model.AvailableLanguages
+import siyateagan.example.translatorapp.data.model.TranslatedText
 
 /**
  * Interface for work with Retrofit2, describe requests to Yandex.Translate api with responses

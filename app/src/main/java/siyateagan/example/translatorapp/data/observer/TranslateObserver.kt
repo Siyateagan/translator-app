@@ -1,10 +1,11 @@
-package siyateagan.example.translatorapp.network.observer
+package siyateagan.example.translatorapp.data.observer
 
 import android.content.Context
 import androidx.databinding.ObservableField
 import io.reactivex.disposables.Disposable
-import siyateagan.example.translatorapp.network.ResponseStatus
-import siyateagan.example.translatorapp.network.TranslatedText
+import siyateagan.example.translatorapp.data.local.ResponseStatus
+import siyateagan.example.translatorapp.data.model.TranslatedText
+import siyateagan.example.translatorapp.data.observer.BaseSingleObserver
 import siyateagan.example.translatorapp.util.ObservableVariable
 import javax.inject.Inject
 

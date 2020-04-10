@@ -1,8 +1,8 @@
-package siyateagan.example.translatorapp.network.observer
+package siyateagan.example.translatorapp.data.observer
 
 import android.content.Context
-import siyateagan.example.translatorapp.network.AvailableLanguages
-import siyateagan.example.translatorapp.network.ResponseStatus
+import siyateagan.example.translatorapp.data.model.AvailableLanguages
+import siyateagan.example.translatorapp.data.local.ResponseStatus
 import siyateagan.example.translatorapp.ui.adapters.LanguagesAdapter
 import siyateagan.example.translatorapp.util.ObservableVariable
 import javax.inject.Inject

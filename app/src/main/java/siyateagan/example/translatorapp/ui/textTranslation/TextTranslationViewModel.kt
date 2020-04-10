@@ -9,10 +9,10 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
 import io.reactivex.schedulers.Schedulers
-import siyateagan.example.translatorapp.network.YandexService
-import siyateagan.example.translatorapp.network.observer.TranslateObserver
+import siyateagan.example.translatorapp.data.remote.YandexService
+import siyateagan.example.translatorapp.data.observer.TranslateObserver
 import siyateagan.example.translatorapp.util.ParcelablePair
-import siyateagan.example.translatorapp.util.StringsHelper
+import siyateagan.example.translatorapp.data.local.StringsHelper
 import java.util.*
 import javax.inject.Inject
 

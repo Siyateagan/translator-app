@@ -2,7 +2,7 @@ package siyateagan.example.translatorapp.ui.textTranslation
 
 import android.content.SharedPreferences
 import androidx.databinding.ObservableField
-import siyateagan.example.translatorapp.util.StringsHelper
+import siyateagan.example.translatorapp.data.local.StringsHelper
 
 class LanguageButton private constructor(
     private val sharedPref: SharedPreferences,

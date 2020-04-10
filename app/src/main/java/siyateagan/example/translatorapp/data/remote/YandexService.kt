@@ -1,6 +1,8 @@
-package siyateagan.example.translatorapp.network
+package siyateagan.example.translatorapp.data.remote
 
 import io.reactivex.Single
+import siyateagan.example.translatorapp.data.model.AvailableLanguages
+import siyateagan.example.translatorapp.data.model.TranslatedText
 import javax.inject.Inject
 
 class YandexService @Inject constructor(private val yandexTranslateApi: YandexTranslateApi) {

@@ -1,4 +1,4 @@
-package siyateagan.example.translatorapp.util
+package siyateagan.example.translatorapp.data.local
 
 import android.content.Context
 import siyateagan.example.translatorapp.R

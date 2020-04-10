@@ -5,7 +5,7 @@ import dagger.Provides
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import siyateagan.example.translatorapp.network.YandexTranslateApi
+import siyateagan.example.translatorapp.data.remote.YandexTranslateApi
 import javax.inject.Singleton
 
 @Module
@@ -24,7 +24,7 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideYandexTranslateApi(retrofit: Retrofit): YandexTranslateApi{
+    fun provideYandexTranslateApi(retrofit: Retrofit): YandexTranslateApi {
         return retrofit.create(YandexTranslateApi::class.java)
     }
 }

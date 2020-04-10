@@ -1,7 +1,7 @@
-package siyateagan.example.translatorapp.network
+package siyateagan.example.translatorapp.data.model
 
 /**
- * Response content on getLanguages, translate requests of [siyateagan.example.translatorapp.network.YandexTranslateApi]
+ * Response content on getLanguages, translate requests of [siyateagan.example.translatorapp.data.remote.YandexTranslateApi]
  */
 
 data class AvailableLanguages(var langs: LinkedHashMap<String, String>?)

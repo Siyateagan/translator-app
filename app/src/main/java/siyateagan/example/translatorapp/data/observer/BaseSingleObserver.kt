@@ -1,4 +1,4 @@
-package siyateagan.example.translatorapp.network.observer
+package siyateagan.example.translatorapp.data.observer
 
 import android.content.Context
 import io.reactivex.SingleObserver

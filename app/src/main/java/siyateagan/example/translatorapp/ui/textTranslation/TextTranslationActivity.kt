@@ -15,7 +15,7 @@ import dagger.android.AndroidInjection
 import io.reactivex.disposables.CompositeDisposable
 import siyateagan.example.translatorapp.R
 import siyateagan.example.translatorapp.databinding.ActivityTextTranslationBinding
-import siyateagan.example.translatorapp.network.ResponseStatus
+import siyateagan.example.translatorapp.data.local.ResponseStatus
 import siyateagan.example.translatorapp.ui.base.BaseNavigationActivity
 import siyateagan.example.translatorapp.ui.base.interfaces.OnRetryClick
 import siyateagan.example.translatorapp.ui.selectLanguage.SelectLanguageActivity
