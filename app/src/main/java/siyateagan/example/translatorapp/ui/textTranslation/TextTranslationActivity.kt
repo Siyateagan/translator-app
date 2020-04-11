@@ -9,10 +9,13 @@ import android.text.InputType
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import dagger.android.AndroidInjection
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import siyateagan.example.translatorapp.R
 import siyateagan.example.translatorapp.databinding.ActivityTextTranslationBinding
 import siyateagan.example.translatorapp.data.local.ResponseStatus
@@ -86,6 +89,25 @@ class TextTranslationActivity : BaseNavigationActivity(), OnRetryClick {
                 imageButton.setOnClickListener { speakOut(imageButton.id) }
             }
         }
+
+        binding.buttonFavorites.setOnClickListener {
+            val favDisposable = textTranslationViewModel.addToFavorites()
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { result -> setButtonColor(result) }
+            disposables.add(favDisposable)
+        }
+    }
+
+    private fun setButtonColor(result: Boolean) {
+        if (result)
+            binding.buttonFavorites.setColorFilter(
+                ContextCompat.getColor(this, R.color.colorAccent)
+            )
+        else
+            binding.buttonFavorites.setColorFilter(
+                ContextCompat.getColor(this, R.color.primaryText)
+            )
     }
 
     override fun onRetryClick() {

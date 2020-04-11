@@ -7,12 +7,15 @@ import android.os.Build
 import android.speech.tts.TextToSpeech
 import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
 import io.reactivex.schedulers.Schedulers
-import siyateagan.example.translatorapp.data.remote.YandexService
-import siyateagan.example.translatorapp.data.observer.TranslateObserver
-import siyateagan.example.translatorapp.util.ParcelablePair
 import siyateagan.example.translatorapp.data.local.StringsHelper
+import siyateagan.example.translatorapp.data.model.Dao
+import siyateagan.example.translatorapp.data.model.FavoritesEntity
+import siyateagan.example.translatorapp.data.observer.TranslateObserver
+import siyateagan.example.translatorapp.data.remote.YandexService
+import siyateagan.example.translatorapp.util.ParcelablePair
 import java.util.*
 import javax.inject.Inject
 
@@ -21,7 +24,8 @@ class TextTranslationViewModel @Inject constructor(
     private val context: Context,
     private val sharedPref: SharedPreferences,
     private val stringsHelper: StringsHelper,
-    private val yandexService: YandexService
+    private val yandexService: YandexService,
+    private val translationDao: Dao
 ) : ViewModel() {
     private val TAG = TextTranslationViewModel::class.java.simpleName
 
@@ -121,9 +125,32 @@ class TextTranslationViewModel @Inject constructor(
 
     fun setTtsLanguage(languageButton: String) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) return
+        if (currentButton.languageCode.isNullOrBlank() || targetButton.languageCode.isNullOrBlank()) return
 
         if (languageButton == stringsHelper.currentButton())
             currentTextToSpeech?.language = Locale.forLanguageTag(currentButton.languageCode!!)
         else targetTextToSpeech?.language = Locale.forLanguageTag(targetButton.languageCode!!)
+    }
+
+    fun addToFavorites() = Single.create<Boolean> {
+        if (textToTranslate.get().isNullOrBlank() ||
+            translateObserver.translatedText.get().isNullOrBlank()
+        ) return@create
+
+        val favoritesEntity = FavoritesEntity(
+            current = textToTranslate.get()!!,
+            target = translateObserver.translatedText.get()!!
+        )
+
+        val dbEntity: FavoritesEntity? =
+            translationDao.contains(favoritesEntity.current, favoritesEntity.target)
+
+        if (dbEntity == null) {
+            translationDao.insert(favoritesEntity)
+            it.onSuccess(true)
+        } else {
+            translationDao.delete(dbEntity)
+            it.onSuccess(false)
+        }
     }
 }

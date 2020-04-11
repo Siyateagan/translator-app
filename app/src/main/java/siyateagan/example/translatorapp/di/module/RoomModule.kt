@@ -12,8 +12,8 @@ class RoomModule {
 
     @Singleton
     @Provides
-    fun provideTranslationDb(applicationContext: Context) = Room.databaseBuilder(
+    fun provideTranslationDao(applicationContext: Context) = Room.databaseBuilder(
         applicationContext,
-        AppDatabase::class.java, "database-name"
-    ).build()
+        AppDatabase::class.java, "favorites_database"
+    ).build().translationDao()
 }
