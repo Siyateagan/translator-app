@@ -94,12 +94,17 @@ class TextTranslationActivity : BaseNavigationActivity(), OnRetryClick {
             val favDisposable = textTranslationViewModel.addToFavorites()
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { result -> setButtonColor(result) }
+                .subscribe { result -> setFavoritesColor(result) }
             disposables.add(favDisposable)
         }
+
+        val colorDisposable = textTranslationViewModel.isColored.observable.subscribe {
+            setFavoritesColor(it)
+        }
+        disposables.add(colorDisposable)
     }
 
-    private fun setButtonColor(result: Boolean) {
+    private fun setFavoritesColor(result: Boolean) {
         if (result)
             binding.buttonFavorites.setColorFilter(
                 ContextCompat.getColor(this, R.color.colorAccent)

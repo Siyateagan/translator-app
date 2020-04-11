@@ -16,6 +16,7 @@ import siyateagan.example.translatorapp.data.model.Dao
 import siyateagan.example.translatorapp.data.model.FavoritesEntity
 import siyateagan.example.translatorapp.data.observer.TranslateObserver
 import siyateagan.example.translatorapp.data.remote.YandexService
+import siyateagan.example.translatorapp.util.ObservableVariable
 import siyateagan.example.translatorapp.util.ParcelablePair
 import java.util.*
 import javax.inject.Inject
@@ -40,6 +41,8 @@ class TextTranslationViewModel @Inject constructor(
      * So there are two tts object to prevent delay*/
     var currentTextToSpeech: TextToSpeech? = null
     var targetTextToSpeech: TextToSpeech? = null
+
+    var isColored = ObservableVariable(false)
 
     fun setNewLanguage(requestCode: Int, data: Intent?) {
         val codeWithLanguage =
@@ -108,6 +111,14 @@ class TextTranslationViewModel @Inject constructor(
         yandexService.translate(textToTranslate.get()!!, translateDirection)
             .subscribeOn(Schedulers.io())
             .observeOn(mainThread())
+            .doAfterSuccess {
+                ButtonRecolorTask(
+                    textToTranslate.get()!!,
+                    translateObserver.translatedText.get()!!,
+                    translationDao,
+                    isColored
+                ).execute()
+            }
             .subscribe(translateObserver)
     }
 
