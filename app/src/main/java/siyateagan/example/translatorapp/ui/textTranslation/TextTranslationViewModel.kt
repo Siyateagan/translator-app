@@ -8,6 +8,7 @@ import android.speech.tts.TextToSpeech
 import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
 import io.reactivex.Single
+import io.reactivex.SingleEmitter
 import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
 import io.reactivex.schedulers.Schedulers
 import siyateagan.example.translatorapp.data.local.StringsHelper
@@ -137,6 +138,11 @@ class TextTranslationViewModel @Inject constructor(
             translateObserver.translatedText.get().isNullOrBlank()
         ) return@create
 
+        val (favoritesEntity, dbEntity: FavoritesEntity?) = setEntities()
+        updateDb(dbEntity, favoritesEntity, it)
+    }
+
+    private fun setEntities(): Pair<FavoritesEntity, FavoritesEntity?> {
         val favoritesEntity = FavoritesEntity(
             current = textToTranslate.get()!!,
             target = translateObserver.translatedText.get()!!
@@ -145,6 +151,14 @@ class TextTranslationViewModel @Inject constructor(
         val dbEntity: FavoritesEntity? =
             translationDao.contains(favoritesEntity.current, favoritesEntity.target)
 
+        return Pair(favoritesEntity, dbEntity)
+    }
+
+    private fun updateDb(
+        dbEntity: FavoritesEntity?,
+        favoritesEntity: FavoritesEntity,
+        it: SingleEmitter<Boolean>
+    ) {
         if (dbEntity == null) {
             translationDao.insert(favoritesEntity)
             it.onSuccess(true)
