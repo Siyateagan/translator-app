@@ -1,14 +1,14 @@
 package siyateagan.example.translatorapp.ui.favorites
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import io.reactivex.Single
+import siyateagan.example.translatorapp.data.model.Dao
+import siyateagan.example.translatorapp.data.model.FavoritesEntity
 import javax.inject.Inject
 
-class FavoritesViewModel @Inject constructor(): ViewModel() {
+class FavoritesViewModel @Inject constructor(private val translationDao: Dao) : ViewModel() {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is favorites Fragment"
+    fun getTranslationPairs() = Single.create<List<FavoritesEntity>> {
+        it.onSuccess(translationDao.getAll())
     }
-    val text: LiveData<String> = _text
 }
