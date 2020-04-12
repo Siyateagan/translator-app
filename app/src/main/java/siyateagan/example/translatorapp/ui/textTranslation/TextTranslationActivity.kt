@@ -63,8 +63,8 @@ class TextTranslationActivity : BaseNavigationActivity(), OnRetryClick {
         textTranslationViewModel.setPreviousLanguages()
 
         val requestTimer: CountDownTimer =
-            getOnFinishTimer(500, textTranslationViewModel::translateText)
-        binding.editTextToTranslate.setRestartTimerManager(requestTimer)
+            getOnFinishTimer(500, binding.buttonFavorites, textTranslationViewModel::translateText)
+        binding.editTextToTranslate.setRestartTimerManager(requestTimer, binding.buttonFavorites)
 
         binding.buttonClear.setOnClickListener {
             textTranslationViewModel.translateObserver.translatedText.set("")
