@@ -14,12 +14,12 @@
         android:src="@drawable/ic_bookmark" />
 
     <TextView
-        android:id="@+id/input_language"
+        android:id="@+id/text_current"
         style="@style/TextViewItem"
         android:text="@string/test" />
 
     <TextView
-        android:id="@+id/translation_language"
+        android:id="@+id/text_target"
         style="@style/TextViewItem"
         android:maxLines="6"
         android:text="@string/test" />
