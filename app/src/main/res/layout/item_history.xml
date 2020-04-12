@@ -8,19 +8,26 @@
     android:paddingBottom="@dimen/padding_12dp">
 
     <ImageButton
-        android:id="@+id/imageView"
-        style="@style/FavoritesButton"
+        android:id="@+id/button_favorites"
+        style="@style/ButtonControl"
+        android:layout_gravity="top|start"
+        android:layout_marginStart="@dimen/margin_12dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="@dimen/margin_12dp"
         android:contentDescription="@string/add_or_remove_from_favorites"
-        android:src="@drawable/ic_bookmark" />
+        android:src="@drawable/ic_bookmark"
+        android:tint="@color/colorAccent" />
 
     <TextView
         android:id="@+id/text_current"
         style="@style/TextViewItem"
+        android:includeFontPadding="false"
         android:text="@string/test" />
 
     <TextView
         android:id="@+id/text_target"
         style="@style/TextViewItem"
+        android:includeFontPadding="false"
         android:maxLines="6"
         android:text="@string/test" />
 </LinearLayout>

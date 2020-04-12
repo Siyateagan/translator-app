@@ -24,14 +24,6 @@
         <item name="android:gravity">center</item>
     </style>
 
-    <style name="FavoritesButton" parent="LanguageButton">
-        <item name="android:layout_width">24dp</item>
-        <item name="android:layout_height">20dp</item>
-        <item name="android:layout_gravity">top|start</item>
-        <item name="android:layout_marginStart">@dimen/margin_12dp</item>
-        <item name="android:layout_marginEnd">@dimen/margin_12dp</item>
-    </style>
-
     <style name="Divider">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item>
