@@ -29,7 +29,6 @@ class FavoritesActivity : BaseNavigationActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_favorites)
 
         setSupportActionBar(binding.layoutToolbar.toolbar)
-        setSearchView(binding.layoutSearchView.searchView, binding.layoutSearchView.searchDivider)
         setItemsIntents(binding.layoutNavigation.navView, this, this::class.java.simpleName)
 
         favoritesViewModel =

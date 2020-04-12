@@ -30,20 +30,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <include
-                    android:id="@+id/layout_search_view"
-                    layout="@layout/layout_search_view"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    app:layout_constraintBottom_toTopOf="@+id/layout_navigation"
+                    app:layout_constraintBottom_toTopOf="@+id/button"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/layout_search_view">
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                         android:id="@+id/refresh_layout"
@@ -61,16 +54,16 @@
 
                     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-                    <Button
-                        android:id="@+id/button"
-                        style="@style/RoundedButton"
-                        android:layout_margin="@dimen/margin_16dp"
-                        android:text="@string/learn_words"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent" />
-
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <Button
+                    android:id="@+id/button"
+                    style="@style/RoundedButton"
+                    android:layout_margin="@dimen/margin_16dp"
+                    android:text="@string/learn_words"
+                    app:layout_constraintBottom_toTopOf="@id/layout_navigation"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
 
                 <include
                     android:id="@+id/layout_navigation"

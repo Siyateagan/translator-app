@@ -17,7 +17,6 @@ class HistoryActivity : BaseNavigationActivity() {
             DataBindingUtil.setContentView(this, R.layout.activity_history)
 
         setSupportActionBar(binding.layoutToolbar.toolbar)
-        //setSearchView(search_view, search_divider)
         setItemsIntents(binding.layoutNavigation.navView, this, this::class.java.simpleName)
 
         historyViewModel = ViewModelProvider(this).get(HistoryViewModel::class.java)
