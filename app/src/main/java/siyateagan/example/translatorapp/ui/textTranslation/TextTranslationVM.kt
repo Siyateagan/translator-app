@@ -22,7 +22,7 @@ import siyateagan.example.translatorapp.util.ParcelablePair
 import java.util.*
 import javax.inject.Inject
 
-class TextTranslationViewModel @Inject constructor(
+class TextTranslationVM @Inject constructor(
     val translateObserver: TranslateObserver,
     private val context: Context,
     private val sharedPref: SharedPreferences,
@@ -30,7 +30,7 @@ class TextTranslationViewModel @Inject constructor(
     private val yandexService: YandexService,
     private val translationDao: Dao
 ) : ViewModel() {
-    private val TAG = TextTranslationViewModel::class.java.simpleName
+    private val TAG = TextTranslationVM::class.java.simpleName
 
     var currentButton = LanguageButton.createCurrentButton(sharedPref, stringsHelper)
     var targetButton = LanguageButton.createTargetButton(sharedPref, stringsHelper)

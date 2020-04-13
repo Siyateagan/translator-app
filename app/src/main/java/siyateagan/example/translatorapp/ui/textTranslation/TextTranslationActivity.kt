@@ -34,7 +34,7 @@ class TextTranslationActivity : BaseNavigationActivity(), OnRetryClick {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-    lateinit var textTranslationViewModel: TextTranslationViewModel
+    lateinit var textTranslationVM: TextTranslationVM
 
     private val disposables = CompositeDisposable()
     private val timer = getOnFinishTimer(400, ::setLoadingMessage)
@@ -50,28 +50,28 @@ class TextTranslationActivity : BaseNavigationActivity(), OnRetryClick {
         setItemsIntents(binding.layoutNavigation.navView, this, this::class.java.simpleName)
         setKeyboardDoneButton()
 
-        textTranslationViewModel =
-            ViewModelProvider(this, viewModelFactory).get(TextTranslationViewModel::class.java)
+        textTranslationVM =
+            ViewModelProvider(this, viewModelFactory).get(TextTranslationVM::class.java)
 
-        binding.viewModel = textTranslationViewModel
+        binding.viewModel = textTranslationVM
 
         binding.swapLanguagesButton.setOnClickListener {
-            textTranslationViewModel.swapLanguages()
-            textTranslationViewModel.translateText()
+            textTranslationVM.swapLanguages()
+            textTranslationVM.translateText()
         }
 
-        textTranslationViewModel.setPreviousLanguages()
+        textTranslationVM.setPreviousLanguages()
 
         val requestTimer: CountDownTimer =
-            getOnFinishTimer(500, textTranslationViewModel::translateText)
+            getOnFinishTimer(500, textTranslationVM::translateText)
         binding.editTextToTranslate.setRestartTimerManager(requestTimer, binding.buttonFavorites)
 
         binding.buttonClear.setOnClickListener {
-            textTranslationViewModel.translateObserver.translatedText.set("")
+            textTranslationVM.translateObserver.translatedText.set("")
             binding.editTextToTranslate.text = null
         }
 
-        val disposable = textTranslationViewModel.getResponseObservable().subscribe {
+        val disposable = textTranslationVM.getResponseObservable().subscribe {
             when (it) {
                 is ResponseStatus.Loading -> showLoading()
                 is ResponseStatus.Success -> showSuccess()
@@ -84,21 +84,21 @@ class TextTranslationActivity : BaseNavigationActivity(), OnRetryClick {
         binding.errorInclude.listener = this
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            textTranslationViewModel.initTts()
+            textTranslationVM.initTts()
             listOf(binding.buttonListenInput, binding.buttonListenOutput).forEach { imageButton ->
                 imageButton.setOnClickListener { speakOut(imageButton.id) }
             }
         }
 
         binding.buttonFavorites.setOnClickListener {
-            val favDisposable = textTranslationViewModel.addToFavorites()
+            val favDisposable = textTranslationVM.addToFavorites()
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { result -> setFavoritesColor(result) }
             disposables.add(favDisposable)
         }
 
-        val colorDisposable = textTranslationViewModel.isColored.observable.subscribe {
+        val colorDisposable = textTranslationVM.isColored.observable.subscribe {
             setFavoritesColor(it)
             binding.buttonFavorites.visibility = View.VISIBLE
         }
@@ -118,7 +118,7 @@ class TextTranslationActivity : BaseNavigationActivity(), OnRetryClick {
 
     override fun onRetryClick() {
         showLoading()
-        textTranslationViewModel.translateText()
+        textTranslationVM.translateText()
     }
 
     /** if the response comes long a message is displayed*/
@@ -161,11 +161,11 @@ class TextTranslationActivity : BaseNavigationActivity(), OnRetryClick {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        textTranslationViewModel.setNewLanguage(requestCode, data)
-        textTranslationViewModel.translateText()
+        textTranslationVM.setNewLanguage(requestCode, data)
+        textTranslationVM.translateText()
 
-        if (requestCode == 1) textTranslationViewModel.setTtsLanguage(getString(R.string.current_button))
-        else textTranslationViewModel.setTtsLanguage(getString(R.string.target_button))
+        if (requestCode == 1) textTranslationVM.setTtsLanguage(getString(R.string.current_button))
+        else textTranslationVM.setTtsLanguage(getString(R.string.target_button))
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
@@ -174,10 +174,10 @@ class TextTranslationActivity : BaseNavigationActivity(), OnRetryClick {
         val tts: TextToSpeech?
         if (buttonId == binding.buttonListenInput.id) {
             text = binding.editTextToTranslate.text
-            tts = textTranslationViewModel.currentTextToSpeech
+            tts = textTranslationVM.currentTextToSpeech
         } else {
             text = binding.translatedText.text
-            tts = textTranslationViewModel.targetTextToSpeech
+            tts = textTranslationVM.targetTextToSpeech
         }
 
         tts?.speak(text, TextToSpeech.QUEUE_FLUSH, null, "")

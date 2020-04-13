@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="siyateagan.example.translatorapp.ui.textTranslation.TextTranslationViewModel" />
+            type="siyateagan.example.translatorapp.ui.textTranslation.TextTranslationVM" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

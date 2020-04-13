@@ -8,7 +8,7 @@ import siyateagan.example.translatorapp.data.observer.LanguagesObserver
 import java.util.*
 import javax.inject.Inject
 
-class SelectLanguageViewModel @Inject constructor(
+class SelectLanguageVM @Inject constructor(
     private val yandexService: YandexService
 ) :
     ViewModel() {

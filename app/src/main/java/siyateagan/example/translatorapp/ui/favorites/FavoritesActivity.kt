@@ -19,7 +19,7 @@ class FavoritesActivity : BaseNavigationActivity() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-    lateinit var favoritesViewModel: FavoritesViewModel
+    lateinit var favoritesVM: FavoritesVM
 
     private val disposables = CompositeDisposable()
     lateinit var binding: ActivityFavoritesBinding
@@ -35,12 +35,12 @@ class FavoritesActivity : BaseNavigationActivity() {
         setSupportActionBar(binding.layoutToolbar.toolbar)
         setItemsIntents(binding.layoutNavigation.navView, this, this::class.java.simpleName)
 
-        favoritesViewModel =
-            ViewModelProvider(this, viewModelFactory).get(FavoritesViewModel::class.java)
+        favoritesVM =
+            ViewModelProvider(this, viewModelFactory).get(FavoritesVM::class.java)
 
         binding.refreshLayout.isRefreshing = true
         binding.recyclerHistory.layoutManager = LinearLayoutManager(this)
-        val dbDisposable = favoritesViewModel.getTranslationPairs()
+        val dbDisposable = favoritesVM.getTranslationPairs()
             .subscribeOn(Schedulers.computation())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe { result ->

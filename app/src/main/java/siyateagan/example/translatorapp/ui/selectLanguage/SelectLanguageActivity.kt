@@ -29,7 +29,7 @@ class SelectLanguageActivity @Inject constructor() : BaseActivity(),
     @Inject
     lateinit var recyclerAdapter: LanguagesAdapter
 
-    private lateinit var selectLanguageViewModel: SelectLanguageViewModel
+    private lateinit var selectLanguageVM: SelectLanguageVM
 
     private lateinit var languagesRecycler: RecyclerView
     private lateinit var viewManager: RecyclerView.LayoutManager
@@ -46,8 +46,8 @@ class SelectLanguageActivity @Inject constructor() : BaseActivity(),
         setSupportActionBar(binding.layoutToolbar.toolbar)
         setSearchView(binding.layoutSearchView.searchView, binding.layoutSearchView.searchDivider)
 
-        selectLanguageViewModel =
-            ViewModelProvider(this, viewModelFactory).get(SelectLanguageViewModel::class.java)
+        selectLanguageVM =
+            ViewModelProvider(this, viewModelFactory).get(SelectLanguageVM::class.java)
 
         setLanguagesRecycler()
         setSearchViewQuerySettings(binding.layoutSearchView.searchView, recyclerAdapter)
@@ -77,7 +77,7 @@ class SelectLanguageActivity @Inject constructor() : BaseActivity(),
 
     private fun loadLanguages() {
         val languagesDisposable =
-            selectLanguageViewModel.getRefreshObservable().subscribe { handleResult(it) }
+            selectLanguageVM.getRefreshObservable().subscribe { handleResult(it) }
         disposables.add(languagesDisposable)
 
         initShowLoading()
@@ -100,7 +100,7 @@ class SelectLanguageActivity @Inject constructor() : BaseActivity(),
 
     private fun setRefreshListener(): OnRefreshListener {
         val swipeRefreshListener = OnRefreshListener {
-            selectLanguageViewModel.getLanguages()
+            selectLanguageVM.getLanguages()
         }
         binding.refreshLayout.setOnRefreshListener(swipeRefreshListener)
         return swipeRefreshListener
