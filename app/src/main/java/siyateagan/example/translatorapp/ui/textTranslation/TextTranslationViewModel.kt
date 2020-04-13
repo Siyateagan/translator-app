@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Build
 import android.speech.tts.TextToSpeech
+import android.util.Log
 import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
 import io.reactivex.Single
@@ -160,8 +161,10 @@ class TextTranslationViewModel @Inject constructor(
             target = translateObserver.translatedText.get()!!
         )
 
-        val dbEntity: FavoritesEntity? = null
+        var dbEntity: FavoritesEntity? = null
+        //TODO add disposables manager
         translationDao.contains(favoritesEntity.current, favoritesEntity.target)
+            .subscribe ({ result -> dbEntity = result }, {dbEntity = null})
 
         return Pair(favoritesEntity, dbEntity)
     }
@@ -174,7 +177,9 @@ class TextTranslationViewModel @Inject constructor(
         if (dbEntity == null) {
             translationDao.insert(favoritesEntity)
             it.onSuccess(true)
+            Log.e(TAG, "adding")
         } else {
+            Log.e(TAG, "deleting")
             translationDao.delete(dbEntity)
             it.onSuccess(false)
         }
