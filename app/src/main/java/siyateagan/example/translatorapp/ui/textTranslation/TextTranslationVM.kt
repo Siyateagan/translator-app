@@ -17,6 +17,7 @@ import siyateagan.example.translatorapp.data.model.Dao
 import siyateagan.example.translatorapp.data.model.FavoritesEntity
 import siyateagan.example.translatorapp.data.observer.TranslateObserver
 import siyateagan.example.translatorapp.data.remote.YandexService
+import siyateagan.example.translatorapp.ui.base.DisposingViewModel
 import siyateagan.example.translatorapp.util.ObservableVariable
 import siyateagan.example.translatorapp.util.ParcelablePair
 import java.util.*
@@ -29,7 +30,7 @@ class TextTranslationVM @Inject constructor(
     private val stringsHelper: StringsHelper,
     private val yandexService: YandexService,
     private val translationDao: Dao
-) : ViewModel() {
+) : DisposingViewModel() {
     private val TAG = TextTranslationVM::class.java.simpleName
 
     var currentButton = LanguageButton.createCurrentButton(sharedPref, stringsHelper)
