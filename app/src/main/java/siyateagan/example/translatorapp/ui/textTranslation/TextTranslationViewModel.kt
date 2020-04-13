@@ -112,12 +112,13 @@ class TextTranslationViewModel @Inject constructor(
             .subscribeOn(Schedulers.io())
             .observeOn(mainThread())
             .doAfterSuccess {
-                ButtonRecolorTask(
+                translationDao.contains(
                     textToTranslate.get()!!,
-                    translateObserver.translatedText.get()!!,
-                    translationDao,
-                    isColored
-                ).execute()
+                    translateObserver.translatedText.get()!!
+                )
+                    .subscribeOn(Schedulers.computation())
+                    .observeOn(mainThread())
+                    .subscribe({ isColored.value = true }, { isColored.value = false })
             }
             .subscribe(translateObserver)
     }
@@ -159,8 +160,8 @@ class TextTranslationViewModel @Inject constructor(
             target = translateObserver.translatedText.get()!!
         )
 
-        val dbEntity: FavoritesEntity? =
-            translationDao.contains(favoritesEntity.current, favoritesEntity.target)
+        val dbEntity: FavoritesEntity? = null
+        translationDao.contains(favoritesEntity.current, favoritesEntity.target)
 
         return Pair(favoritesEntity, dbEntity)
     }
