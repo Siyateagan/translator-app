@@ -5,10 +5,22 @@ import android.graphics.Color
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 import siyateagan.example.translatorapp.R
 import siyateagan.example.translatorapp.ui.adapters.LanguagesAdapter
 
 abstract class BaseActivity : AppCompatActivity() {
+    private val compositeDisposable = CompositeDisposable()
+
+    fun addDisposable(disposable: Disposable) {
+        compositeDisposable.add(disposable)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        compositeDisposable.clear()
+    }
 
     protected fun setSearchView(
         searchView: SearchView?,
