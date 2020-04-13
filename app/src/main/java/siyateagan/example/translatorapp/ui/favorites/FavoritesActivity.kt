@@ -9,6 +9,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import siyateagan.example.translatorapp.R
+import siyateagan.example.translatorapp.data.model.Dao
 import siyateagan.example.translatorapp.databinding.ActivityFavoritesBinding
 import siyateagan.example.translatorapp.ui.adapters.PairsAdapter
 import siyateagan.example.translatorapp.ui.base.BaseNavigationActivity
@@ -22,6 +23,9 @@ class FavoritesActivity : BaseNavigationActivity() {
 
     private val disposables = CompositeDisposable()
     lateinit var binding: ActivityFavoritesBinding
+
+    @Inject
+    lateinit var translationDao: Dao
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
@@ -40,7 +44,7 @@ class FavoritesActivity : BaseNavigationActivity() {
             .subscribeOn(Schedulers.computation())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe { result ->
-                binding.recyclerHistory.adapter = PairsAdapter(result)
+                binding.recyclerHistory.adapter = PairsAdapter(result, translationDao)
                 disableRefreshLayout()
             }
 
