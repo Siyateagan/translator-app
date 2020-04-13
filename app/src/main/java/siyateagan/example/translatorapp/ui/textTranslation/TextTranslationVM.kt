@@ -5,9 +5,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Build
 import android.speech.tts.TextToSpeech
-import android.util.Log
 import androidx.databinding.ObservableField
-import androidx.lifecycle.ViewModel
 import io.reactivex.Single
 import io.reactivex.SingleEmitter
 import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
@@ -163,9 +161,10 @@ class TextTranslationVM @Inject constructor(
         )
 
         var dbEntity: FavoritesEntity? = null
-        //TODO add disposables manager
-        translationDao.contains(favoritesEntity.current, favoritesEntity.target)
+
+        val dbDisposable = translationDao.contains(favoritesEntity.current, favoritesEntity.target)
             .subscribe ({ result -> dbEntity = result }, {dbEntity = null})
+        addDisposable(dbDisposable)
 
         return Pair(favoritesEntity, dbEntity)
     }
@@ -178,9 +177,7 @@ class TextTranslationVM @Inject constructor(
         if (dbEntity == null) {
             translationDao.insert(favoritesEntity)
             it.onSuccess(true)
-            Log.e(TAG, "adding")
         } else {
-            Log.e(TAG, "deleting")
             translationDao.delete(dbEntity)
             it.onSuccess(false)
         }
