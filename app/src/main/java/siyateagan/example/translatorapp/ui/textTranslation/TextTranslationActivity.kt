@@ -63,7 +63,7 @@ class TextTranslationActivity : BaseNavigationActivity(), OnRetryClick {
         textTranslationViewModel.setPreviousLanguages()
 
         val requestTimer: CountDownTimer =
-            getOnFinishTimer(500, binding.buttonFavorites, textTranslationViewModel::translateText)
+            getOnFinishTimer(500, textTranslationViewModel::translateText)
         binding.editTextToTranslate.setRestartTimerManager(requestTimer, binding.buttonFavorites)
 
         binding.buttonClear.setOnClickListener {
@@ -100,6 +100,7 @@ class TextTranslationActivity : BaseNavigationActivity(), OnRetryClick {
 
         val colorDisposable = textTranslationViewModel.isColored.observable.subscribe {
             setFavoritesColor(it)
+            binding.buttonFavorites.visibility = View.VISIBLE
         }
         disposables.add(colorDisposable)
     }
