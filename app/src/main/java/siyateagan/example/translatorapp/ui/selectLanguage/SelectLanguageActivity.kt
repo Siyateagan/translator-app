@@ -9,13 +9,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import dagger.android.AndroidInjection
-import io.reactivex.disposables.CompositeDisposable
-import siyateagan.example.translatorapp.ui.base.interfaces.OnRetryClick
 import siyateagan.example.translatorapp.R
-import siyateagan.example.translatorapp.databinding.ActivitySelectLanguageBinding
 import siyateagan.example.translatorapp.data.local.ResponseStatus
+import siyateagan.example.translatorapp.databinding.ActivitySelectLanguageBinding
 import siyateagan.example.translatorapp.ui.adapters.LanguagesAdapter
 import siyateagan.example.translatorapp.ui.base.BaseActivity
+import siyateagan.example.translatorapp.ui.base.interfaces.OnRetryClick
 import javax.inject.Inject
 
 
@@ -35,7 +34,6 @@ class SelectLanguageActivity @Inject constructor() : BaseActivity(),
     private lateinit var viewManager: RecyclerView.LayoutManager
 
     private lateinit var binding: ActivitySelectLanguageBinding
-    private val disposables = CompositeDisposable()
     private lateinit var swipeRefreshListener: OnRefreshListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -78,7 +76,7 @@ class SelectLanguageActivity @Inject constructor() : BaseActivity(),
     private fun loadLanguages() {
         val languagesDisposable =
             selectLanguageVM.getRefreshObservable().subscribe { handleResult(it) }
-        disposables.add(languagesDisposable)
+        addDisposable(languagesDisposable)
 
         initShowLoading()
     }
@@ -127,7 +125,6 @@ class SelectLanguageActivity @Inject constructor() : BaseActivity(),
 
     override fun onDestroy() {
         super.onDestroy()
-        disposables.dispose()
         recyclerAdapter.resetAdapterValues()
     }
 }

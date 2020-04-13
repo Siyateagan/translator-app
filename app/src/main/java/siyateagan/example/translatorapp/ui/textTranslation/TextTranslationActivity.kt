@@ -14,11 +14,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import dagger.android.AndroidInjection
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import siyateagan.example.translatorapp.R
-import siyateagan.example.translatorapp.databinding.ActivityTextTranslationBinding
 import siyateagan.example.translatorapp.data.local.ResponseStatus
+import siyateagan.example.translatorapp.databinding.ActivityTextTranslationBinding
 import siyateagan.example.translatorapp.ui.base.BaseNavigationActivity
 import siyateagan.example.translatorapp.ui.base.interfaces.OnRetryClick
 import siyateagan.example.translatorapp.ui.selectLanguage.SelectLanguageActivity
@@ -36,7 +35,6 @@ class TextTranslationActivity : BaseNavigationActivity(), OnRetryClick {
     lateinit var viewModelFactory: ViewModelProvider.Factory
     lateinit var textTranslationVM: TextTranslationVM
 
-    private val disposables = CompositeDisposable()
     private val timer = getOnFinishTimer(400, ::setLoadingMessage)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,15 +69,14 @@ class TextTranslationActivity : BaseNavigationActivity(), OnRetryClick {
             binding.editTextToTranslate.text = null
         }
 
-        val disposable = textTranslationVM.getResponseObservable().subscribe {
+        val responseDisposable = textTranslationVM.getResponseObservable().subscribe {
             when (it) {
                 is ResponseStatus.Loading -> showLoading()
                 is ResponseStatus.Success -> showSuccess()
                 is ResponseStatus.Error -> showError(it.errorMessage)
             }
         }
-
-        disposables.add(disposable)
+        addDisposable(responseDisposable)
 
         binding.errorInclude.listener = this
 
@@ -95,14 +92,14 @@ class TextTranslationActivity : BaseNavigationActivity(), OnRetryClick {
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { result -> setFavoritesColor(result) }
-            disposables.add(favDisposable)
+            addDisposable(favDisposable)
         }
 
         val colorDisposable = textTranslationVM.isColored.observable.subscribe {
             setFavoritesColor(it)
             binding.buttonFavorites.visibility = View.VISIBLE
         }
-        disposables.add(colorDisposable)
+        addDisposable(colorDisposable)
     }
 
     private fun setFavoritesColor(result: Boolean) {
@@ -181,10 +178,5 @@ class TextTranslationActivity : BaseNavigationActivity(), OnRetryClick {
         }
 
         tts?.speak(text, TextToSpeech.QUEUE_FLUSH, null, "")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        disposables.dispose()
     }
 }

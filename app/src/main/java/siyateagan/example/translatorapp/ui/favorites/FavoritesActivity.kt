@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.android.AndroidInjection
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import siyateagan.example.translatorapp.R
 import siyateagan.example.translatorapp.data.model.Dao
@@ -16,13 +15,11 @@ import siyateagan.example.translatorapp.ui.base.BaseNavigationActivity
 import javax.inject.Inject
 
 class FavoritesActivity : BaseNavigationActivity() {
+    lateinit var binding: ActivityFavoritesBinding
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     lateinit var favoritesVM: FavoritesVM
-
-    private val disposables = CompositeDisposable()
-    lateinit var binding: ActivityFavoritesBinding
 
     @Inject
     lateinit var translationDao: Dao
@@ -48,16 +45,11 @@ class FavoritesActivity : BaseNavigationActivity() {
                 disableRefreshLayout()
             }
 
-        disposables.add(dbDisposable)
+        addDisposable(dbDisposable)
     }
 
     private fun disableRefreshLayout() {
         binding.refreshLayout.isRefreshing = false
         binding.refreshLayout.isEnabled = false
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        disposables.dispose()
     }
 }
