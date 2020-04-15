@@ -20,6 +20,7 @@
     <string name="target_language_code">Target language code</string>
     <string name="current_button">Current button</string>
     <string name="target_button">Target button</string>
+    <string name="code_with_language">codeWithLanguage</string>
 
     <string name="http_exception_message">Something went wrong, try again later. Error code: </string>
     <string name="unknown_error">"Something went wrong, try again later. Error message: </string>

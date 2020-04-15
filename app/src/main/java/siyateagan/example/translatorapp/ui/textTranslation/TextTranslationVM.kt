@@ -46,7 +46,7 @@ class TextTranslationVM @Inject constructor(
 
     fun setNewLanguage(requestCode: Int, data: Intent?) {
         val codeWithLanguage =
-            data?.getParcelableExtra<ParcelablePair<String, String>>("languageWithCode")?.toPair()
+            data?.getParcelableExtra<ParcelablePair<String, String>>(stringsHelper.codeWithLanguage())?.toPair()
                 ?: return
 
         val buttonForWork = if (requestCode == 1) currentButton else targetButton

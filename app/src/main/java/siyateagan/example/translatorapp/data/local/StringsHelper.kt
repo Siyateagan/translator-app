@@ -12,4 +12,6 @@ class StringsHelper @Inject constructor(var applicationContext: Context) {
 
     fun currentButton() = applicationContext.getString(R.string.current_button)
     fun targetButton() = applicationContext.getString(R.string.target_button)
+
+    fun codeWithLanguage() = applicationContext.getString(R.string.code_with_language)
 }
