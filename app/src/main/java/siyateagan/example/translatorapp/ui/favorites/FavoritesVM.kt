@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 class FavoritesVM @Inject constructor(private val translationDao: Dao) : DisposingViewModel() {
 
-    fun getTranslationPairs() = Single.create<MutableList<FavoritesEntity>> {
+    fun getFavorites() = Single.create<MutableList<FavoritesEntity>> {
         it.onSuccess(translationDao.getAll())
     }
 }

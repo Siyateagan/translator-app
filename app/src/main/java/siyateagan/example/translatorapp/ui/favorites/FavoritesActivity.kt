@@ -8,9 +8,8 @@ import dagger.android.AndroidInjection
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import siyateagan.example.translatorapp.R
-import siyateagan.example.translatorapp.data.model.Dao
 import siyateagan.example.translatorapp.databinding.ActivityFavoritesBinding
-import siyateagan.example.translatorapp.ui.adapters.PairsAdapter
+import siyateagan.example.translatorapp.ui.adapters.FavoritesAdapter
 import siyateagan.example.translatorapp.ui.base.BaseNavigationActivity
 import javax.inject.Inject
 
@@ -22,26 +21,27 @@ class FavoritesActivity : BaseNavigationActivity() {
     lateinit var favoritesVM: FavoritesVM
 
     @Inject
-    lateinit var translationDao: Dao
+    lateinit var favoritesAdapter: FavoritesAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_favorites)
+        favoritesVM = ViewModelProvider(this, viewModelFactory).get(FavoritesVM::class.java)
 
         setSupportActionBar(binding.layoutToolbar.toolbar)
         setItemsIntents(binding.layoutNavigation.navView, this, this::class.java.simpleName)
 
-        favoritesVM =
-            ViewModelProvider(this, viewModelFactory).get(FavoritesVM::class.java)
-
         binding.refreshLayout.isRefreshing = true
         binding.recyclerHistory.layoutManager = LinearLayoutManager(this)
-        val dbDisposable = favoritesVM.getTranslationPairs()
+
+        val dbDisposable = favoritesVM.getFavorites()
             .subscribeOn(Schedulers.computation())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { result ->
-                binding.recyclerHistory.adapter = PairsAdapter(result, translationDao)
+            .subscribe { favorites ->
+                binding.recyclerHistory.adapter = favoritesAdapter
+                favoritesAdapter.setData(favorites)
                 disableRefreshLayout()
             }
 
