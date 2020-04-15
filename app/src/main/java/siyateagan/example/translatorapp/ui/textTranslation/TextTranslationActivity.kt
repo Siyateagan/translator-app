@@ -27,46 +27,50 @@ import javax.inject.Inject
 
 
 class TextTranslationActivity : BaseNavigationActivity(), OnRetryClick {
-    val TAG = TextTranslationActivity::class.java.simpleName
-
     private lateinit var binding: ActivityTextTranslationBinding
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-    lateinit var textTranslationVM: TextTranslationVM
+    private lateinit var textTranslationVM: TextTranslationVM
 
-    private val timer = getOnFinishTimer(400, ::setLoadingMessage)
+    private val responseTimer = getOnFinishTimer(400, ::setLoadingMessage)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
 
-        binding =
-            DataBindingUtil.setContentView(this, R.layout.activity_text_translation)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_text_translation)
+        textTranslationVM =
+            ViewModelProvider(this, viewModelFactory).get(TextTranslationVM::class.java)
+        binding.viewModel = textTranslationVM
 
         setSupportActionBar(binding.layoutToolbar.toolbar)
         setItemsIntents(binding.layoutNavigation.navView, this, this::class.java.simpleName)
         setKeyboardDoneButton()
 
-        textTranslationVM =
-            ViewModelProvider(this, viewModelFactory).get(TextTranslationVM::class.java)
-
-        binding.viewModel = textTranslationVM
+        textTranslationVM.setPreviousLanguages()
+        binding.errorLayout.listener = this
 
         binding.swapLanguagesButton.setOnClickListener {
             textTranslationVM.swapLanguages()
             textTranslationVM.translateText()
         }
 
-        textTranslationVM.setPreviousLanguages()
-
         val requestTimer: CountDownTimer =
             getOnFinishTimer(500, textTranslationVM::translateText)
         binding.editTextToTranslate.setRestartTimerManager(requestTimer, binding.buttonFavorites)
 
         binding.buttonClear.setOnClickListener {
-            textTranslationVM.translateObserver.translatedText.set("")
+            textTranslationVM.translatedText.set("")
             binding.editTextToTranslate.text = null
+        }
+
+        binding.buttonFavorites.setOnClickListener {
+            val favDisposable = textTranslationVM.addToFavorites()
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { result -> setFavoritesButtonColor(result) }
+            addDisposable(favDisposable)
         }
 
         val responseDisposable = textTranslationVM.getResponseObservable().subscribe {
@@ -78,8 +82,6 @@ class TextTranslationActivity : BaseNavigationActivity(), OnRetryClick {
         }
         addDisposable(responseDisposable)
 
-        binding.errorInclude.listener = this
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             textTranslationVM.initTts()
             listOf(binding.buttonListenInput, binding.buttonListenOutput).forEach { imageButton ->
@@ -87,22 +89,14 @@ class TextTranslationActivity : BaseNavigationActivity(), OnRetryClick {
             }
         }
 
-        binding.buttonFavorites.setOnClickListener {
-            val favDisposable = textTranslationVM.addToFavorites()
-                .subscribeOn(Schedulers.computation())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { result -> setFavoritesColor(result) }
-            addDisposable(favDisposable)
-        }
-
-        val colorDisposable = textTranslationVM.isColored.observable.subscribe {
-            setFavoritesColor(it)
+        val colorDisposable = textTranslationVM.isFavoritesColored.observable.subscribe {
+            setFavoritesButtonColor(it)
             binding.buttonFavorites.visibility = View.VISIBLE
         }
         addDisposable(colorDisposable)
     }
 
-    private fun setFavoritesColor(result: Boolean) {
+    private fun setFavoritesButtonColor(result: Boolean) {
         if (result)
             binding.buttonFavorites.setColorFilter(
                 ContextCompat.getColor(this, R.color.colorAccent)
@@ -120,9 +114,9 @@ class TextTranslationActivity : BaseNavigationActivity(), OnRetryClick {
 
     /** if the response comes long a message is displayed*/
     private fun showLoading() {
-        timer.cancel()
-        timer.start()
-        binding.errorInclude.errorLayout.visibility = View.GONE
+        responseTimer.cancel()
+        responseTimer.start()
+        binding.errorLayout.errorLayout.visibility = View.GONE
     }
 
     private fun setLoadingMessage() {
@@ -132,16 +126,16 @@ class TextTranslationActivity : BaseNavigationActivity(), OnRetryClick {
     private fun getImageButtons() = listOf(binding.buttonListenOutput, binding.buttonFavorites)
 
     private fun showError(error: String?) {
-        timer.cancel()
+        responseTimer.cancel()
         binding.translatedText.text = ""
-        binding.errorInclude.errorLayout.visibility = View.VISIBLE
-        binding.errorInclude.textErrorMessage.text = error
+        binding.errorLayout.errorLayout.visibility = View.VISIBLE
+        binding.errorLayout.textErrorMessage.text = error
         getImageButtons().forEach { it.visibility = View.INVISIBLE }
     }
 
     private fun showSuccess() {
-        timer.cancel()
-        binding.errorInclude.errorLayout.visibility = View.GONE
+        responseTimer.cancel()
+        binding.errorLayout.errorLayout.visibility = View.GONE
         getImageButtons().forEach { it.visibility = View.VISIBLE }
     }
 

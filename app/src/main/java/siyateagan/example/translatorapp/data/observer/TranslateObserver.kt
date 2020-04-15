@@ -5,17 +5,13 @@ import androidx.databinding.ObservableField
 import io.reactivex.disposables.Disposable
 import siyateagan.example.translatorapp.data.local.ResponseStatus
 import siyateagan.example.translatorapp.data.model.TranslatedText
-import siyateagan.example.translatorapp.data.observer.BaseSingleObserver
 import siyateagan.example.translatorapp.util.ObservableVariable
 import javax.inject.Inject
 
-class TranslateObserver @Inject constructor(
-    val applicationContext: Context,
-    val translatedText: ObservableField<String>
-) :
+class TranslateObserver @Inject constructor(val applicationContext: Context) :
     BaseSingleObserver<TranslatedText>(applicationContext) {
-    var isLoading: ObservableVariable<ResponseStatus> =
-        ObservableVariable(ResponseStatus.Init)
+    var isLoading: ObservableVariable<ResponseStatus> = ObservableVariable(ResponseStatus.Init)
+    private lateinit var translatedText: ObservableField<String>
 
     override fun onSubscribe(disposable: Disposable) {
         super.onSubscribe(disposable)
@@ -31,5 +27,9 @@ class TranslateObserver @Inject constructor(
     override fun onError(e: Throwable) {
         super.onError(e)
         isLoading.value = ResponseStatus.Error(getErrorMessage(e))
+    }
+
+    fun setTranslatedText(translatedText: ObservableField<String>){
+        this.translatedText = translatedText
     }
 }

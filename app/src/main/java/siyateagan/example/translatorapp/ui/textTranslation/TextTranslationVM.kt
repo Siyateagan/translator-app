@@ -22,19 +22,19 @@ import java.util.*
 import javax.inject.Inject
 
 class TextTranslationVM @Inject constructor(
-    val translateObserver: TranslateObserver,
-    private val context: Context,
+    private val translateObserver: TranslateObserver,
+    private val applicationContext: Context,
     private val sharedPref: SharedPreferences,
     private val stringsHelper: StringsHelper,
     private val yandexService: YandexService,
     private val translationDao: Dao
 ) : DisposingViewModel() {
-    private val TAG = TextTranslationVM::class.java.simpleName
 
     var currentButton = LanguageButton.createCurrentButton(sharedPref, stringsHelper)
     var targetButton = LanguageButton.createTargetButton(sharedPref, stringsHelper)
 
-    var textToTranslate: ObservableField<String?> = ObservableField("")
+    val textToTranslate: ObservableField<String?> = ObservableField("")
+    val translatedText: ObservableField<String> = ObservableField("")
 
     /** If using only single tts object there will be big delay
      * if you listen to current and target text in turn.
@@ -42,11 +42,16 @@ class TextTranslationVM @Inject constructor(
     var currentTextToSpeech: TextToSpeech? = null
     var targetTextToSpeech: TextToSpeech? = null
 
-    var isColored = ObservableVariable(false)
+    var isFavoritesColored = ObservableVariable(false)
+
+    init {
+        translateObserver.setTranslatedText(translatedText)
+    }
 
     fun setNewLanguage(requestCode: Int, data: Intent?) {
         val codeWithLanguage =
-            data?.getParcelableExtra<ParcelablePair<String, String>>(stringsHelper.codeWithLanguage())?.toPair()
+            data?.getParcelableExtra<ParcelablePair<String, String>>(stringsHelper.codeWithLanguage())
+                ?.toPair()
                 ?: return
 
         val buttonForWork = if (requestCode == 1) currentButton else targetButton
@@ -84,8 +89,8 @@ class TextTranslationVM @Inject constructor(
         currentButton.languageCode = targetButton.languageCode.also {
             targetButton.languageCode = currentButton.languageCode
         }
-        textToTranslate.set(translateObserver.translatedText.get()
-            .also { translateObserver.translatedText.set(textToTranslate.get()) })
+        textToTranslate.set(translatedText.get()
+            .also { translatedText.set(textToTranslate.get()) })
     }
 
     private fun swapButtons() {
@@ -103,7 +108,7 @@ class TextTranslationVM @Inject constructor(
 
     fun translateText() {
         if (textToTranslate.get().isNullOrBlank()) {
-            translateObserver.translatedText.set("")
+            translatedText.set("")
             return
         }
         val translateDirection = "${currentButton.languageCode}-${targetButton.languageCode}"
@@ -111,28 +116,29 @@ class TextTranslationVM @Inject constructor(
         yandexService.translate(textToTranslate.get()!!, translateDirection)
             .subscribeOn(Schedulers.io())
             .observeOn(mainThread())
-            .doAfterSuccess {
-                translationDao.contains(
-                    textToTranslate.get()!!,
-                    translateObserver.translatedText.get()!!
-                )
-                    .subscribeOn(Schedulers.computation())
-                    .observeOn(mainThread())
-                    .subscribe({ isColored.value = true }, { isColored.value = false })
-            }
+            .doAfterSuccess { checkInDb() }
             .subscribe(translateObserver)
+    }
+
+    private fun checkInDb() {
+        val containsDisposable =
+            translationDao.contains(textToTranslate.get()!!, translatedText.get()!!)
+                .subscribeOn(Schedulers.computation())
+                .observeOn(mainThread())
+                .subscribe({ isFavoritesColored.value = true }, { isFavoritesColored.value = false })
+        addDisposable(containsDisposable)
     }
 
     fun getResponseObservable() = translateObserver.isLoading.observable
 
     fun initTts() {
         currentTextToSpeech = TextToSpeech(
-            context,
+            applicationContext,
             TextToSpeech.OnInitListener { setTtsLanguage(stringsHelper.currentButton()) })
 
         targetTextToSpeech =
             TextToSpeech(
-                context,
+                applicationContext,
                 TextToSpeech.OnInitListener { setTtsLanguage(stringsHelper.targetButton()) })
     }
 
@@ -147,7 +153,7 @@ class TextTranslationVM @Inject constructor(
 
     fun addToFavorites() = Single.create<Boolean> {
         if (textToTranslate.get().isNullOrBlank() ||
-            translateObserver.translatedText.get().isNullOrBlank()
+            translatedText.get().isNullOrBlank()
         ) return@create
 
         val (favoritesEntity, dbEntity: FavoritesEntity?) = setEntities()
@@ -157,13 +163,13 @@ class TextTranslationVM @Inject constructor(
     private fun setEntities(): Pair<FavoritesEntity, FavoritesEntity?> {
         val favoritesEntity = FavoritesEntity(
             current = textToTranslate.get()!!,
-            target = translateObserver.translatedText.get()!!
+            target = translatedText.get()!!
         )
 
         var dbEntity: FavoritesEntity? = null
 
         val dbDisposable = translationDao.contains(favoritesEntity.current, favoritesEntity.target)
-            .subscribe ({ result -> dbEntity = result }, {dbEntity = null})
+            .subscribe({ result -> dbEntity = result }, { dbEntity = null })
         addDisposable(dbDisposable)
 
         return Pair(favoritesEntity, dbEntity)
