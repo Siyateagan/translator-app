@@ -9,12 +9,9 @@ import java.util.*
 import javax.inject.Inject
 
 class SelectLanguageVM @Inject constructor(
-    private val yandexService: YandexService
+    private val yandexService: YandexService,
+    private val languagesObserver: LanguagesObserver
 ) : DisposingViewModel() {
-    private val TAG = this::class.java.simpleName
-
-    @Inject
-    lateinit var languagesObserver: LanguagesObserver
 
     fun getLanguages() {
         yandexService.getLangs(Locale.getDefault().language)

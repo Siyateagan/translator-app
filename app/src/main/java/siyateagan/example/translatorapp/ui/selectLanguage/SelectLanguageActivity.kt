@@ -6,7 +6,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import dagger.android.AndroidInjection
 import siyateagan.example.translatorapp.R
@@ -18,42 +17,37 @@ import siyateagan.example.translatorapp.ui.base.interfaces.OnRetryClick
 import javax.inject.Inject
 
 
-class SelectLanguageActivity @Inject constructor() : BaseActivity(),
-    OnRetryClick {
-    val TAG = this::class.java.simpleName
+class SelectLanguageActivity @Inject constructor() : BaseActivity(), OnRetryClick {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
+    private lateinit var selectLanguageVM: SelectLanguageVM
+
+    private lateinit var binding: ActivitySelectLanguageBinding
 
     @Inject
     lateinit var recyclerAdapter: LanguagesAdapter
 
-    private lateinit var selectLanguageVM: SelectLanguageVM
-
-    private lateinit var languagesRecycler: RecyclerView
-    private lateinit var viewManager: RecyclerView.LayoutManager
-
-    private lateinit var binding: ActivitySelectLanguageBinding
     private lateinit var swipeRefreshListener: OnRefreshListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_select_language)
-
-        setSupportActionBar(binding.layoutToolbar.toolbar)
-        setSearchView(binding.layoutSearchView.searchView, binding.layoutSearchView.searchDivider)
-
         selectLanguageVM =
             ViewModelProvider(this, viewModelFactory).get(SelectLanguageVM::class.java)
 
-        setLanguagesRecycler()
+        setSupportActionBar(binding.layoutToolbar.toolbar)
+        setSearchView(binding.layoutSearchView.searchView, binding.layoutSearchView.searchDivider)
         setSearchViewQuerySettings(binding.layoutSearchView.searchView, recyclerAdapter)
+
+        setLanguagesRecycler()
 
         if (recyclerAdapter.isAdapterEmpty()) loadLanguages()
         else binding.refreshLayout.isEnabled = false
 
-        binding.errorInclude.listener = this
+        binding.errorLayout.listener = this
         swipeRefreshListener = setRefreshListener()
     }
 
@@ -63,25 +57,24 @@ class SelectLanguageActivity @Inject constructor() : BaseActivity(),
     }
 
     private fun setLanguagesRecycler() {
-        viewManager = LinearLayoutManager(this)
+        val viewManager = LinearLayoutManager(this)
         val itemDecor = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
 
-        languagesRecycler = binding.recyclerLanguages.apply {
+        binding.recyclerLanguages.apply {
             layoutManager = viewManager
             addItemDecoration(itemDecor)
+            adapter = recyclerAdapter
         }
-        languagesRecycler.adapter = recyclerAdapter
     }
 
     private fun loadLanguages() {
         val languagesDisposable =
             selectLanguageVM.getRefreshObservable().subscribe { handleResult(it) }
         addDisposable(languagesDisposable)
-
-        initShowLoading()
+        initRefresh()
     }
 
-    private fun initShowLoading() {
+    private fun initRefresh() {
         binding.refreshLayout.post {
             binding.refreshLayout.isRefreshing = true
             swipeRefreshListener.onRefresh()
@@ -113,14 +106,14 @@ class SelectLanguageActivity @Inject constructor() : BaseActivity(),
         binding.refreshLayout.isRefreshing = false
         binding.refreshLayout.isEnabled = false
         binding.recyclerLanguages.visibility = View.VISIBLE
-        binding.errorInclude.errorLayout.visibility = View.GONE
+        binding.errorLayout.errorLayout.visibility = View.GONE
     }
 
     private fun showError(error: String?) {
         binding.refreshLayout.isRefreshing = false
         binding.recyclerLanguages.visibility = View.GONE
-        binding.errorInclude.errorLayout.visibility = View.VISIBLE
-        binding.errorInclude.textErrorMessage.text = error
+        binding.errorLayout.errorLayout.visibility = View.VISIBLE
+        binding.errorLayout.textErrorMessage.text = error
     }
 
     override fun onDestroy() {
