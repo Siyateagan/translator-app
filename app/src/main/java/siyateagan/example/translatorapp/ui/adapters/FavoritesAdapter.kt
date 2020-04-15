@@ -27,22 +27,12 @@ class FavoritesAdapter @Inject constructor(private val translationDao: Dao) :
         holder.binding.textTarget.text = favoritesEntities[position].target
 
         holder.binding.buttonFavorites.setOnClickListener {
-            val favoritesEntity = FavoritesEntity(
-                current = favoritesEntities[position].current,
-                target = favoritesEntities[position].target
-            )
-
-            translationDao.contains(favoritesEntity.current, favoritesEntity.target)
+            Completable.fromAction { translationDao.delete(favoritesEntities[position]) }
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { result ->
-                    Completable.fromAction { translationDao.delete(result) }
-                        .subscribeOn(Schedulers.computation())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe {
-                            favoritesEntities.removeAt(position)
-                            notifyDataSetChanged()
-                        }
+                .subscribe {
+                    favoritesEntities.removeAt(position)
+                    notifyDataSetChanged()
                 }
         }
     }
