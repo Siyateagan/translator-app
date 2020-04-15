@@ -1,12 +1,14 @@
 package siyateagan.example.translatorapp.ui.favorites
 
 import android.os.Bundle
+import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import siyateagan.example.translatorapp.R
+import siyateagan.example.translatorapp.data.local.database.FavoritesEntity
 import siyateagan.example.translatorapp.databinding.ActivityFavoritesBinding
 import siyateagan.example.translatorapp.ui.adapters.FavoritesAdapter
 import siyateagan.example.translatorapp.ui.base.BaseNavigationActivity
@@ -38,12 +40,18 @@ class FavoritesActivity : BaseNavigationActivity() {
             .subscribeOn(Schedulers.computation())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe { favorites ->
+                setEmptyDbMessage(favorites)
                 binding.recyclerHistory.adapter = favoritesAdapter
                 favoritesAdapter.setData(favorites)
                 disableRefreshLayout()
             }
 
         addDisposable(dbDisposable)
+    }
+
+    private fun setEmptyDbMessage(favorites: MutableList<FavoritesEntity>?) {
+        if (favorites.isNullOrEmpty()) binding.layoutMessage.visibility = View.VISIBLE
+        else binding.layoutMessage.visibility = View.GONE
     }
 
     private fun disableRefreshLayout() {

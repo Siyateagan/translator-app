@@ -33,4 +33,5 @@
     <string name="listen_entered_text">Listen entered text</string>
     <string name="retry">Retry</string>
     <string name="error">Error</string>
+    <string name="you_have_no_favorite_posts_yet">You have no favorite posts yet</string>
 </resources>
