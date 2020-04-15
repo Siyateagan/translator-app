@@ -10,6 +10,7 @@ import javax.inject.Inject
 class TranslatorApp : Application(), HasAndroidInjector {
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
+
     override fun onCreate() {
         super.onCreate()
         DaggerAppComponent.factory().create(applicationContext)

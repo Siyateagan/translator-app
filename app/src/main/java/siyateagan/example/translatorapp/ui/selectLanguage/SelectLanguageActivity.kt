@@ -30,7 +30,6 @@ class SelectLanguageActivity @Inject constructor() : BaseActivity(), OnRetryClic
     private lateinit var swipeRefreshListener: OnRefreshListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_select_language)

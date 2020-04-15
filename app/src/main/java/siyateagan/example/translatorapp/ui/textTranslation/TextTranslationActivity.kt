@@ -36,7 +36,6 @@ class TextTranslationActivity : BaseNavigationActivity(), OnRetryClick {
     private val responseTimer = getOnFinishTimer(400, ::setLoadingMessage)
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_text_translation)
