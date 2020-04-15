@@ -17,7 +17,7 @@ class FavoritesActivity : BaseNavigationActivity() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-    lateinit var favoritesVM: FavoritesVM
+    private lateinit var favoritesVM: FavoritesVM
 
     @Inject
     lateinit var favoritesAdapter: FavoritesAdapter

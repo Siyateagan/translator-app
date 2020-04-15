@@ -10,12 +10,12 @@ import javax.inject.Singleton
 
 @Module
 class NetworkModule {
-    private val API_BASE_URL = "https://translate.yandex.net/api/"
+    private val apiBaseUrl = "https://translate.yandex.net/api/"
 
     @Provides
     @Singleton
     fun provideRetrofit(): Retrofit = Retrofit.Builder()
-        .baseUrl(API_BASE_URL)
+        .baseUrl(apiBaseUrl)
         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
         .addConverterFactory(GsonConverterFactory.create())
         .build()

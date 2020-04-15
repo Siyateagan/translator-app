@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
-import dagger.android.AndroidInjection
 import siyateagan.example.translatorapp.R
 import siyateagan.example.translatorapp.data.local.ResponseStatus
 import siyateagan.example.translatorapp.databinding.ActivitySelectLanguageBinding

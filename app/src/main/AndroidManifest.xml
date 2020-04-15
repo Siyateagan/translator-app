@@ -20,9 +20,6 @@
             android:name=".ui.selectLanguage.SelectLanguageActivity"
             android:windowSoftInputMode="adjustNothing" />
         <activity
-            android:name=".ui.history.HistoryActivity"
-            android:windowSoftInputMode="adjustNothing" />
-        <activity
             android:name=".ui.favorites.FavoritesActivity"
             android:windowSoftInputMode="adjustNothing" />
         <activity

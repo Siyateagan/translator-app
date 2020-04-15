@@ -1,16 +1,16 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Translator app</string>
     <string name="title_text_translation">Text</string>
     <string name="title_favorites">Favorites</string>
     <string name="test">Test</string>
     <string name="yandex_translator_client">Yandex Translator Client</string>
     <string name="swap_languages">Swap languages</string>
-    <string name="translate_text">Translate text</string>
+    <string name="translate_text" tools:keep="@string/translate_text">Translate text</string>
     <string name="start_typing_or_paste_here">Start typing or paste here</string>
-    <string name="history">History</string>
+    <string name="history" tools:keep="@string/history">History</string>
     <string name="search">Search</string>
-    <string name="learn_words">Learn words</string>
-    <string name="add_or_remove_from_favorites">Add or remove from favorites</string>
+    <string name="learn_words" tools:keep="@string/learn_words">Learn words</string>
+    <string name="add_or_remove_from_favorites" tools:keep="@string/add_or_remove_from_favorites">Add or remove from favorites</string>
     <string name="add_to_favorites">Add to favorites</string>
 
     <string name="pref_languages">Saved languages</string>
@@ -28,7 +28,7 @@
     <string name="socket_timeout_exception">Looks like the server is taking to long to respond, please try again in sometime</string>
     <string name="loading_message">Loading… please wait</string>
 
-    <string name="error_image">Error image</string>
+    <string name="error_image" tools:keep="@string/error_image">Error image</string>
     <string name="clear_text">Clear text</string>
     <string name="listen_entered_text">Listen entered text</string>
     <string name="retry">Retry</string>
