@@ -4,12 +4,11 @@ import android.content.Context
 import androidx.room.Room
 import dagger.Module
 import dagger.Provides
-import siyateagan.example.translatorapp.data.model.AppDatabase
+import siyateagan.example.translatorapp.data.local.database.AppDatabase
 import javax.inject.Singleton
 
 @Module
 class RoomModule {
-
     @Singleton
     @Provides
     fun provideTranslationDao(applicationContext: Context) = Room.databaseBuilder(

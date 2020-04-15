@@ -14,17 +14,14 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(): Retrofit {
-        return Retrofit.Builder()
-            .baseUrl(API_BASE_URL)
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-    }
+    fun provideRetrofit(): Retrofit = Retrofit.Builder()
+        .baseUrl(API_BASE_URL)
+        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
 
     @Provides
     @Singleton
-    fun provideYandexTranslateApi(retrofit: Retrofit): YandexTranslateApi {
-        return retrofit.create(YandexTranslateApi::class.java)
-    }
+    fun provideYandexTranslateApi(retrofit: Retrofit): YandexTranslateApi =
+        retrofit.create(YandexTranslateApi::class.java)
 }

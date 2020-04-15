@@ -22,10 +22,7 @@ abstract class BaseActivity : AppCompatActivity() {
         compositeDisposable.clear()
     }
 
-    protected fun setSearchView(
-        searchView: SearchView?,
-        searchDivider: View?
-    ) {
+    protected fun setSearchView(searchView: SearchView?, searchDivider: View?) {
         removeSearchViewDefaultDivider(searchView)
         changeDividerStyle(searchView, searchDivider)
     }

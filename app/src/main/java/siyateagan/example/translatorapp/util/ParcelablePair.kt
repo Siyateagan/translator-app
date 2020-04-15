@@ -10,7 +10,6 @@ import java.io.Serializable
  */
 @Parcelize
 data class ParcelablePair<A, B>(
-
     val first: @RawValue A,
     val second: @RawValue B
 ) : Parcelable {

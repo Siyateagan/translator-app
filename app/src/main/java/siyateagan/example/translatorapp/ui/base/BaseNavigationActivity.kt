@@ -8,8 +8,6 @@ import siyateagan.example.translatorapp.ui.favorites.FavoritesActivity
 import siyateagan.example.translatorapp.ui.textTranslation.TextTranslationActivity
 
 abstract class BaseNavigationActivity : BaseActivity() {
-
-    //TODO can this be refactored?
     protected fun setItemsIntents(
         navView: BottomNavigationView, context: Context, activityName: String
     ) {
@@ -35,10 +33,7 @@ abstract class BaseNavigationActivity : BaseActivity() {
         }
     }
 
-    private fun setNavItemChecked(
-        activityName: String,
-        navView: BottomNavigationView
-    ) {
+    private fun setNavItemChecked(activityName: String, navView: BottomNavigationView) {
         when (activityName) {
             TextTranslationActivity::class.java.simpleName -> navView.menu.getItem(0)
                 .isChecked = true

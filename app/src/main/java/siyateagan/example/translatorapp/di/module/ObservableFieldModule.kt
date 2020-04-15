@@ -7,7 +7,5 @@ import dagger.Provides
 @Module
 class ObservableFieldModule {
     @Provides
-    fun provideObservableField(): ObservableField<String> {
-        return ObservableField("")
-    }
+    fun provideObservableField(): ObservableField<String> = ObservableField("")
 }

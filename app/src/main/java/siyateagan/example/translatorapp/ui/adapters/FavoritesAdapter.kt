@@ -6,8 +6,8 @@ import androidx.recyclerview.widget.RecyclerView
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import siyateagan.example.translatorapp.data.model.Dao
-import siyateagan.example.translatorapp.data.model.FavoritesEntity
+import siyateagan.example.translatorapp.data.local.database.Dao
+import siyateagan.example.translatorapp.data.local.database.FavoritesEntity
 import siyateagan.example.translatorapp.databinding.ItemHistoryBinding
 import javax.inject.Inject
 

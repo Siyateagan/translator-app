@@ -1,4 +1,4 @@
-package siyateagan.example.translatorapp.data.model
+package siyateagan.example.translatorapp.data.local.database
 
 import androidx.room.*
 import androidx.room.Dao

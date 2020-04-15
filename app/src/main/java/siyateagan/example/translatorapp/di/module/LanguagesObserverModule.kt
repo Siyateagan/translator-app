@@ -10,9 +10,5 @@ import siyateagan.example.translatorapp.data.observer.LanguagesObserver
 class LanguagesObserverModule {
     @Provides
     fun provideLanguagesObserver(recyclerAdapter: LanguagesAdapter, applicationContext: Context)
-            : LanguagesObserver =
-        LanguagesObserver(
-            recyclerAdapter,
-            applicationContext
-        )
+            : LanguagesObserver = LanguagesObserver(recyclerAdapter, applicationContext)
 }

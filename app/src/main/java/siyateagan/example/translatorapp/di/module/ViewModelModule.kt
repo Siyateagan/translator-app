@@ -12,7 +12,6 @@ import siyateagan.example.translatorapp.ui.textTranslation.TextTranslationVM
 
 @Module
 abstract class ViewModelModule {
-
     @Binds
     @IntoMap
     @ViewModelKey(FavoritesVM::class)

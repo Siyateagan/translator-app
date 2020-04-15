@@ -8,7 +8,6 @@ import siyateagan.example.translatorapp.di.component.DaggerAppComponent
 import javax.inject.Inject
 
 class TranslatorApp : Application(), HasAndroidInjector {
-
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
     override fun onCreate() {

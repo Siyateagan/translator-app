@@ -18,7 +18,6 @@ import javax.inject.Inject
 
 
 class SelectLanguageActivity @Inject constructor() : BaseActivity(), OnRetryClick {
-
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var selectLanguageVM: SelectLanguageVM

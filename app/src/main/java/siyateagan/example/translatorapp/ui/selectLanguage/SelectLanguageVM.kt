@@ -12,7 +12,6 @@ class SelectLanguageVM @Inject constructor(
     private val yandexService: YandexService,
     private val languagesObserver: LanguagesObserver
 ) : DisposingViewModel() {
-
     fun getLanguages() {
         yandexService.getLangs(Locale.getDefault().language)
             .subscribeOn(Schedulers.io())

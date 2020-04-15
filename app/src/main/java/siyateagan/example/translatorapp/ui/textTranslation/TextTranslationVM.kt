@@ -11,8 +11,8 @@ import io.reactivex.SingleEmitter
 import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
 import io.reactivex.schedulers.Schedulers
 import siyateagan.example.translatorapp.data.local.StringsHelper
-import siyateagan.example.translatorapp.data.model.Dao
-import siyateagan.example.translatorapp.data.model.FavoritesEntity
+import siyateagan.example.translatorapp.data.local.database.Dao
+import siyateagan.example.translatorapp.data.local.database.FavoritesEntity
 import siyateagan.example.translatorapp.data.observer.TranslateObserver
 import siyateagan.example.translatorapp.data.remote.YandexService
 import siyateagan.example.translatorapp.ui.base.DisposingViewModel
@@ -161,10 +161,11 @@ class TextTranslationVM @Inject constructor(
     }
 
     private fun setEntities(): Pair<FavoritesEntity, FavoritesEntity?> {
-        val favoritesEntity = FavoritesEntity(
-            current = textToTranslate.get()!!,
-            target = translatedText.get()!!
-        )
+        val favoritesEntity =
+            FavoritesEntity(
+                current = textToTranslate.get()!!,
+                target = translatedText.get()!!
+            )
 
         var dbEntity: FavoritesEntity? = null
 
