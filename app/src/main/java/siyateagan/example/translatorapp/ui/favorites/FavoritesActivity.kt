@@ -31,7 +31,7 @@ class FavoritesActivity : BaseNavigationActivity() {
         favoritesVM = ViewModelProvider(this, viewModelFactory).get(FavoritesVM::class.java)
 
         setSupportActionBar(binding.layoutToolbar.toolbar)
-        setItemsIntents(binding.layoutNavigation.navView, this, this::class.java.simpleName)
+        setBottomNavigation(binding.layoutNavigation.navView, this, this::class.java.simpleName)
 
         binding.refreshLayout.isRefreshing = true
         binding.recyclerHistory.layoutManager = LinearLayoutManager(this)

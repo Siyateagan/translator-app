@@ -43,7 +43,7 @@ class TextTranslationActivity : BaseNavigationActivity(), OnRetryClick {
         binding.viewModel = textTranslationVM
 
         setSupportActionBar(binding.layoutToolbar.toolbar)
-        setItemsIntents(binding.layoutNavigation.navView, this, this::class.java.simpleName)
+        setBottomNavigation(binding.layoutNavigation.navView, this, this::class.java.simpleName)
         setKeyboardDoneButton()
 
         textTranslationVM.setPreviousLanguages()

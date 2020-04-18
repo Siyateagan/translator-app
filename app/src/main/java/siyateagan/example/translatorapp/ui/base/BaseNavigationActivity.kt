@@ -8,7 +8,7 @@ import siyateagan.example.translatorapp.ui.favorites.FavoritesActivity
 import siyateagan.example.translatorapp.ui.textTranslation.TextTranslationActivity
 
 abstract class BaseNavigationActivity : BaseActivity() {
-    protected fun setItemsIntents(
+    protected fun setBottomNavigation(
         navView: BottomNavigationView, context: Context, activityName: String
     ) {
         setNavItemChecked(activityName, navView)
