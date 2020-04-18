@@ -16,17 +16,13 @@ abstract class BaseNavigationActivity : BaseActivity() {
         navView.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.navigation_text_translation -> {
-                    if (activityName != TextTranslationActivity::class.java.simpleName) {
-                        val intent = Intent(context, TextTranslationActivity::class.java)
-                        context.startActivity(intent)
-                    }
+                    val intent = Intent(context, TextTranslationActivity::class.java)
+                    context.startActivity(intent)
                 }
 
                 R.id.navigation_favorites -> {
-                    if (activityName != FavoritesActivity::class.java.simpleName) {
-                        val intent = Intent(context, FavoritesActivity::class.java)
-                        context.startActivity(intent)
-                    }
+                    val intent = Intent(context, FavoritesActivity::class.java)
+                    context.startActivity(intent)
                 }
             }
             return@setOnNavigationItemSelectedListener false

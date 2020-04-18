@@ -23,11 +23,13 @@
             android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".ui.favorites.FavoritesActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".ui.textTranslation.TextTranslationActivity"
             android:label="@string/app_name"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustNothing">
             <intent-filter>
