@@ -91,6 +91,8 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
                     app:layout_constraintBottom_toTopOf="@+id/layout_navigation"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -101,7 +103,9 @@
                         style="@style/InputEditText"
                         android:background="@android:color/transparent"
                         android:hint="@string/start_typing_or_paste_here"
+                        android:imeOptions="actionDone"
                         android:importantForAutofill="no"
+                        android:inputType="text"
                         android:text="@={viewModel.textToTranslate}"
                         app:layout_constraintBottom_toTopOf="@+id/translated_text"
                         app:layout_constraintEnd_toStartOf="@+id/button_clear"

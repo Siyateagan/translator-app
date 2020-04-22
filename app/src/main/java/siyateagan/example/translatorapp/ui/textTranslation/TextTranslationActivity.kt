@@ -1,13 +1,13 @@
 package siyateagan.example.translatorapp.ui.textTranslation
 
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.speech.tts.TextToSpeech
-import android.text.InputType
 import android.view.View
-import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
@@ -44,10 +44,15 @@ class TextTranslationActivity : BaseNavigationActivity(), OnRetryClick {
 
         setSupportActionBar(binding.layoutToolbar.toolbar)
         setBottomNavigation(binding.layoutNavigation.navView, this, this::class.java.simpleName)
-        setKeyboardDoneButton()
 
         textTranslationVM.setPreviousLanguages()
         binding.errorLayout.listener = this
+
+        binding.editTextToTranslate.setOnEditorActionListener { view, _, _ ->
+            binding.editTextToTranslate.clearFocus()
+            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(view.windowToken, 0)
+        }
 
         binding.swapLanguagesButton.setOnClickListener {
             textTranslationVM.swapLanguages()
@@ -135,11 +140,6 @@ class TextTranslationActivity : BaseNavigationActivity(), OnRetryClick {
         responseTimer.cancel()
         binding.errorLayout.errorLayout.visibility = View.GONE
         getImageButtons().forEach { it.visibility = View.VISIBLE }
-    }
-
-    private fun setKeyboardDoneButton() {
-        binding.editTextToTranslate.imeOptions = EditorInfo.IME_ACTION_DONE
-        binding.editTextToTranslate.setRawInputType(InputType.TYPE_CLASS_TEXT)
     }
 
     fun setLanguage(view: View) {
