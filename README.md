@@ -10,7 +10,7 @@
 
 <img src="images/Screenshot_2020-04-15-18-23-48-599_siyateagan.example.translatorapp.jpg" width="300" > <img src="images/Screenshot_2020-04-15-18-24-02-587_siyateagan.example.translatorapp.jpg" width="300" >
 
-3. Экран закладок: отображает добавленные в дазу данных пары текстов, которые можно удалить.
+3. Экран закладок: отображает добавленные в базу данных пары текстов, которые можно удалить.
 <img src="images/Screenshot_2020-04-15-18-26-04-286_siyateagan.example.translatorapp.jpg" width="300" >
 
 Цель проекта - изучить следующие технологии:
